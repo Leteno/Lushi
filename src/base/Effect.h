@@ -14,4 +14,10 @@ public:
     std::string description();
     void setDisable(bool disable);
     std::string getCommand();
+
+    enum TYPE
+    {
+        ONCE = 1,
+        BUFF = 2,
+    };
 };

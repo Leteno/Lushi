@@ -2,7 +2,7 @@
 #include "Effect.h"
 
 Effect::Effect(std::string name, std::string commandStream, std::string desc)
-    : m_Name(name), m_CommandStream(commandStream), m_Desc(desc) {}
+    : m_Name(name), m_CommandStream(commandStream), m_Desc(desc), m_Next(nullptr) {}
 
 std::string Effect::description()
 {
