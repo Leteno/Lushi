@@ -1,16 +1,17 @@
 
-GCC=g++ -g
+CC=g++
+CFLAGS=-g
 BASE=base/Effect.o base/EffectMachine.o base/GameObject.o
 UT=unit_test/TestEffectMachine.o
 
 test: $(BASE) $(UT)
-	$(GCC) $(BASE) $(UT) -o ut
+	$(CC) $(BASE) $(UT) -o ut $(CFLAGS)
 
 $(BASE): %.o : %.cpp %.h
-	$(GCC) -c $< -o $@
+	$(CC) -c $< -o $@ $(CFLAGS)
 
 $(UT): %.o : %.cpp
-	$(GCC) -c $< -o $@
+	$(CC) -c $< -o $@ $(CFLAGS)
 
 clean:
 	-rm $(BASE) $(UT)
