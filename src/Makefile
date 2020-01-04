@@ -5,7 +5,12 @@ UT=unit_test/TestEffectMachine.o
 
 test: $(BASE) $(UT)
 	$(GCC) $(BASE) $(UT) -o ut
-	./ut
+
+$(BASE): %.o : %.cpp %.h
+	$(GCC) -c $< -o $@
+
+$(UT): %.o : %.cpp
+	$(GCC) -c $< -o $@
 
 clean:
-	rm $(BASE) $(UT)
+	-rm $(BASE) $(UT)
