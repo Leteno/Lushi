@@ -5,6 +5,6 @@
 
 Target:
 
-[ ] copy UI, UX
-[ ] developer can customize card
-[ ] make developer enjoy the game and customization, share with friends
+- [ ] copy UI, UX
+- [ ] developer can customize card
+- [ ] make developer enjoy the game and customization, share with friends
