@@ -46,6 +46,7 @@ public:
     std::string toString();
     int getPassCount() { return m_PassCount; }
     int getTotalCount() { return m_TotalCount; }
+    bool totalPass() { return m_TotalCount == m_PassCount; }
 }; // End of class Result
 
 } // End of namespace UT
