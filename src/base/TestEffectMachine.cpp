@@ -15,6 +15,8 @@ Report testAddHealth();
 Report testAddAttach();
 Report testBoth();
 Report testDisable();
+void addHealth(std::string& command, int increament);
+void addAttack(std::string& command, int increment);
 bool concatCommand(std::string& command, int code);
 
 int main()
@@ -29,32 +31,13 @@ int main()
     return result.totalPass() ? 0 : 1;
 }
 
-void addHealth(std::string& command, int increament)
-{
-    concatCommand(command, EffectMachine::Code::POP);
-    concatCommand(command, EffectMachine::Code::ADD_HEALTH);
-    concatCommand(command, increament);
-    concatCommand(command, EffectMachine::Code::NONE);
-}
-
-void addAttack(std::string& command, int increment)
-{
-    concatCommand(command, EffectMachine::Code::POP);
-    concatCommand(command, EffectMachine::Code::ADD_ATTACK);
-    concatCommand(command, 1);
-    concatCommand(command, EffectMachine::Code::NONE);
-}
-
 Report testAddHealth()
 {
     Report report;
     std::string command; addHealth(command, 1);
     Effect effect(std::string("Add Health"), command, std::string("Add 1 Health"));
-    EffectMachine machine(effect);
     GameObject me(2, 3);
-    std::stack<GameObject*> s;
-    s.push(&me);
-    machine.apply(s);
+    GameObject::applyEffect(&me, Effect::TYPE::BUFF, effect);
     report.addTest(Test::assertEquals(me.getHealth(), 3));
     return report;
 }
@@ -65,11 +48,8 @@ Report testAddAttach()
     std::string command;
     addAttack(command, 1);
     Effect effect(std::string("Add Attack"), command, std::string("Add 1 Attach"));
-    EffectMachine machine(effect);
     GameObject me(2, 3);
-    std::stack<GameObject*> s;
-    s.push(&me);
-    machine.apply(s);
+    GameObject::applyEffect(&me, Effect::TYPE::BUFF, effect);
     report.addTest(Test::assertEquals(me.getAttack(), 4));
     return report;
 }
@@ -82,11 +62,8 @@ Report testBoth()
     concatCommand(command, EffectMachine::Code::PUSH);
     addHealth(command, 1);
     Effect effect(std::string("Add Attack and Health"), command, std::string("Add 1 Attach and 1 Health"));
-    EffectMachine machine(effect);
     GameObject me(2, 3);
-    std::stack<GameObject*> s;
-    s.push(&me);
-    machine.apply(s);
+    GameObject::applyEffect(&me, Effect::TYPE::BUFF, effect);
     report.addTest(Test::assertEquals(me.getAttack(), 4));
     report.addTest(Test::assertEquals(me.getHealth(), 3));
     return report;
@@ -123,6 +100,22 @@ Report testDisable()
     report.addTest(Test::assertEquals(expectDesc2, currentDesc2));
 
     return report;
+}
+
+void addHealth(std::string& command, int increament)
+{
+    concatCommand(command, EffectMachine::Code::POP);
+    concatCommand(command, EffectMachine::Code::ADD_HEALTH);
+    concatCommand(command, increament);
+    concatCommand(command, EffectMachine::Code::NONE);
+}
+
+void addAttack(std::string& command, int increment)
+{
+    concatCommand(command, EffectMachine::Code::POP);
+    concatCommand(command, EffectMachine::Code::ADD_ATTACK);
+    concatCommand(command, 1);
+    concatCommand(command, EffectMachine::Code::NONE);
 }
 
 bool concatCommand(std::string& command, int code)
