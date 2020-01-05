@@ -10,6 +10,8 @@ endif
 BASE := $(patsubst %.cpp, %.o, $(shell ls $(BASE_PATH)*.cpp | grep -v Test))
 BASE_UT := $(patsubst %.cpp, %.o, $(shell ls $(BASE_PATH)*.cpp | grep Test))
 
+OBJS += $(BASE)
+
 ut_base: $(BASE) $(BASE_UT)
 	$(CC) $(BASE) $(BASE_UT) -o $(BASE_PATH)ut_base $(CFLAGS)
 	./$(BASE_PATH)ut_base
