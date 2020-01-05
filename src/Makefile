@@ -1,17 +1,7 @@
 
-CC=g++
-CFLAGS=-g
-BASE=base/Effect.o base/EffectMachine.o base/GameObject.o
-UT=unit_test/TestEffectMachine.o
+MAIN_BUILD=Y
+include base/Makefile
 
-test: $(BASE) $(UT)
-	$(CC) $(BASE) $(UT) -o ut $(CFLAGS)
+test: ut_base
 
-$(BASE): %.o : %.cpp %.h
-	$(CC) -c $< -o $@ $(CFLAGS)
-
-$(UT): %.o : %.cpp
-	$(CC) -c $< -o $@ $(CFLAGS)
-
-clean:
-	-rm $(BASE) $(UT)
+clean: clean_base

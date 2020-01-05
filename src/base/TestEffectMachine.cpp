@@ -3,9 +3,9 @@
 #include <stack>
 #include "stdio.h"
 
-#include "../base/Effect.h"
-#include "../base/EffectMachine.h"
-#include "../base/GameObject.h"
+#include "Effect.h"
+#include "EffectMachine.h"
+#include "GameObject.h"
 
 bool testAddHealth();
 bool testAddAttach();
