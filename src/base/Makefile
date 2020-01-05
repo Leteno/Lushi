@@ -1,13 +1,13 @@
 
 include ../Makefile.common
 
-BASE := $(patsubst %.cpp, %.o, $(shell ls $(BASE_PATH)*.cpp | grep -v Test))
-BASE_TEST := $(patsubst %.cpp, %.o, $(shell ls $(BASE_PATH)*.cpp | grep Test))
-
-OBJS += $(BASE)
+BASE := $(patsubst %.cpp, %.o, $(shell ls *.cpp | grep -v Test))
+BASE_TEST := $(patsubst %.cpp, %.o, $(shell ls *.cpp | grep Test))
 
 DEP_PATHS = ../unit_test
 ADDITIONAL_DEPS_OBJS = ../unit_test/UT.o
+
+all: $(BASE)
 
 test: $(BASE) $(BASE_TEST)
 	make -C $(DEP_PATHS)

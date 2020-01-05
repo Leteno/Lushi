@@ -1,11 +1,15 @@
 
-MAIN_BUILD=Y
-OBJS=
-include base/Makefile
+PATHS = unit_test/ base/
 
-main: $(OBJS)
-	@echo OBJS: $(OBJS)
+all:
+	@echo Hello world
 
-test: ut_base
+test: $(addsuffix -test, $(PATHS))
 
-clean: clean_base
+clean: $(addsuffix -clean, $(PATHS))
+
+$(addsuffix -test, $(PATHS)):
+	make -C $(@:-test=) test
+
+$(addsuffix -clean, $(PATHS)):
+	make -C $(@:-clean=) clean
