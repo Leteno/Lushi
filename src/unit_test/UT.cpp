@@ -5,6 +5,12 @@
 
 namespace UT {
 
+void Report::mergeReport(Report r)
+{
+    m_TotalCount += r.m_TotalCount;
+    m_PassCount += r.m_PassCount;
+}
+
 void Report::addTest(Test t)
 {
     ++m_TotalCount;

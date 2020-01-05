@@ -68,6 +68,12 @@ int main()
     assert(r.getPassCount() == 7);
     assert(r.getTotalCount() == 14);
 
+    Report another;
+    another.mergeReport(report);
+    Result anotherResult = another.getResult();
+    assert(r.getPassCount() == anotherResult.getPassCount());
+    assert(r.getTotalCount() == anotherResult.getTotalCount());
+
     printf("pass!\n");
     return 0;
 }

@@ -12,6 +12,7 @@ private:
     int m_PassCount = 0;
 
 public:
+    void mergeReport(Report r);
     void addTest(Test t);
     Result getResult();
 }; // End of class Report
