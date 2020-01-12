@@ -52,6 +52,14 @@ public:
     bool totalPass() { return m_TotalCount == m_PassCount; }
 }; // End of class Result
 
+/**
+ * You will get such string:
+ * '''
+ * ./test(+0x8538) [0x5585a715b538]
+ * '''
+ * You can use this to know where this is executed:
+ * addr2line -e test 0x8538
+ */
 static std::string getLastInvokePlace();
 
 } // End of namespace UT
