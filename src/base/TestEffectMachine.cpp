@@ -142,6 +142,34 @@ Report testSkip()
 Report testMulti()
 {
     Report report;
+
+    Effect effect = addFriend1HealthDecEnemy1Attack();
+    EffectMachine mac(effect);
+
+    GameObject enemy1(1, 3);
+    GameObject enemy2(2, 3);
+    GameObject friend1(2, 3);
+    GameObject friend2(3, 4);
+
+    std::stack<GameObject*> family;
+    family.push(nullptr); // end of enemy
+    family.push(&enemy2);
+    family.push(&enemy1);
+    family.push(nullptr); // end of friends
+    family.push(&friend2);
+    family.push(&friend1);
+
+    mac.apply(family);
+    report.addTest(Test::assertEquals(enemy1.getAttack(), 2)); // 3 -1
+    report.addTest(Test::assertEquals(enemy1.getHealth(), 1)); // remain
+    report.addTest(Test::assertEquals(enemy2.getAttack(), 2)); // 3 - 1
+    report.addTest(Test::assertEquals(enemy2.getHealth(), 2)); // remain
+
+    report.addTest(Test::assertEquals(friend1.getHealth(), 3)); // 2 +1
+    report.addTest(Test::assertEquals(friend1.getAttack(), 3)); // remain
+    report.addTest(Test::assertEquals(friend2.getHealth(), 4)); // 3 +1
+    report.addTest(Test::assertEquals(friend2.getAttack(), 4)); // remain
+
     return report;
 }
 
