@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 
 namespace UT {
 
@@ -10,6 +11,7 @@ class Report
 private:
     int m_TotalCount = 0;
     int m_PassCount = 0;
+    std::vector<Test> m_TestList;
 
 public:
     void mergeReport(Report r);
@@ -42,6 +44,7 @@ friend Report;
 private:
     int m_TotalCount;
     int m_PassCount;
+    std::string m_Text;
 public:
     std::string toString();
     int getPassCount() { return m_PassCount; }

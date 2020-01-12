@@ -9,6 +9,10 @@ void Report::mergeReport(Report r)
 {
     m_TotalCount += r.m_TotalCount;
     m_PassCount += r.m_PassCount;
+
+    m_TestList.insert(m_TestList.end(),
+        r.m_TestList.begin(),
+        r.m_TestList.end());
 }
 
 void Report::addTest(Test t)
@@ -18,6 +22,7 @@ void Report::addTest(Test t)
     {
         ++m_PassCount;
     }
+    m_TestList.push_back(t);
 }
 
 Result Report::getResult()
@@ -25,6 +30,20 @@ Result Report::getResult()
     Result r;
     r.m_TotalCount = m_TotalCount;
     r.m_PassCount = m_PassCount;
+    if (m_PassCount != m_TotalCount)
+    {
+        std::stringstream ss;
+        for (auto it = m_TestList.begin();
+             it != m_TestList.end();
+             ++it)
+        {
+            if (!(*it).m_Pass)
+            {
+                ss << (*it).m_ErrorMessage;
+            }
+        }
+        r.m_Text = ss.str();
+    }
     return r;
 }
 
@@ -108,6 +127,10 @@ std::string Result::toString()
 {
     std::stringstream ss;
     ss << m_PassCount << "/" << m_TotalCount << std::endl;
+    if (!m_Text.empty())
+    {
+        ss << m_Text << std::endl;
+    }
     return ss.str();
 }
 
