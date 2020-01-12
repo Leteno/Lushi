@@ -15,6 +15,9 @@ Report testAddHealth();
 Report testAddAttach();
 Report testBoth();
 Report testDisable();
+Report testSkip();
+Report testMulti();
+Effect addFriend1HealthDecEnemy1Attack();
 void addHealth(std::string& command, int increament);
 void addAttack(std::string& command, int increment);
 bool concatCommand(std::string& command, int code);
@@ -26,6 +29,8 @@ int main()
     report.mergeReport(testAddAttach());
     report.mergeReport(testBoth());
     report.mergeReport(testDisable());
+    report.mergeReport(testSkip());
+    report.mergeReport(testMulti());
     Result result = report.getResult();
     std::cout << result.toString();
     return result.totalPass() ? 0 : 1;
@@ -100,6 +105,61 @@ Report testDisable()
     report.addTest(Test::assertEquals(expectDesc2, currentDesc2));
 
     return report;
+}
+
+Report testSkip()
+{
+    Report report;
+
+    Effect effect = addFriend1HealthDecEnemy1Attack();
+    EffectMachine mac(effect);
+
+    GameObject enemy(1, 3);
+    std::stack<GameObject*> enemyOnly;
+    enemyOnly.push(nullptr); // end of enemy
+    enemyOnly.push(&enemy);
+    enemyOnly.push(nullptr); // end of friends
+    mac.apply(enemyOnly);
+    report.addTest(Test::assertEquals(enemy.getAttack(), 2)); // 3 -1
+    report.addTest(Test::assertEquals(enemy.getHealth(), 1)); // remain
+
+    GameObject friend1(2, 3);
+    GameObject friend2(3, 4);
+    std::stack<GameObject*> friendOnly;
+    friendOnly.push(nullptr); // end of enemy
+    friendOnly.push(nullptr); // end of friends
+    friendOnly.push(&friend2);
+    friendOnly.push(&friend1);
+
+    mac.apply(friendOnly);
+    report.addTest(Test::assertEquals(friend1.getHealth(), 3)); // 2 +1
+    report.addTest(Test::assertEquals(friend1.getAttack(), 3)); // remain
+    report.addTest(Test::assertEquals(friend2.getHealth(), 4)); // 3 +1
+    report.addTest(Test::assertEquals(friend2.getAttack(), 4)); // remain
+    return report;
+}
+
+Report testMulti()
+{
+    Report report;
+    return report;
+}
+
+Effect addFriend1HealthDecEnemy1Attack()
+{
+    std::string command;
+    concatCommand(command, EffectMachine::Code::APPLY_FRIEND);
+    concatCommand(command, EffectMachine::Code::ADD_HEALTH);
+    concatCommand(command, 1);
+    concatCommand(command, EffectMachine::Code::LOOP);
+
+    concatCommand(command, EffectMachine::Code::APPLY_ENEMY);
+    concatCommand(command, EffectMachine::Code::ADD_ATTACK);
+    concatCommand(command, -1);
+    concatCommand(command, EffectMachine::Code::LOOP);
+
+    std::string name("addFriend1HealthDecEnemy1Attack");
+    return Effect(name, command, name);
 }
 
 void addHealth(std::string& command, int increament)
