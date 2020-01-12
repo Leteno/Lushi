@@ -52,4 +52,6 @@ public:
     bool totalPass() { return m_TotalCount == m_PassCount; }
 }; // End of class Result
 
+static std::string getLastInvokePlace();
+
 } // End of namespace UT
