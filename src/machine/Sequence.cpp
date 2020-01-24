@@ -1,0 +1,73 @@
+#include <assert.h>
+#include <list>
+#include "stdlib.h"
+#include "string.h"
+
+#include "Sequence.h"
+
+std::list<Sequence::Pair> Sequence::getSequence()
+{
+    std::list<Sequence::Pair> result;
+    const int* p = m_Sequence;
+    while (*p)
+    {
+        Sequence::Pair pair;
+        p = readCode(p, &(pair.code));
+        p = readValue(p, pair.code, &(pair.value));
+        result.push_back(pair);
+    }
+    return result;
+}
+
+const int* Sequence::readCode(const int* p_seq, Code* codeRet)
+{
+    *codeRet = (Code)*p_seq;
+    return p_seq + 1;
+}
+
+int* Sequence::writeCode(int* p_dest, Code code)
+{
+    *p_dest = code;
+    return p_dest + 1;
+}
+
+const int* Sequence::readValue(const int* p_seq, Code code, Sequence::Value* valRet)
+{
+    const int* result = p_seq;
+    valRet->type = (Sequence::Value::Type)*result; ++result;
+    switch (valRet->type)
+    {
+        case Value::Type::INT:
+            valRet->intVal = *result; ++result;
+            break;
+        case Value::Type::STRING:
+            int len = strlen((char*) result);
+            valRet->stringVal = (char*) malloc(sizeof(char) * len);
+            memcpy(valRet->stringVal, result, len);
+            valRet->stringVal[len] = '\0';
+            result += len * sizeof(char) / sizeof(int) + 1;
+            break;
+    }
+    return result;
+}
+
+int* Sequence::writeValue(int* p_dest, Value value)
+{
+    int* result = p_dest;
+    *result = value.type; ++result;
+    switch (value.type)
+    {
+        case Value::Type::INT:
+            *result = value.intVal; ++result;
+            break;
+        case Value::Type::STRING:
+            int len = strlen(value.stringVal);
+            char* writeInChar = (char*)result;
+            memcpy(writeInChar, value.stringVal, len);
+            writeInChar[len] = '\0';
+            int cpyLenInInt = len * sizeof(char) / sizeof(int) + 1;
+            result += cpyLenInInt;
+            break;
+    }
+    return result;
+}
