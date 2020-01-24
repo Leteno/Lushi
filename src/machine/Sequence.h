@@ -65,7 +65,7 @@ public:
         };
     };
 
-    struct Pair
+    struct Instruction
     {
         Code code;
         Value value;
@@ -82,7 +82,7 @@ public:
     {
         return m_AcceptType;
     }
-    std::list<Pair> getSequence();
+    std::list<Instruction> getSequence();
 
     static int* writeCode(int* p_dest, Code code);
     static int* writeValue(int* p_dest, Value value);

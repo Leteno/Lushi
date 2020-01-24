@@ -5,16 +5,16 @@
 
 #include "Sequence.h"
 
-std::list<Sequence::Pair> Sequence::getSequence()
+std::list<Sequence::Instruction> Sequence::getSequence()
 {
-    std::list<Sequence::Pair> result;
+    std::list<Sequence::Instruction> result;
     const int* p = m_Sequence;
     while (*p)
     {
-        Sequence::Pair pair;
-        p = readCode(p, &(pair.code));
-        p = readValue(p, pair.code, &(pair.value));
-        result.push_back(pair);
+        Sequence::Instruction inst;
+        p = readCode(p, &(inst.code));
+        p = readValue(p, inst.code, &(inst.value));
+        result.push_back(inst);
     }
     return result;
 }

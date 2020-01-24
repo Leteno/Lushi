@@ -60,19 +60,19 @@ UT::Report testSequenceRead()
     pBuffer = Sequence::writeValue(pBuffer, jumpDest);
 
     Sequence seq(type, buffer);
-    std::list<Sequence::Pair> pairList = seq.getSequence();
-    assert(pairList.size() == 3);
-    auto it = pairList.begin();
+    std::list<Sequence::Instruction> instructionList = seq.getSequence();
+    assert(instructionList.size() == 3);
+    auto it = instructionList.begin();
 
-    Sequence::Pair add1 = *it; it++;
+    Sequence::Instruction add1 = *it; it++;
     report.addTest(UT::Test::assertEquals(add1.code, Sequence::Code::ADD));
     report.addTest(UT::Test::assertEquals(add1.value.intVal, 1));
 
-    Sequence::Pair sayHello = *it; it++;
+    Sequence::Instruction sayHello = *it; it++;
     report.addTest(UT::Test::assertEquals(sayHello.code, Sequence::Code::SAY));
     report.addTest(UT::Test::assertEquals(sayHello.value.stringVal, "hello world"));
 
-    Sequence::Pair jmp = *it; it++;
+    Sequence::Instruction jmp = *it; it++;
     report.addTest(UT::Test::assertEquals(jmp.code, Sequence::Code::JMP));
     report.addTest(UT::Test::assertEquals(jmp.value.intVal, 12306));
 
