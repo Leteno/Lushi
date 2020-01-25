@@ -9,8 +9,10 @@ class State
 {
 public:
     State(std::list<Sequence::Instruction> iList, std::list<GameObject> gList):
-        m_InstructionList(iList), m_GameObjectList(gList),
-        m_InstructionIt(iList.begin()), m_GameObjectIt(gList.begin()) {}
+        m_InstructionList(iList), m_GameObjectList(gList)
+    {
+        reset();
+    }
     State() {}
     void reset();
     bool instructionMeetEnd();
