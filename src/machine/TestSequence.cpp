@@ -8,13 +8,12 @@
 UT::Report testSequenceAcceptType();
 UT::Report testSequenceRead();
 
-int main()
+UT::Report testSequence()
 {
     UT::Report report;
     report.mergeReport(testSequenceAcceptType());
     report.mergeReport(testSequenceRead());
-    std::cout << report.getResult().toString() << std::endl;
-    return 0;
+    return report;
 }
 
 UT::Report testSequenceAcceptType()

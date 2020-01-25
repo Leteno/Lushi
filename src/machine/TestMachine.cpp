@@ -7,17 +7,15 @@
 #include "../unit_test/UT.h"
 #include "Machine.h"
 #include "State.h"
+#include "TestMachine.h"
 
 UT::Report testMath();
 Sequence::Instruction buildInstruction(Sequence::Code code,
     Sequence::Value::Type valType, int val);
 
-int main()
+UT::Report testMachine()
 {
-    UT::Report report;
-    report.mergeReport(testMath());
-    std::cout << report.getResult().toString() << std::endl;
-    return 0;
+    return testMath();
 }
 
 UT::Report testMath()
