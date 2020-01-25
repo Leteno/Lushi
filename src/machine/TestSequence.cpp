@@ -41,8 +41,8 @@ UT::Report testSequenceRead()
     int buffer[256];
     int* pBuffer = buffer;
 
-    // ADD 1
-    pBuffer = Sequence::writeCode(pBuffer, Sequence::Code::ADD);
+    // PUSH 1
+    pBuffer = Sequence::writeCode(pBuffer, Sequence::Code::PUSH);
     Sequence::Value one {.type = Sequence::Value::INT};
     one.intVal = 1;
     pBuffer = Sequence::writeValue(pBuffer, one);
@@ -53,6 +53,11 @@ UT::Report testSequenceRead()
     hello.stringVal = "hello world";
     pBuffer = Sequence::writeValue(pBuffer, hello);
 
+    // ADD NON
+    pBuffer = Sequence::writeCode(pBuffer, Sequence::Code::GT);
+    Sequence::Value gtNone {.type = Sequence::Value::NONE};
+    pBuffer = Sequence::writeValue(pBuffer, gtNone);
+
     // JMP
     pBuffer = Sequence::writeCode(pBuffer, Sequence::Code::JMP);
     Sequence::Value jumpDest {.type = Sequence::Value::INT};
@@ -61,16 +66,20 @@ UT::Report testSequenceRead()
 
     Sequence seq(type, buffer);
     std::list<Sequence::Instruction> instructionList = seq.getSequence();
-    assert(instructionList.size() == 3);
+    assert(instructionList.size() == 4);
     auto it = instructionList.begin();
 
     Sequence::Instruction add1 = *it; it++;
-    report.addTest(UT::Test::assertEquals(add1.code, Sequence::Code::ADD));
+    report.addTest(UT::Test::assertEquals(add1.code, Sequence::Code::PUSH));
     report.addTest(UT::Test::assertEquals(add1.value.intVal, 1));
 
     Sequence::Instruction sayHello = *it; it++;
     report.addTest(UT::Test::assertEquals(sayHello.code, Sequence::Code::SAY));
     report.addTest(UT::Test::assertEquals(sayHello.value.stringVal, "hello world"));
+
+    Sequence::Instruction gtNoneTest = *it; it++;
+    report.addTest(UT::Test::assertEquals(gtNoneTest.code, Sequence::Code::GT));
+    report.addTest(UT::Test::assertEquals(gtNoneTest.value.type, Sequence::Value::Type::NONE));
 
     Sequence::Instruction jmp = *it; it++;
     report.addTest(UT::Test::assertEquals(jmp.code, Sequence::Code::JMP));

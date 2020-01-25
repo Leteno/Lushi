@@ -37,6 +37,9 @@ const int* Sequence::readValue(const int* p_seq, Code code, Sequence::Value* val
     valRet->type = (Sequence::Value::Type)*result; ++result;
     switch (valRet->type)
     {
+        case Value::Type::NONE:
+            // DO NOTHING
+            break;
         case Value::Type::INT:
             valRet->intVal = *result; ++result;
             break;
@@ -57,6 +60,9 @@ int* Sequence::writeValue(int* p_dest, Value value)
     *result = value.type; ++result;
     switch (value.type)
     {
+        case Value::Type::NONE:
+            // DO NOTHING
+            break;
         case Value::Type::INT:
             *result = value.intVal; ++result;
             break;

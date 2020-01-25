@@ -29,6 +29,9 @@ public:
         LTE = 8,
         // JMP
         JMP = 9, // if true
+        // PUSH POP
+        PUSH = 300,
+        POP = 301,
     };
 
     /**
@@ -56,6 +59,7 @@ public:
     struct Value
     {
         enum Type {
+            NONE = 0,
             INT = 1,
             STRING = 2,
         } type;
