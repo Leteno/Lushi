@@ -31,8 +31,6 @@ UT::Report testSequenceAcceptType()
     return report;
 }
 
-
-
 UT::Report testSequenceRead()
 {
     UT::Report report;
