@@ -1,4 +1,5 @@
 
+#include "assert.h"
 #include <iostream>
 #include <list>
 #include <stdlib.h>
@@ -10,12 +11,16 @@
 #include "TestMachine.h"
 
 UT::Report testMath();
+UT::Report testLogic();
 Sequence::Instruction buildInstruction(Sequence::Code code,
     Sequence::Value::Type valType, int val);
 
 UT::Report testMachine()
 {
-    return testMath();
+    UT::Report report;
+    report.mergeReport(testMath());
+    report.mergeReport(testLogic());
+    return report;
 }
 
 UT::Report testMath()
@@ -77,6 +82,44 @@ UT::Report testMath()
         report.addTest(UT::Test::assertEquals(result, calResult));
     }
     return report;
+}
+
+UT::Test testLogicInternal(Sequence::Code code, int a, int b, bool pass);
+UT::Report testLogic()
+{
+    UT::Report report;
+    // testGT
+    report.addTest(testLogicInternal(Sequence::Code::GT, 2, 1, true));
+    report.addTest(testLogicInternal(Sequence::Code::GT, 1, 2, false));
+    report.addTest(testLogicInternal(Sequence::Code::GT, 2, 2, false));
+    // testGTE
+    report.addTest(testLogicInternal(Sequence::Code::GTE, 2, 1, true));
+    report.addTest(testLogicInternal(Sequence::Code::GTE, 1, 2, false));
+    report.addTest(testLogicInternal(Sequence::Code::GTE, 2, 2, true));
+    // testLT
+    report.addTest(testLogicInternal(Sequence::Code::LT, 2, 1, false));
+    report.addTest(testLogicInternal(Sequence::Code::LT, 1, 2, true));
+    report.addTest(testLogicInternal(Sequence::Code::LT, 2, 2, false));
+    // testLTE
+    report.addTest(testLogicInternal(Sequence::Code::LTE, 2, 1, false));
+    report.addTest(testLogicInternal(Sequence::Code::LTE, 1, 2, true));
+    report.addTest(testLogicInternal(Sequence::Code::LTE, 2, 2, true));
+    return report;
+}
+UT::Test testLogicInternal(Sequence::Code code, int a, int b, bool pass)
+{
+    std::list<GameObject> emptyGList;
+    std::list<Sequence::Instruction> iList;
+    iList.push_back(buildInstruction(code,
+        Sequence::Value::Type::NONE, 0));
+    State test(iList, emptyGList);
+    test.m_LocalVariables.push_back(a);
+    test.m_LocalVariables.push_back(b);
+
+    Machine machine;
+    while(machine.executeOneInstruction(&test));
+    assert(test.m_LocalVariables.size());
+    return UT::Test::assertEquals(test.m_LocalVariables.back() == 1, pass);
 }
 
 Sequence::Instruction buildInstruction(Sequence::Code code,
