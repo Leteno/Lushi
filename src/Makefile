@@ -1,5 +1,5 @@
 
-PATHS = unit_test/ base/
+PATHS = unit_test/ base/ machine/
 
 all:
 	@echo Hello world
