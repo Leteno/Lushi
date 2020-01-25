@@ -78,6 +78,7 @@ private:
 public:
     Sequence(int type, int* sequence):
         m_AcceptType(type), m_Sequence(sequence) {}
+    Sequence(): m_AcceptType(0), m_Sequence(nullptr) {}
     int getAcceptType()
     {
         return m_AcceptType;
