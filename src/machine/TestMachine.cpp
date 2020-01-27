@@ -119,7 +119,7 @@ UT::Test testLogicInternal(Sequence::Code code, int a, int b, bool pass)
     Machine machine;
     while(machine.executeOneInstruction(&test));
     assert(test.m_LocalVariables.size());
-    return UT::Test::assertEquals(test.m_LocalVariables.back() == 1, pass);
+    return UT::Test::assertEquals(test.m_LocalVariables.back() == Machine::TRUE, pass);
 }
 
 Sequence::Instruction buildInstruction(Sequence::Code code,

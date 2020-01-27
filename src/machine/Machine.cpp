@@ -79,6 +79,6 @@ bool Machine::logicCalculate(State* state, Sequence::Code code)
             pass = a <= b;
             break;
     }
-    state->m_LocalVariables.push_back(pass ? 1 : 0);
+    state->m_LocalVariables.push_back(pass ? TRUE : FALSE);
     return true;
 }
