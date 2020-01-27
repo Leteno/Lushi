@@ -155,6 +155,9 @@ UT::Report testPushAndPop()
     report.addTest(UT::Test::assertEquals(1, state.m_LocalVariables.size()));
     report.addTest(UT::Test::assertEquals(12306, state.m_LocalVariables.back()));
 
+    // Instruction should be finished at here.
+    report.addTest(UT::Test::assertFalse(machine.executeOneInstruction(&state)));
+
     return report;
 }
 UT::Report testIfJump();
