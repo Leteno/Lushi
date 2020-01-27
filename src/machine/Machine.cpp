@@ -137,6 +137,7 @@ bool Machine::pop(State* state)
 {
     assert(state->m_LocalVariables.size());
     state->m_LocalVariables.pop_back();
+    state->m_InstructionIt++;
     return true;
 }
 
