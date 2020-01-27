@@ -24,6 +24,9 @@ bool Machine::executeOneInstruction(State* state)
         case Sequence::Code::LTE:
             logicCalculate(state, instruction.code);
             break;
+        case Sequence::Code::JMP:
+            jump(state, instruction.value);
+            break;
         case Sequence::Code::JMP_IF_FALSE:
             jump_if_false(state, instruction.value);
             break;
@@ -90,6 +93,12 @@ bool Machine::logicCalculate(State* state, Sequence::Code code)
     state->m_LocalVariables.push_back(pass ? TRUE : FALSE);
     state->m_InstructionIt++;
     return true;
+}
+
+bool Machine::jump(State* state, Sequence::Value value)
+{
+    assert(value.type == Sequence::Value::INT);
+    return state->movePCPointer(value.intVal);
 }
 
 bool Machine::jump_if_false(State* state, Sequence::Value value)
