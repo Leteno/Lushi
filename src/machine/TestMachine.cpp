@@ -162,10 +162,13 @@ UT::Report testPushAndPop()
 }
 UT::Report testIfJump();
 UT::Report testIfJumpInternal(int input);
+UT::Report testForJump();
+UT::Report testForJumpInternal(int num, int loop);
 UT::Report testJump()
 {
     UT::Report report;
     report.mergeReport(testIfJump());
+    report.mergeReport(testForJump());
     return report;
 }
 
@@ -248,6 +251,101 @@ UT::Report testIfJumpInternal(int input)
             input - 1, state.m_LocalVariables.back()
         ));
     }
+    return report;
+}
+
+UT::Report testForJump()
+{
+    UT::Report report;
+    report.mergeReport(testForJumpInternal(0, 100));
+    report.mergeReport(testForJumpInternal(2, 10));
+    report.mergeReport(testForJumpInternal(-2, 10));
+    return report;
+}
+
+UT::Report testForJumpInternal(int num, int loop)
+{
+    /*
+    for (int i = 0, result = 0; i < loop; i++)
+    {
+        result += num;
+    }
+
+    [0]    i
+    [1]    result
+
+    0)  PUSH    0
+    1)  PUSH    0
+    2)  LOAD    0
+    3)  PUSH    loop
+    4)  LT      _
+    5)  JMP_IF_FALSE 17
+    6)  LOAD    1         // result += num
+    7)  PUSH    num
+    8)  ADD     _
+    9)  STORE   1
+    10) POP     _
+    11) LOAD    0         // i++
+    12) PUSH    1
+    13) ADD     _
+    14) STORE   0
+    15) POP
+    16) JMP     2
+    16)
+
+    */
+    std::list<GameObject> gList;
+    std::list<Sequence::Instruction> iList;
+    iList.push_back(buildInstruction(Sequence::Code::PUSH,
+        Sequence::Value::INT, 0));
+    iList.push_back(buildInstruction(Sequence::Code::PUSH,
+        Sequence::Value::INT, 0));
+    iList.push_back(buildInstruction(Sequence::Code::LOAD,
+        Sequence::Value::INT, 0));
+    iList.push_back(buildInstruction(Sequence::Code::PUSH,
+        Sequence::Value::INT, loop));
+    iList.push_back(buildInstruction(Sequence::Code::LT,
+        Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::JMP_IF_FALSE,
+        Sequence::Value::INT, 17));
+    iList.push_back(buildInstruction(Sequence::Code::LOAD,
+        Sequence::Value::INT, 1));
+    iList.push_back(buildInstruction(Sequence::Code::PUSH,
+        Sequence::Value::INT, num));
+    iList.push_back(buildInstruction(Sequence::Code::ADD,
+        Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::STORE,
+        Sequence::Value::INT, 1));
+    iList.push_back(buildInstruction(Sequence::Code::POP,
+        Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::LOAD,
+        Sequence::Value::INT, 0));
+    iList.push_back(buildInstruction(Sequence::Code::PUSH,
+        Sequence::Value::INT, 1));
+    iList.push_back(buildInstruction(Sequence::Code::ADD,
+        Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::STORE,
+        Sequence::Value::INT, 0));
+    iList.push_back(buildInstruction(Sequence::Code::POP,
+        Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::JMP,
+        Sequence::Value::INT, 2));
+
+    State state(iList, gList);
+    Machine machine;
+    while(machine.executeOneInstruction(&state));
+    assert(state.m_LocalVariables.size() > 1);
+    auto it = state.m_LocalVariables.begin();
+    std::advance(it, 1);
+    int calResult = *it;
+    int expectedResult = 0;
+    for (int i = 0; i < loop; i++)
+    {
+        expectedResult += num;
+    }
+
+    UT::Report report;
+    report.addTest(UT::Test::assertEquals(expectedResult, calResult));
     return report;
 }
 
