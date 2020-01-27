@@ -36,6 +36,12 @@ bool Machine::executeOneInstruction(State* state)
         case Sequence::Code::POP:
             pop(state);
             break;
+        case Sequence::Code::LOAD:
+            load(state, instruction.value);
+            break;
+        case Sequence::Code::STORE:
+            store(state, instruction.value);
+            break;
     }
     return true;
 }
@@ -131,5 +137,40 @@ bool Machine::pop(State* state)
 {
     assert(state->m_LocalVariables.size());
     state->m_LocalVariables.pop_back();
+    return true;
+}
+
+bool Machine::load(State* state, Sequence::Value value)
+{
+    assert(value.type == Sequence::Value::INT);
+    assert(0 <= value.intVal);
+    assert(value.intVal < state->m_LocalVariables.size());
+    int index = value.intVal;
+    auto it = state->m_LocalVariables.begin();
+    std::advance(it, index);
+    state->m_LocalVariables.push_back(*it);
+    state->m_InstructionIt++;
+    return true;
+}
+
+bool Machine::store(State* state, Sequence::Value value)
+{
+    assert(value.type == Sequence::Value::INT);
+    assert(0 <= value.intVal);
+    assert(value.intVal <= state->m_LocalVariables.size());
+
+    int index = value.intVal;
+    int storeVal = state->m_LocalVariables.back();
+    if (index < state->m_LocalVariables.size())
+    {
+        auto it = state->m_LocalVariables.begin();
+        std::advance(it, index);
+        *it = storeVal;
+    }
+    else
+    { // index == state->m_LocalVariables.size()
+        state->m_LocalVariables.push_back(storeVal);
+    }
+    state->m_InstructionIt++;
     return true;
 }

@@ -33,6 +33,9 @@ public:
         // PUSH POP
         PUSH = 300,
         POP = 301,
+        // LOAD STORE
+        LOAD = 400,
+        STORE = 401,
     };
 
     /**

@@ -17,4 +17,6 @@ private:
     bool jump_if_false(State* state, Sequence::Value value);
     bool push(State* state, Sequence::Value value);
     bool pop(State* state);
+    bool load(State* state, Sequence::Value value);
+    bool store(State* state, Sequence::Value value);
 };
