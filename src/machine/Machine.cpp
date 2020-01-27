@@ -35,6 +35,7 @@ bool Machine::executeOneInstruction(State* state)
             break;
         case Sequence::Code::POP:
             pop(state);
+            break;
     }
     return true;
 }
