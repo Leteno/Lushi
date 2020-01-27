@@ -24,8 +24,10 @@ bool Machine::executeOneInstruction(State* state)
         case Sequence::Code::LTE:
             logicCalculate(state, instruction.code);
             break;
+        case Sequence::Code::JMP_IF_FALSE:
+            jump_if_false(state, instruction.value);
+            break;
     }
-    state->m_InstructionIt++;
     return true;
 }
 
@@ -53,6 +55,7 @@ bool Machine::mathCalculate(State* state, Sequence::Code code)
             state->m_LocalVariables.push_back(a / b);
             break;
     }
+    state->m_InstructionIt++;
     return true;
 }
 
@@ -80,5 +83,19 @@ bool Machine::logicCalculate(State* state, Sequence::Code code)
             break;
     }
     state->m_LocalVariables.push_back(pass ? TRUE : FALSE);
+    state->m_InstructionIt++;
+    return true;
+}
+
+bool Machine::jump_if_false(State* state, Sequence::Value value)
+{
+    assert(state->m_LocalVariables.size());
+    int val = state->m_LocalVariables.back();
+    state->m_LocalVariables.pop_back();
+    if (val == Machine::FALSE)
+    {
+        assert(value.type == Sequence::Value::INT);
+        return state->movePCPointer(value.intVal);
+    }
     return true;
 }

@@ -1,4 +1,6 @@
 
+#include "assert.h"
+
 #include "State.h"
 
 void State::reset()
@@ -12,4 +14,14 @@ void State::reset()
 bool State::instructionMeetEnd()
 {
     return m_InstructionIt == m_InstructionList.end();
+}
+
+bool State::movePCPointer(int dest)
+{
+    assert(dest >= 0);
+    assert(dest < m_InstructionList.size());
+    auto newIt = m_InstructionList.begin();
+    std::advance(newIt, dest);
+    m_InstructionIt = newIt;
+    return true;
 }

@@ -16,6 +16,7 @@ public:
     State() {}
     void reset();
     bool instructionMeetEnd();
+    bool movePCPointer(int dest);
 private:
     std::list<Sequence::Instruction> m_InstructionList;
     std::list<GameObject> m_GameObjectList;

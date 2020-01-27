@@ -55,8 +55,8 @@ UT::Report testSequenceRead()
     Sequence::Value gtNone {.type = Sequence::Value::NONE};
     pBuffer = Sequence::writeValue(pBuffer, gtNone);
 
-    // JMP
-    pBuffer = Sequence::writeCode(pBuffer, Sequence::Code::JMP);
+    // JMP_IF_FALSE
+    pBuffer = Sequence::writeCode(pBuffer, Sequence::Code::JMP_IF_FALSE);
     Sequence::Value jumpDest {.type = Sequence::Value::INT};
     jumpDest.intVal = 12306;
     pBuffer = Sequence::writeValue(pBuffer, jumpDest);
@@ -79,7 +79,7 @@ UT::Report testSequenceRead()
     report.addTest(UT::Test::assertEquals(gtNoneTest.value.type, Sequence::Value::Type::NONE));
 
     Sequence::Instruction jmp = *it; it++;
-    report.addTest(UT::Test::assertEquals(jmp.code, Sequence::Code::JMP));
+    report.addTest(UT::Test::assertEquals(jmp.code, Sequence::Code::JMP_IF_FALSE));
     report.addTest(UT::Test::assertEquals(jmp.value.intVal, 12306));
 
     return report;

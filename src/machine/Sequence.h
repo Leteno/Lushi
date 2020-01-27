@@ -28,7 +28,7 @@ public:
         LT = 7,
         LTE = 8,
         // JMP
-        JMP = 9, // if true
+        JMP_IF_FALSE = 9, // if true
         // PUSH POP
         PUSH = 300,
         POP = 301,
