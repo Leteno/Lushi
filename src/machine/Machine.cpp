@@ -111,6 +111,10 @@ bool Machine::jump_if_false(State* state, Sequence::Value value)
         assert(value.type == Sequence::Value::INT);
         return state->movePCPointer(value.intVal);
     }
+    else
+    {
+        state->m_InstructionIt++;
+    }
     return true;
 }
 
