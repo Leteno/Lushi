@@ -12,6 +12,7 @@
 
 UT::Report testMath();
 UT::Report testLogic();
+UT::Report testPushAndPop();
 Sequence::Instruction buildInstruction(Sequence::Code code,
     Sequence::Value::Type valType, int val);
 
@@ -20,6 +21,7 @@ UT::Report testMachine()
     UT::Report report;
     report.mergeReport(testMath());
     report.mergeReport(testLogic());
+    report.mergeReport(testPushAndPop());
     return report;
 }
 
@@ -120,6 +122,36 @@ UT::Test testLogicInternal(Sequence::Code code, int a, int b, bool pass)
     while(machine.executeOneInstruction(&test));
     assert(test.m_LocalVariables.size());
     return UT::Test::assertEquals(test.m_LocalVariables.back() == Machine::TRUE, pass);
+}
+
+UT::Report testPushAndPop()
+{
+    UT::Report report;
+
+    std::list<GameObject> gListEmpty;
+    std::list<Sequence::Instruction> iList;
+    iList.push_back(buildInstruction(Sequence::Code::PUSH,
+        Sequence::Value::INT, 12306));
+    iList.push_back(buildInstruction(Sequence::Code::PUSH,
+        Sequence::Value::INT, 12580));
+    iList.push_back(buildInstruction(Sequence::Code::POP,
+        Sequence::Value::NONE, -1));
+
+    State state(iList, gListEmpty);
+    Machine machine;
+
+    report.addTest(UT::Test::assertEquals(0, state.m_LocalVariables.size()));
+    machine.executeOneInstruction(&state);
+    report.addTest(UT::Test::assertEquals(1, state.m_LocalVariables.size()));
+    report.addTest(UT::Test::assertEquals(12306, state.m_LocalVariables.back()));
+    machine.executeOneInstruction(&state);
+    report.addTest(UT::Test::assertEquals(2, state.m_LocalVariables.size()));
+    report.addTest(UT::Test::assertEquals(12580, state.m_LocalVariables.back()));
+    machine.executeOneInstruction(&state);
+    report.addTest(UT::Test::assertEquals(1, state.m_LocalVariables.size()));
+    report.addTest(UT::Test::assertEquals(12306, state.m_LocalVariables.back()));
+
+    return report;
 }
 
 Sequence::Instruction buildInstruction(Sequence::Code code,

@@ -27,6 +27,11 @@ bool Machine::executeOneInstruction(State* state)
         case Sequence::Code::JMP_IF_FALSE:
             jump_if_false(state, instruction.value);
             break;
+        case Sequence::Code::PUSH:
+            push(state, instruction.value);
+            break;
+        case Sequence::Code::POP:
+            pop(state);
     }
     return true;
 }
@@ -97,5 +102,20 @@ bool Machine::jump_if_false(State* state, Sequence::Value value)
         assert(value.type == Sequence::Value::INT);
         return state->movePCPointer(value.intVal);
     }
+    return true;
+}
+
+bool Machine::push(State* state, Sequence::Value value)
+{
+    assert(value.type == Sequence::Value::INT);
+    state->m_LocalVariables.push_back(value.intVal);
+    state->m_InstructionIt++;
+    return true;
+}
+
+bool Machine::pop(State* state)
+{
+    assert(state->m_LocalVariables.size());
+    state->m_LocalVariables.pop_back();
     return true;
 }
