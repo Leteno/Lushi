@@ -50,7 +50,7 @@ UT::Report testSequenceRead()
     hello.stringVal = "hello world";
     pBuffer = Sequence::writeValue(pBuffer, hello);
 
-    // ADD NON
+    // GT NON
     pBuffer = Sequence::writeCode(pBuffer, Sequence::Code::GT);
     Sequence::Value gtNone {.type = Sequence::Value::NONE};
     pBuffer = Sequence::writeValue(pBuffer, gtNone);
@@ -60,6 +60,8 @@ UT::Report testSequenceRead()
     Sequence::Value jumpDest {.type = Sequence::Value::INT};
     jumpDest.intVal = 12306;
     pBuffer = Sequence::writeValue(pBuffer, jumpDest);
+
+    *pBuffer = '\0'; // add end
 
     Sequence seq(type, buffer);
     std::list<Sequence::Instruction> instructionList = seq.getSequence();
