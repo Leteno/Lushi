@@ -19,7 +19,7 @@ bool State::instructionMeetEnd()
 bool State::movePCPointer(int dest)
 {
     assert(dest >= 0);
-    assert(dest < m_InstructionList.size());
+    assert(dest <= m_InstructionList.size());
     auto newIt = m_InstructionList.begin();
     std::advance(newIt, dest);
     m_InstructionIt = newIt;
