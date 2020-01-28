@@ -33,7 +33,7 @@ UT::Report testMath()
 {
     UT::Report report;
     std::list<Sequence::Instruction> iList;
-    std::list<GameObject> gList;
+    std::list<GameObject*> gList;
     iList.push_back(buildInstruction(Sequence::Code::MINUS,
         Sequence::Value::Type::NONE, 0));;
     iList.push_back(buildInstruction(Sequence::Code::ADD,
@@ -114,7 +114,7 @@ UT::Report testLogic()
 }
 UT::Test testLogicInternal(Sequence::Code code, int a, int b, bool pass)
 {
-    std::list<GameObject> emptyGList;
+    std::list<GameObject*> emptyGList;
     std::list<Sequence::Instruction> iList;
     iList.push_back(buildInstruction(code,
         Sequence::Value::Type::NONE, 0));
@@ -132,7 +132,7 @@ UT::Report testPushAndPop()
 {
     UT::Report report;
 
-    std::list<GameObject> gListEmpty;
+    std::list<GameObject*> gListEmpty;
     std::list<Sequence::Instruction> iList;
     iList.push_back(buildInstruction(Sequence::Code::PUSH,
         Sequence::Value::INT, 12306));
@@ -207,7 +207,7 @@ UT::Report testIfJumpInternal(int input)
     */
     UT::Report report;
 
-    std::list<GameObject> gList;
+    std::list<GameObject*> gList;
     std::list<Sequence::Instruction> iList;
 
     iList.push_back(buildInstruction(Sequence::Code::PUSH,
@@ -294,7 +294,7 @@ UT::Report testForJumpInternal(int num, int loop)
     16)
 
     */
-    std::list<GameObject> gList;
+    std::list<GameObject*> gList;
     std::list<Sequence::Instruction> iList;
     iList.push_back(buildInstruction(Sequence::Code::PUSH,
         Sequence::Value::INT, 0));
@@ -383,7 +383,7 @@ UT::Report testLoadInternal(int a, int b)
      * PUSH 2
      * DIV  _
     **/
-    std::list<GameObject> gList;
+    std::list<GameObject*> gList;
     std::list<Sequence::Instruction> iList;
     iList.push_back(buildInstruction(Sequence::Code::PUSH,
         Sequence::Value::INT, a));
@@ -443,7 +443,7 @@ UT::Report testStoreInternal(int a, int b)
 
     */
 
-    std::list<GameObject> gList;
+    std::list<GameObject*> gList;
     std::list<Sequence::Instruction> iList;
 
     iList.push_back(buildInstruction(Sequence::Code::PUSH,
