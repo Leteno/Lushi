@@ -200,6 +200,7 @@ bool Machine::meetEndObj(State* state)
 {
     bool meetEnd = state->gameObjectMeetEnd();
     state->m_LocalVariables.push_back(meetEnd ? TRUE : FALSE);
+    state->m_InstructionIt++;
     return true;
 }
 
@@ -207,6 +208,7 @@ bool Machine::loadObj(State* state)
 {
     assert(!state->gameObjectMeetEnd());
     state->m_CurrentGameObject = *state->m_GameObjectIt;
+    state->m_InstructionIt++;
     return true;
 }
 
@@ -214,12 +216,14 @@ bool Machine::moveOnObj(State* state)
 {
     assert(!state->gameObjectMeetEnd());
     state->m_GameObjectIt++;
+    state->m_InstructionIt++;
     return true;
 }
 
 bool Machine::resetObj(State* state)
 {
     state->resetGameListIterator();
+    state->m_InstructionIt++;
     return true;
 }
 
@@ -228,6 +232,7 @@ bool Machine::getObjHealth(State* state)
     assert(state->m_CurrentGameObject);
     int health = state->m_CurrentGameObject->getHealth();
     state->m_LocalVariables.push_back(health);
+    state->m_InstructionIt++;
     return true;
 }
 
@@ -238,5 +243,6 @@ bool Machine::setObjHealth(State* state, Sequence::Value value)
     int health = state->m_LocalVariables.back();
     // do not pop_back here.
     state->m_CurrentGameObject->setHealth(health);
+    state->m_InstructionIt++;
     return true;
 }
