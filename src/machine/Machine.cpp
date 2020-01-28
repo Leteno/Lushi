@@ -42,6 +42,26 @@ bool Machine::executeOneInstruction(State* state)
         case Sequence::Code::STORE:
             store(state, instruction.value);
             break;
+
+        // object related
+        case Sequence::Code::MEET_END_OBJ:
+            meetEndObj(state);
+            break;
+        case Sequence::Code::LOAD_OBJ:
+            loadObj(state);
+            break;
+        case Sequence::Code::MOVE_ON_OBJ:
+            moveOnObj(state);
+            break;
+        case Sequence::Code::RESET_OBJ:
+            resetObj(state);
+            break;
+        case Sequence::Code::GET_HEALTH:
+            getObjHealth(state);
+            break;
+        case Sequence::Code::SET_HEALTH:
+            setObjHealth(state, instruction.value);
+            break;
     }
     return true;
 }
@@ -173,5 +193,50 @@ bool Machine::store(State* state, Sequence::Value value)
         state->m_LocalVariables.push_back(storeVal);
     }
     state->m_InstructionIt++;
+    return true;
+}
+
+bool Machine::meetEndObj(State* state)
+{
+    bool meetEnd = state->gameObjectMeetEnd();
+    state->m_LocalVariables.push_back(meetEnd ? TRUE : FALSE);
+    return true;
+}
+
+bool Machine::loadObj(State* state)
+{
+    assert(!state->gameObjectMeetEnd());
+    state->m_CurrentGameObject = *state->m_GameObjectIt;
+    return true;
+}
+
+bool Machine::moveOnObj(State* state)
+{
+    assert(!state->gameObjectMeetEnd());
+    state->m_GameObjectIt++;
+    return true;
+}
+
+bool Machine::resetObj(State* state)
+{
+    state->resetGameListIterator();
+    return true;
+}
+
+bool Machine::getObjHealth(State* state)
+{
+    assert(state->m_CurrentGameObject);
+    int health = state->m_CurrentGameObject->getHealth();
+    state->m_LocalVariables.push_back(health);
+    return true;
+}
+
+bool Machine::setObjHealth(State* state, Sequence::Value value)
+{
+    assert(state->m_CurrentGameObject);
+    assert(state->m_LocalVariables.size());
+    int health = state->m_LocalVariables.back();
+    // do not pop_back here.
+    state->m_CurrentGameObject->setHealth(health);
     return true;
 }

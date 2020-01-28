@@ -19,4 +19,12 @@ private:
     bool pop(State* state);
     bool load(State* state, Sequence::Value value);
     bool store(State* state, Sequence::Value value);
+
+    // GameObject related
+    bool meetEndObj(State* state);
+    bool loadObj(State* state);
+    bool moveOnObj(State* state);
+    bool resetObj(State* state);
+    bool getObjHealth(State* state);
+    bool setObjHealth(State* state, Sequence::Value value);
 };

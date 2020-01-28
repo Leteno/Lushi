@@ -7,13 +7,18 @@ void State::reset()
 {
     m_InstructionIt = m_InstructionList.begin();
     m_GameObjectIt = m_GameObjectList.begin();
-    currentGameObject = nullptr;
+    m_CurrentGameObject = nullptr;
     m_LocalVariables.clear();
 }
 
 bool State::instructionMeetEnd()
 {
     return m_InstructionIt == m_InstructionList.end();
+}
+
+bool State::gameObjectMeetEnd()
+{
+    return m_GameObjectIt == m_GameObjectList.end();
 }
 
 bool State::movePCPointer(int dest)
@@ -24,4 +29,9 @@ bool State::movePCPointer(int dest)
     std::advance(newIt, dest);
     m_InstructionIt = newIt;
     return true;
+}
+
+void State::resetGameListIterator()
+{
+    m_GameObjectIt = m_GameObjectList.begin();
 }

@@ -11,9 +11,12 @@ public:
         SAY = -10000,
 
         // object related
-        FETCH_OBJ = -100, // FETCH_OBJ jmp_f, mCurrentObj=mStack.pop(), if null, jmp_f
-        GET_HEALTH = -2,
-        SET_HEALTH = -1,
+        GET_HEALTH = -105, // State::currentGameObject->getHealth() push it to localStack
+        SET_HEALTH = -104, // State::currentGameObject->setHealth(localVariable.top())
+        RESET_OBJ = -103, // State::m_gameObjectIt = list.begin()
+        MEET_END_OBJ = -102, // State::m_GameObjectIt == list.end(), push result to localStack
+        LOAD_OBJ = -101,  // load State::m_GameObjectIt to State::currentGameObject
+        MOVE_ON_OBJ = -100, // State::m_gameObjectIt++
 
         NOP = 0,
 
