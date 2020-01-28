@@ -11,11 +11,13 @@
 #include "TestMachine_OBJ.h"
 
 UT::Report testTravalGameObject();
+UT::Report testBuffAll();
 
 UT::Report testMachineGameObject()
 {
     UT::Report report;
     report.mergeReport(testTravalGameObject());
+    report.mergeReport(testBuffAll());
     return report;
 }
 
@@ -81,5 +83,157 @@ UT::Report testTravalGameObject()
 
     UT::Report report;
     report.addTest(UT::Test::assertEquals(sum, selfCalSum));
+    return report;
+}
+
+UT::Report testBuffAll()
+{
+    GameObject lilei(23, 34), hanmeimei(45, 56), mrmiddle(34, 1);
+    std::list<GameObject*> gList;
+    gList.push_back(&lilei);
+    gList.push_back(&hanmeimei);
+    gList.push_back(&mrmiddle);
+
+    /**
+     * Card: Natrue balance
+     *
+     * if your health > average, then your health will -10
+     * elif your health < average, then your health will +10
+     * else do nothing
+     *
+     
+     [0] sum
+     [1] count
+     [2] average
+    
+     0)  PUSH 0
+     1)  PUSH 0
+     2)  PUSH 0
+
+     3)  MEET_END_OBJ
+     4)  JMP_IF_FALSE 6
+     5)  JMP 19
+     6)  LOAD_OBJ
+
+     // calculate sum of health
+     7)  GET_HEALTH
+     8)  LOAD 0
+     9)  ADD
+     10) STORE 0
+     11) POP
+
+     // count++
+     12) LOAD 1
+     13) PUSH 1
+     14) ADD
+     15) STORE 1
+     16) POP
+
+     // back to loop start
+     17) MOVE_ON_OBJ
+     18) JMP 3
+
+     // calculate average
+     19) LOAD 0
+     20) LOAD 1
+     21) DIV
+     22) STORE 2
+     23) POP
+
+     // revisit GameObjectList and apply health if need
+     24) RESET_OBJ
+     25) MEET_END_OBJ
+     26) JMP_IF_FALSE 28
+     27) JMP 50
+     28) LOAD_OBJ
+
+     // if health > average, health - 10
+     29) GET_HEALTH
+     30) LOAD 2
+     31) GT
+     32) JMP_IF_FALSE 39
+     33) GET_HEALTH
+     34) PUSH -10
+     35) ADD
+     36) SET_HEALTH
+     37) POP
+     38) JMP 48
+
+     // if health < average, health + 10
+     39) GET_HEALTH
+     40) LOAD 2
+     41) LT
+     42) JMP_IF_FALSE 48
+     43) GET_HEALTH
+     44) PUSH 10
+     45) ADD
+     46) SET_HEALTH
+     47) POP
+
+     48) MOVE_ON_OBJ
+     49) JMP 25
+
+     // loop end
+     50)
+     */
+    std::list<Sequence::Instruction> iList;
+    iList.push_back(buildInstruction(Sequence::Code::PUSH, Sequence::Value::INT, 0));
+    iList.push_back(buildInstruction(Sequence::Code::PUSH, Sequence::Value::INT, 0));
+    iList.push_back(buildInstruction(Sequence::Code::PUSH, Sequence::Value::INT, 0));
+    iList.push_back(buildInstruction(Sequence::Code::MEET_END_OBJ, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::JMP_IF_FALSE, Sequence::Value::INT, 6));
+    iList.push_back(buildInstruction(Sequence::Code::JMP, Sequence::Value::INT, 19));
+    iList.push_back(buildInstruction(Sequence::Code::LOAD_OBJ, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::GET_HEALTH, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::LOAD, Sequence::Value::INT, 0));
+    iList.push_back(buildInstruction(Sequence::Code::ADD, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::STORE, Sequence::Value::INT, 0));
+    iList.push_back(buildInstruction(Sequence::Code::POP, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::LOAD, Sequence::Value::INT, 1));
+    iList.push_back(buildInstruction(Sequence::Code::PUSH, Sequence::Value::INT, 1));
+    iList.push_back(buildInstruction(Sequence::Code::ADD, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::STORE, Sequence::Value::INT, 1));
+    iList.push_back(buildInstruction(Sequence::Code::POP, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::MOVE_ON_OBJ, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::JMP, Sequence::Value::INT, 3));
+    iList.push_back(buildInstruction(Sequence::Code::LOAD, Sequence::Value::INT, 0));
+    iList.push_back(buildInstruction(Sequence::Code::LOAD, Sequence::Value::INT, 1));
+    iList.push_back(buildInstruction(Sequence::Code::DIV, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::STORE, Sequence::Value::INT, 2));
+    iList.push_back(buildInstruction(Sequence::Code::POP, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::RESET_OBJ, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::MEET_END_OBJ, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::JMP_IF_FALSE, Sequence::Value::INT, 28));
+    iList.push_back(buildInstruction(Sequence::Code::JMP, Sequence::Value::INT, 50));
+    iList.push_back(buildInstruction(Sequence::Code::LOAD_OBJ, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::GET_HEALTH, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::LOAD, Sequence::Value::INT, 2));
+    iList.push_back(buildInstruction(Sequence::Code::GT, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::JMP_IF_FALSE, Sequence::Value::INT, 39));
+    iList.push_back(buildInstruction(Sequence::Code::GET_HEALTH, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::PUSH, Sequence::Value::INT, -10));
+    iList.push_back(buildInstruction(Sequence::Code::ADD, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::SET_HEALTH, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::POP, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::JMP, Sequence::Value::INT, 48));
+    iList.push_back(buildInstruction(Sequence::Code::GET_HEALTH, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::LOAD, Sequence::Value::INT, 2));
+    iList.push_back(buildInstruction(Sequence::Code::LT, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::JMP_IF_FALSE, Sequence::Value::INT, 48));
+    iList.push_back(buildInstruction(Sequence::Code::GET_HEALTH, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::PUSH, Sequence::Value::INT, 10));
+    iList.push_back(buildInstruction(Sequence::Code::ADD, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::SET_HEALTH, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::POP, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::MOVE_ON_OBJ, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::JMP, Sequence::Value::INT, 25));
+    State state(iList, gList);
+    Machine machine;
+    while(machine.executeOneInstruction(&state));
+
+    UT::Report report;
+    report.addTest(UT::Test::assertEquals(33, lilei.getHealth()));
+    report.addTest(UT::Test::assertEquals(35, hanmeimei.getHealth()));
+    report.addTest(UT::Test::assertEquals(34, mrmiddle.getHealth()));
     return report;
 }
