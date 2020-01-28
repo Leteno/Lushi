@@ -15,12 +15,19 @@ private:
     std::vector<Effect> m_EffectConstant;
 public:
     GameObject(int health, int attack);
+
+    // { deprecated
     void addHealth(int increment);
     void addAttack(int increment);
     void setDisable();
     static void applyEffect(GameObject* obj, Effect::TYPE type, Effect effect);
     std::string showEffectList();
+    // }
 
+    void setHealth(int newVal);
     int getHealth();
+    void setAttack(int newVal);
     int getAttack();
+
+    void reset();
 };

@@ -75,12 +75,28 @@ std::string GameObject::showEffectList()
     return result;
 }
 
+void GameObject::setHealth(int newVal)
+{
+    m_CurrentHealth = newVal;
+}
+
 int GameObject::getHealth()
 {
     return m_CurrentHealth;
 }
 
+void GameObject::setAttack(int newVal)
+{
+    m_CurrentAttack = newVal;
+}
+
 int GameObject::getAttack()
 {
     return m_CurrentAttack;
+}
+
+void GameObject::reset()
+{
+    m_CurrentAttack = m_Attack;
+    m_CurrentHealth = m_Health;
 }
