@@ -22,7 +22,7 @@ void addHealth(std::string& command, int increament);
 void addAttack(std::string& command, int increment);
 bool concatCommand(std::string& command, int code);
 
-int main()
+UT::Report testEffectMachine()
 {
     Report report;
     report.mergeReport(testAddHealth());
@@ -31,9 +31,7 @@ int main()
     report.mergeReport(testDisable());
     report.mergeReport(testSkip());
     report.mergeReport(testMulti());
-    Result result = report.getResult();
-    std::cout << result.toString();
-    return result.totalPass() ? 0 : 1;
+    return report;
 }
 
 Report testAddHealth()
