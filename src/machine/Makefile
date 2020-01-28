@@ -3,7 +3,7 @@ include ../Makefile.common
 
 BASE = Sequence.o Machine.o State.o
 
-TEST = TestSequence.o TestMachine.o
+TEST = TestSequence.o TestMachine.o TestMachine_OBJ.o
 
 BASE_PATH = ../base/
 BASE_OBJ = ../base/GameObject.o ../base/Effect.o ../base/EffectMachine.o

@@ -15,8 +15,6 @@ UT::Report testLogic();
 UT::Report testPushAndPop();
 UT::Report testJump();
 UT::Report testLoadAndStore();
-Sequence::Instruction buildInstruction(Sequence::Code code,
-    Sequence::Value::Type valType, int val);
 
 UT::Report testMachine()
 {
