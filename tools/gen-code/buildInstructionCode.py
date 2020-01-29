@@ -14,7 +14,7 @@ python3 buildInstructionCode.py < test
 <op> => +-*/
 <expr> => <variable> <op> <expr> | <number> <op> <expr> | <variable> | <number>
 <assignment> => <variable> = <expr>
-<comp> => < <= > >=
+<comp> => < <= > >= == !=
 <comp-expr> => <expr> <comp> <expr>
 <statement> => <expr>;
 <statements> => <statement> | <statement> <statements>
