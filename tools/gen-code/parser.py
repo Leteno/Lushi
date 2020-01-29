@@ -68,7 +68,16 @@ def tokenize(content):
 
 def variable(name):
     # TODO deal with keywords
-    return {'type': 'variable', 'value': name}
+    if name == 'for':
+        return {'type': 'for', 'value': name}
+    elif name == 'foreach_obj':
+        return {'type': 'foreach_obj', 'value': name}
+    elif name == 'if':
+        return {'type': 'if', 'value': name}
+    elif name == 'else':
+        return {'type': 'else', 'value': name}
+    else:
+        return {'type': 'variable', 'value': name}
 
 def number(n):
     return {'type': 'number', 'value': n}
