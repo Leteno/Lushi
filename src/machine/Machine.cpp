@@ -62,6 +62,12 @@ bool Machine::executeOneInstruction(State* state)
         case Sequence::Code::SET_HEALTH:
             setObjHealth(state, instruction.value);
             break;
+        case Sequence::Code::GET_ATTACK:
+            getObjAttack(state);
+            break;
+        case Sequence::Code::SET_ATTACK:
+            setObjAttack(state, instruction.value);
+            break;
     }
     return true;
 }
@@ -243,6 +249,25 @@ bool Machine::setObjHealth(State* state, Sequence::Value value)
     int health = state->m_LocalVariables.back();
     // do not pop_back here.
     state->m_CurrentGameObject->setHealth(health);
+    state->m_InstructionIt++;
+    return true;
+}
+
+bool Machine::getObjAttack(State* state)
+{
+    assert(state->m_CurrentGameObject);
+    state->m_LocalVariables.push_back(state->m_CurrentGameObject->getAttack());
+    state->m_InstructionIt++;
+    return true;
+}
+
+bool Machine::setObjAttack(State* state, Sequence::Value value)
+{
+    assert(state->m_CurrentGameObject);
+    assert(state->m_LocalVariables.size());
+    int attack = state->m_LocalVariables.back();
+    // do not pop_back here
+    state->m_CurrentGameObject->setAttack(attack);
     state->m_InstructionIt++;
     return true;
 }

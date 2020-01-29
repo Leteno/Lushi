@@ -11,6 +11,8 @@ public:
         SAY = -10000,
 
         // object related
+        GET_ATTACK = -107, // getAttack and push to localStack
+        SET_ATTACK = -106, // setAttack(localStack.top())
         GET_HEALTH = -105, // State::currentGameObject->getHealth() push it to localStack
         SET_HEALTH = -104, // State::currentGameObject->setHealth(localVariable.top())
         RESET_OBJ = -103, // State::m_gameObjectIt = list.begin()

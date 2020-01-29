@@ -27,4 +27,6 @@ private:
     bool resetObj(State* state);
     bool getObjHealth(State* state);
     bool setObjHealth(State* state, Sequence::Value value);
+    bool getObjAttack(State* state);
+    bool setObjAttack(State* state, Sequence::Value value);
 };

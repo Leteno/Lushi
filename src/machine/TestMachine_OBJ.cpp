@@ -12,12 +12,14 @@
 
 UT::Report testTravalGameObject();
 UT::Report testBuffAll();
+UT::Report testMachineObjectAttack();
 
 UT::Report testMachineGameObject()
 {
     UT::Report report;
     report.mergeReport(testTravalGameObject());
     report.mergeReport(testBuffAll());
+    report.mergeReport(testMachineObjectAttack());
     return report;
 }
 
@@ -235,5 +237,30 @@ UT::Report testBuffAll()
     report.addTest(UT::Test::assertEquals(33, lilei.getHealth()));
     report.addTest(UT::Test::assertEquals(35, hanmeimei.getHealth()));
     report.addTest(UT::Test::assertEquals(34, mrmiddle.getHealth()));
+    return report;
+}
+
+UT::Report testMachineObjectAttack()
+{
+    UT::Report report;
+
+    std::list<GameObject*> gList;
+    GameObject lilei(1,1);
+    gList.push_back(&lilei);
+
+    std::list<Sequence::Instruction> iList;
+    iList.push_back(buildInstruction(Sequence::Code::LOAD_OBJ, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::GET_ATTACK, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::PUSH, Sequence::Value::INT, 10));
+    iList.push_back(buildInstruction(Sequence::Code::ADD, Sequence::Value::NONE, -1));
+    iList.push_back(buildInstruction(Sequence::Code::SET_ATTACK, Sequence::Value::NONE, -1));
+
+    State state(iList, gList);
+    Machine machine;
+
+    while (machine.executeOneInstruction(&state));
+
+    report.addTest(UT::Test::assertEquals(lilei.getAttack(), 11));
+
     return report;
 }
