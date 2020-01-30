@@ -11,6 +11,7 @@ class ASTParser:
         self.index = 0
         self.tokenLen = len(self.tokens)
         ast = self.statements()
+        self._assert(self.index == self.tokenLen)
         return ast
     def statements(self):
         children = []
@@ -25,19 +26,20 @@ class ASTParser:
                 children.append(b)
                 continue
             # no dealable
-            return stmts
+            break
+        return stmts
 
     def statement(self):
         currentType = self.currentType()
         if currentType == 'if':
             self.index += 1
-            return ifClause()
+            return self.ifClause()
         elif currentType == 'for':
             self.index += 1
-            return forClause()
+            return self.forClause()
         elif currentType == 'foreach_obj':
             self.index += 1
-            return forEachObjClause()
+            return self.forEachObjClause()
 
         # <assignment>;
         lastPosition = self.index
@@ -69,7 +71,21 @@ class ASTParser:
         self.index += 1
         block = self.block()
         self._assert(block)
-        return {'type': 'if', 'comp-expr': compExpr, 'block': block }
+        eBlock = None
+        if self.currentType() == 'else':
+            self.index += 1
+            if self.currentType() == 'if':
+                self.index += 1
+                eBlock = self.ifClause()
+            else:
+                eBlock = self.block()
+            self._assert(eBlock)
+        return {
+            'type': 'if',
+            'comp-expr': compExpr,
+            'block': block,
+            'else': eBlock
+        }
 
     def forClause(self):
         self._assert(self.currentValue() == '(')
@@ -103,21 +119,22 @@ class ASTParser:
         }
 
     def assignment(self):
-        self._assert(self.currentToken() == 'variable')
-        variable = self.currentToken()
-        self.index += 1
-        if self.currentValue() == '.':
+        if self.currentType() == 'variable':
+            variable = self.currentToken()
             self.index += 1
-            return self.accessObjContent(variable)
-        self._assert(self.currentValue() == '=')
-        self.index += 1
-        expr = self.expr()
-        self._assert(expr)
-        return {
-            'type': 'assignment',
-            'first': variable,
-            'second': expr,
-        }
+            if self.currentValue() == '.':
+                self.index += 1
+                return self.accessObjContent(variable)
+            self._assert(self.currentValue() == '=')
+            self.index += 1
+            expr = self.expr()
+            self._assert(expr)
+            return {
+                'type': 'assignment',
+                'first': variable,
+                'second': expr,
+            }
+        return None
 
     def expr(self):
         # TODO deal with priority of +-*/ ()
@@ -168,12 +185,12 @@ class ASTParser:
         self.index += 1
         return {
             'type': 'access-obj-content',
-            'obj': first,
+            'obj': variable,
             'method': methodName,
             'args': args,
         }
 
-    def args():
+    def args(self):
         expr = self.expr()
         if self.currentValue() == ',':
             self.index += 1
