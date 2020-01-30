@@ -54,34 +54,34 @@ class ASTParser:
         if self.currentValue() == '{':
             self.index += 1
             stmts = self.statements()
-            assert self.currentValue() == '}'
+            self._assert(self.currentValue() == '}')
             self.index += 1
             return {'type': 'block', 'content': stmts}
         else:
             return self.statement()
 
     def ifClause(self):
-        assert self.currentValue() == '('
+        self._assert(self.currentValue() == '(')
         self.index += 1
         compExpr = self.comp_expr()
-        assert compExpr
-        assert self.currentValue() == ')'
+        self._assert(compExpr)
+        self._assert(self.currentValue() == ')')
         self.index += 1
         block = self.block()
-        assert block
+        self._assert(block)
         return {'type': 'if', 'comp-expr': compExpr, 'block': block }
 
     def forClause(self):
-        assert self.currentValue() == '('
+        self._assert(self.currentValue() == '(')
         self.index += 1
         beginExpr = self.expr()
-        assert self.currentValue() == ';'
+        self._assert(self.currentValue() == ';')
         self.index += 1
         compExpr = self.comp_expr()
-        assert self.currentValue() == ';'
+        self._assert(self.currentValue() == ';')
         self.index += 1
         endExpr = self.expr()
-        assert self.currentValue() == ')'
+        self._assert(self.currentValue() == ')')
         self.index += 1
         return {
             'type': 'for',
@@ -91,11 +91,11 @@ class ASTParser:
         }
 
     def forEachObjClause(self):
-        assert self.currentType() == 'variable'
+        self._assert(self.currentType() == 'variable')
         variable = self.currentToken()
         self.index += 1
         block = self.block()
-        assert block
+        self._assert(block)
         return {
             'type': 'for-all-game-obj',
             'variable': variable,
@@ -103,16 +103,16 @@ class ASTParser:
         }
 
     def assignment(self):
-        assert self.currentToken() == 'variable'
+        self._assert(self.currentToken() == 'variable')
         variable = self.currentToken()
         self.index += 1
         if self.currentValue() == '.':
             self.index += 1
             return self.accessObjContent(variable)
-        assert self.currentValue() == '='
+        self._assert(self.currentValue() == '=')
         self.index += 1
         expr = self.expr()
-        assert expr
+        self._assert(expr)
         return {
             'type': 'assignment',
             'first': variable,
@@ -129,7 +129,7 @@ class ASTParser:
                 op = self.currentToken()
                 self.index += 1
                 second = self.expr()
-                assert second
+                self._assert(second)
                 return {
                     'type': 'expr',
                     'first': first,
@@ -144,12 +144,12 @@ class ASTParser:
 
     def comp_expr(self):
         a = self.expr()
-        assert a
-        assert self.currentType() == 'comp'
+        self._assert(a)
+        self._assert(self.currentType() == 'comp')
         comp = self.currentToken()
         self.index += 1
         b = self.expr()
-        assert b
+        self._assert(b)
         return {
             'type': 'comp-expr',
             'first': a,
@@ -158,13 +158,13 @@ class ASTParser:
         }
 
     def accessObjContent(self, variable):
-        assert self.currentType() == 'variable'
+        self._assert(self.currentType() == 'variable')
         methodName = self.currentToken()
         self.index += 1
-        assert self.currentValue() == '('
+        self._assert(self.currentValue() == '(')
         self.index += 1
         args = self.args()
-        assert self.currentValue() == ')'
+        self._assert(self.currentValue() == ')')
         self.index += 1
         return {
             'type': 'access-obj-content',
@@ -178,7 +178,7 @@ class ASTParser:
         if self.currentValue() == ',':
             self.index += 1
             restArgs = self.args()
-            assert expr and restArgs
+            self._assert(expr and restArgs)
             return {
                 'type': 'args',
                 'first': expr,
@@ -195,12 +195,12 @@ class ASTParser:
     def currentType(self):
         return self.tokenType(self.index)
     def tokenType(self, index):
-        assert index < self.tokenLen
+        self._assert(index < self.tokenLen)
         return self.tokens[index]['type']
     def currentValue(self):
         return self.tokenValue(self.index)
     def tokenValue(self, index):
-        assert index < self.tokenLen
+        self._assert(index < self.tokenLen)
         return self.tokens[index]['value']
     def currentToken(self):
         return self.tokens[self.index]
