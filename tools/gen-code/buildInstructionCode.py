@@ -12,19 +12,20 @@ python3 buildInstructionCode.py < test
 <variable> => [a-zA-Z][a-zA-Z0-9_]
 <number> => [0-9]
 <op> => +-*/
-<expr> => <variable> <op> <expr> | <number> <op> <expr> | <variable> | <number>
-<assignment> => <variable> = <expr>
+<expr> => <variable> <op> <expr> | <number> <op> <expr> | <variable> | <number> | <access-obj-content>
 <comp> => < <= > >= == !=
 <comp-expr> => <expr> <comp> <expr>
-<statement> => <expr>;
-<statements> => <statement> | <statement> <statements>
-<block> => <expr>; | { <statements> }
+<assignment> => <variable> = <expr>
+<block> => <statement> | { <statements> }
 <if> => if (<comp-expr>) <block>
-<for-loop> => for (<expr> ; <compr-expr>; <expr>) <block>
+<for-loop> => for (<assignment> ; <comp-expr>; <assignment>) <block>
+<statement> => <assignment>; | <if> | <for-loop> | <for-all-game-obj> | <access-obj-content>
+<statements> => <statement> | <block> | <statement> <statements>
 
 game-object related
 <for-all-game-obj> => foreach_obj obj <block>  // you can access GameObject like obj.getHealth()
-<access-obj-content> => obj.<method-name>()    // like obj.getHealth()
+<access-obj-content> => obj.<method-name>(<args>) | obj.<method-name>()    // like obj.getHealth()
+<args> => <expr> | <expr>, <args>
 
 For example:
 

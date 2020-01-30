@@ -1,9 +1,11 @@
 
 import sys
 
+import astParser
+
 def parse(content):
     tokens = tokenize(content)
-    ast = buildAST(tokens)
+    ast = astParser.buildAST(tokens)
     return ast
 
 def tokenize(content):
@@ -105,6 +107,3 @@ def brace(s):
 
 def dot(s):
     return {'type': 'dot', 'value': s}
-
-def buildAST(tokens):
-    return tokens
