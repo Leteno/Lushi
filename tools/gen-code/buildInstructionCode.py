@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import json
 import sys
 
 import parser
@@ -56,7 +57,7 @@ foreach_obj obj {
 def main():
     content = getContent()
     pResult = parser.parse(content)
-    print(pResult)
+    print(json.dumps(pResult, indent=2))
     return
     gResult = codeGen.gen(pResult)
 
