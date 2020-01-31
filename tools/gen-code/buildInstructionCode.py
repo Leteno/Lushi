@@ -59,7 +59,11 @@ def main():
     content = getContent()
     pResult = parser.parse(content)
     gResult = codeGen.gen(pResult)
-    print(gResult)
+    printCodes(gResult)
+
+def printCodes(codes):
+    for code in codes:
+        print(code)
 
 def getContent():
     return """
