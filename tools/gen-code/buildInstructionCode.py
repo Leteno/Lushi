@@ -56,7 +56,12 @@ foreach_obj obj {
     sys.exit(-1)
 
 def main():
-    test()
+    if len(sys.argv) > 1 and sys.argv[1] == 'test':
+        return test()
+    content = sys.stdin.read()
+    pResult = parser.parse(content)
+    gResult = codeGen.gen(pResult)
+    printCodes(gResult)
 
 def test():
     content = getTestContent()
