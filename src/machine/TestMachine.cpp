@@ -193,11 +193,11 @@ UT::Report testIfJumpInternal(int input)
     0)  PUSH input
     1)  PUSH 0
     2)  GT _
-    3)  JMP_IF_FALSE 8
+    3)  JMP_IF_FALSE 5
     4)  PUSH input
     5)  PUSH 1
     6)  ADD _
-    7)  JMP 11
+    7)  JMP 4
     8)  PUSH input
     9)  PUSH -1
     10) ADD _
@@ -215,7 +215,7 @@ UT::Report testIfJumpInternal(int input)
     iList.push_back(buildInstruction(Sequence::Code::GT,
         Sequence::Value::NONE, -1));
     iList.push_back(buildInstruction(Sequence::Code::JMP_IF_FALSE,
-        Sequence::Value::INT, 8));
+        Sequence::Value::INT, 5));
     iList.push_back(buildInstruction(Sequence::Code::PUSH,
         Sequence::Value::INT, input));
     iList.push_back(buildInstruction(Sequence::Code::PUSH,
@@ -223,7 +223,7 @@ UT::Report testIfJumpInternal(int input)
     iList.push_back(buildInstruction(Sequence::Code::ADD,
         Sequence::Value::NONE, -1));
     iList.push_back(buildInstruction(Sequence::Code::JMP,
-        Sequence::Value::INT, 11));
+        Sequence::Value::INT, 4));
     iList.push_back(buildInstruction(Sequence::Code::PUSH,
         Sequence::Value::INT, input));
     iList.push_back(buildInstruction(Sequence::Code::PUSH,
@@ -277,7 +277,7 @@ UT::Report testForJumpInternal(int num, int loop)
     2)  LOAD    0
     3)  PUSH    loop
     4)  LT      _
-    5)  JMP_IF_FALSE 17
+    5)  JMP_IF_FALSE 12
     6)  LOAD    1         // result += num
     7)  PUSH    num
     8)  ADD     _
@@ -288,7 +288,7 @@ UT::Report testForJumpInternal(int num, int loop)
     13) ADD     _
     14) STORE   0
     15) POP
-    16) JMP     2
+    16) JMP     -14
     16)
 
     */
@@ -305,7 +305,7 @@ UT::Report testForJumpInternal(int num, int loop)
     iList.push_back(buildInstruction(Sequence::Code::LT,
         Sequence::Value::NONE, -1));
     iList.push_back(buildInstruction(Sequence::Code::JMP_IF_FALSE,
-        Sequence::Value::INT, 17));
+        Sequence::Value::INT, 12));
     iList.push_back(buildInstruction(Sequence::Code::LOAD,
         Sequence::Value::INT, 1));
     iList.push_back(buildInstruction(Sequence::Code::PUSH,
@@ -327,7 +327,7 @@ UT::Report testForJumpInternal(int num, int loop)
     iList.push_back(buildInstruction(Sequence::Code::POP,
         Sequence::Value::NONE, -1));
     iList.push_back(buildInstruction(Sequence::Code::JMP,
-        Sequence::Value::INT, 2));
+        Sequence::Value::INT, -14));
 
     State state(iList, gList);
     Machine machine;

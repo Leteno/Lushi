@@ -21,13 +21,12 @@ bool State::gameObjectMeetEnd()
     return m_GameObjectIt == m_GameObjectList.end();
 }
 
-bool State::movePCPointer(int dest)
+bool State::movePCPointer(int offset)
 {
+    int dest = offset + std::distance(m_InstructionList.begin(), m_InstructionIt);
     assert(dest >= 0);
     assert(dest <= m_InstructionList.size());
-    auto newIt = m_InstructionList.begin();
-    std::advance(newIt, dest);
-    m_InstructionIt = newIt;
+    std::advance(m_InstructionIt, offset);
     return true;
 }
 
