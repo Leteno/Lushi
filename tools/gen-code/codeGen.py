@@ -94,6 +94,7 @@ class CodeGenerator:
 
         self.emit("LOAD_OBJ", codes)
         codes += self.block(obj['block'])
+        self.emit("MOVE_ON_OBJ", codes)
 
         jumpBack = self.emit("JMP", codes)
         self.backPatchInternal(jumpBack, loopBegin, codes)
