@@ -167,7 +167,8 @@ class CodeGenerator:
 
         codes = []
 
-        codes += self.parseInternal(obj['args'])
+        if obj['args']:
+            codes += self.parseInternal(obj['args'])
 
         method = obj['method']['value']
         if method == 'getHealth':
