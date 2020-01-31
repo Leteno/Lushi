@@ -195,7 +195,7 @@ class CodeGenerator:
         return pos
 
     def backPatch(self, patchPos, codes):
-        targetPos = len(codes) - 1
+        targetPos = len(codes)
         return self.backPatchInternal(patchPos, targetPos, codes)
     
     def backPatchInternal(self, patchPos, targetPos, codes):
