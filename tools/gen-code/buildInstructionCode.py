@@ -4,6 +4,7 @@ import json
 import sys
 
 import parser
+import codeGen
 
 def usage():
     print("""
@@ -57,9 +58,8 @@ foreach_obj obj {
 def main():
     content = getContent()
     pResult = parser.parse(content)
-    print(json.dumps(pResult, indent=2))
-    return
     gResult = codeGen.gen(pResult)
+    print(gResult)
 
 def getContent():
     return """

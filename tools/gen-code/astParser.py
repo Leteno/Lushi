@@ -99,11 +99,14 @@ class ASTParser:
         endExpr = self.expr()
         self._assert(self.currentValue() == ')')
         self.index += 1
+        block = self.block()
+        self._assert(block)
         return {
             'type': 'for',
             'begin': beginExpr,
             'comp-expr': compExpr,
             'end': endExpr,
+            'block': block,
         }
 
     def forEachObjClause(self):
