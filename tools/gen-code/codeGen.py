@@ -9,7 +9,11 @@ class CodeGenerator:
         self.variables = {}
 
     def parse(self):
-        return self.parseInternal(self.AST)
+        parseResult = self.parseInternal(self.AST)
+        preCodeForVariables = []
+        for var in self.variables:
+            self.emit("PUSH 0", preCodeForVariables)
+        return preCodeForVariables + parseResult
 
     def parseInternal(self, obj):
         assert obj, "None obj, lastObj is: %s" % self.lastObj
