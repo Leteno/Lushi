@@ -12,6 +12,8 @@ class CodeGenerator:
         return self.parseInternal(self.AST)
 
     def parseInternal(self, obj):
+        assert obj, "None obj, lastObj is: %s" % self.lastObj
+        self.lastObj = obj
         objType = obj['type']
         if objType == 'statements':
             return self.statements(obj)
