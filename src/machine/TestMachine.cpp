@@ -478,8 +478,9 @@ UT::Report testStoreInternal(int a, int b)
 Sequence::Instruction buildInstruction(Sequence::Code code,
     Sequence::Value::Type valType, int val)
 {
-    Sequence::Instruction inst {.code = code};
-    inst.value = Sequence::Value {.type = valType};
+    Sequence::Instruction inst;
+    inst.code = code;
+    inst.value.type = valType;
     inst.value.intVal = val;
     return inst;
 }

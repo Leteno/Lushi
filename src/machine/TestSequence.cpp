@@ -40,24 +40,28 @@ UT::Report testSequenceRead()
 
     // PUSH 1
     pBuffer = Sequence::writeCode(pBuffer, Sequence::Code::PUSH);
-    Sequence::Value one {.type = Sequence::Value::INT};
+    Sequence::Value one;
+    one.type = Sequence::Value::INT;
     one.intVal = 1;
     pBuffer = Sequence::writeValue(pBuffer, one);
 
     // SAY "hello world"
     pBuffer = Sequence::writeCode(pBuffer, Sequence::Code::SAY);
-    Sequence::Value hello {.type = Sequence::Value::STRING};
+    Sequence::Value hello;
+    hello.type = Sequence::Value::STRING;
     hello.stringVal = "hello world";
     pBuffer = Sequence::writeValue(pBuffer, hello);
 
     // GT NON
     pBuffer = Sequence::writeCode(pBuffer, Sequence::Code::GT);
-    Sequence::Value gtNone {.type = Sequence::Value::NONE};
+    Sequence::Value gtNone;
+    gtNone.type = Sequence::Value::NONE;
     pBuffer = Sequence::writeValue(pBuffer, gtNone);
 
     // JMP_IF_FALSE
     pBuffer = Sequence::writeCode(pBuffer, Sequence::Code::JMP_IF_FALSE);
-    Sequence::Value jumpDest {.type = Sequence::Value::INT};
+    Sequence::Value jumpDest;
+    jumpDest.type = Sequence::Value::INT;
     jumpDest.intVal = 12306;
     pBuffer = Sequence::writeValue(pBuffer, jumpDest);
 
