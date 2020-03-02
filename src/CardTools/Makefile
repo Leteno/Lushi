@@ -11,7 +11,7 @@ machine:
 	$(CC) $(MACHINE_OBJ_DEPS) Machine.o -o machine $(CFLAGS)
 
 codeGen:
-	@if [ ! -e "../../tools/gen-code/" ]; then echo "gen-code/ path not found"; exit 1; fi
+	@if [ ! -e "../../tools/CodeGenerator/" ]; then echo "CodeGenerator/ path not found"; exit 1; fi
 
 CardToolsGUI:
 	@echo Hello Java !
