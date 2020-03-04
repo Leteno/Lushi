@@ -5,9 +5,9 @@ using namespace CardTools;
 StackZone::StackZone()
 {
     mRoot = gtk_frame_new(nullptr);
+    gtk_widget_set_size_request(mRoot, 200, 200);
 
     mTextView = gtk_text_view_new();
-
     gtk_container_add(GTK_CONTAINER(mRoot), mTextView);
 
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(mTextView));
