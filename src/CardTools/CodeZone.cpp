@@ -15,6 +15,7 @@ static void triggerOnCompile(GtkWidget* widget, CodeZone* codeZone)
 }
 
 static void compile(const char* content, int *success /* 0 for fail*/, char* reason, char* out);
+static void commandline(const char* command, const char* input, int* success, char* stdout, char* stderr);
 
 CodeZone::CodeZone(GtkWidget* window, StackZone* stackZone)
 {
@@ -85,14 +86,51 @@ GtkWidget* CodeZone::getRoot()
 
 static void compile(const char* content, int *success, char* reason, char* out)
 {
-    if (strcmp(content, "Code Zone") == 0)
-    {
-        *success = 1;
-        strcpy(out, "Wonderful");
-    }
-    else
+    commandline("python sample.py", content, success, out, reason);
+}
+
+static void commandline(const char* command, const char* input, int* success, char* out, char* err)
+{
+
+    // cat > /tmp/juzhen-CodeZone.tmp
+    char* tempFile = "/tmp/juzhen-CodeZone.tmp";
+    char catCommand[100];
+    strcpy(catCommand, "cat > ");
+    strcat(catCommand, tempFile);
+    FILE *fpCat = popen(catCommand, "w");
+    if (!fpCat)
     {
         *success = 0;
-        strcpy(reason, "Text in Code Zone should be 'Code Zone'");
+        strcpy(err, "cannot store content to ");
+        strcat(err, tempFile);
+        return;
     }
+    fputs(input, fpCat);
+    pclose(fpCat);
+
+    char realCommand[100];
+    strcpy(realCommand, "cat ");
+    strcat(realCommand, tempFile);
+    strcat(realCommand, " | ");
+    strcat(realCommand, command);
+    FILE *fp = popen(realCommand, "r");
+
+    if (!fp)
+    {
+        *success = 0;
+        strcpy(err, "cannot open: ");
+        strcat(err, command);
+        return;
+    }
+
+    char buff[1024];
+    while (memset(buff, 0, sizeof(buff)), fgets(buff, sizeof(buff) - 1, fp) != 0)
+    {
+        strcat(out, buff);
+    }
+    *success = 1;
+
+    // TODO the case when command return error
+
+    pclose(fp);
 }
