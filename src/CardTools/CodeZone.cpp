@@ -27,12 +27,30 @@ CodeZone::CodeZone(GtkWidget* window, StackZone* stackZone)
     GtkWidget* table;
     GtkWidget* button;
     GtkTextBuffer *buffer;
+    char* text = "sum = 0;\n"
+"count = 0;\n"
+"foreach_obj obj {\n"
+"    sum = sum + obj.getHealth();\n"
+"    count = count + 1;\n"
+"}\n"
+"\n"
+"average = sum / count;\n"
+"\n"
+"foreach_obj obj {\n"
+"    k = obj.getHealth();\n"
+"    if (k < average) {\n"
+"        obj.setHealth(k + 10);\n"
+"    }\n"
+"    else if (k > average){\n"
+"        obj.setHealth(k - 10);\n"
+"    }\n"
+"}\n";
 
     table = gtk_table_new(5, 5, TRUE);
     gtk_container_add(GTK_CONTAINER(mRoot), table);
 
     buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(mTextView));
-    gtk_text_buffer_set_text(buffer, "Code Zone", -1);
+    gtk_text_buffer_set_text(buffer, text, -1);
     gtk_table_attach_defaults(GTK_TABLE(table), mTextView, 0, 5, 0, 4);
 
     button = gtk_button_new_with_label("Compile");
@@ -86,7 +104,7 @@ GtkWidget* CodeZone::getRoot()
 
 static void compile(const char* content, int *success, char* reason, char* out)
 {
-    commandline("python sample.py", content, success, out, reason);
+    commandline("python3 ../../tools/CodeGenerator/buildInstructionCode.py", content, success, out, reason);
 }
 
 static void commandline(const char* command, const char* input, int* success, char* out, char* err)
