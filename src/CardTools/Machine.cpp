@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
     StackZone stackZone;
-    CodeZone codeZone(window);
+    CodeZone codeZone(window, &stackZone);
 
     GtkWidget* table = gtk_table_new(1, 2, TRUE);
     gtk_container_add(GTK_CONTAINER(window), table);

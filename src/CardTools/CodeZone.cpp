@@ -13,18 +13,20 @@ static void triggerOnCompile(GtkWidget* widget, CodeZone* codeZone)
     codeZone->onCompile();
 }
 
-CodeZone::CodeZone(GtkWidget* window)
+CodeZone::CodeZone(GtkWidget* window, StackZone* stackZone)
 {
+    mWindow = window;
+    mStackZone = stackZone;
+    mRoot = gtk_frame_new(nullptr);
+    mTextView = gtk_text_view_new();
+
     GtkWidget* table;
     GtkWidget* button;
     GtkTextBuffer *buffer;
 
-    mRoot = gtk_frame_new(nullptr);
-    mWindow = window;
     table = gtk_table_new(5, 5, TRUE);
     gtk_container_add(GTK_CONTAINER(mRoot), table);
 
-    mTextView = gtk_text_view_new();
     buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(mTextView));
     gtk_text_buffer_set_text(buffer, "Code Zone", -1);
     gtk_table_attach_defaults(GTK_TABLE(table), mTextView, 0, 5, 0, 4);
@@ -40,6 +42,7 @@ void CodeZone::onCompile()
     GtkTextBuffer *buffer;
     GtkTextIter start, end;
     char* content;
+    gint response;
 
     buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(mTextView));
     gtk_text_buffer_get_start_iter(buffer, &start);
@@ -47,14 +50,23 @@ void CodeZone::onCompile()
     content = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
 
     g_assert(mWindow);
-    dialog = gtk_message_dialog_new (GTK_WINDOW (mWindow),
-                                    GTK_DIALOG_MODAL,
-                                    GTK_MESSAGE_INFO,
-                                    GTK_BUTTONS_OK_CANCEL,
-                                    content
+    dialog = gtk_dialog_new_with_buttons (
+        "Copy content to StackZone ?",
+        GTK_WINDOW (mWindow),
+        GTK_DIALOG_MODAL,
+        _("_OK"),
+        GTK_RESPONSE_OK,
+        "_Cancel",
+        GTK_RESPONSE_CANCEL,
+        NULL
     );
+
     g_assert(dialog);
-    gtk_dialog_run(GTK_DIALOG(dialog));
+    response = gtk_dialog_run(GTK_DIALOG(dialog));
+    if (response == GTK_RESPONSE_OK)
+    {
+        mStackZone->update(content);
+    }
 
     gtk_widget_destroy(dialog);
     g_free(content);

@@ -18,3 +18,11 @@ GtkWidget* StackZone::getRoot()
 {
     return mRoot;
 }
+
+void StackZone::update(char* data)
+{
+    GtkTextBuffer *buffer;
+
+    buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(mTextView));
+    gtk_text_buffer_set_text(buffer, data, -1);
+}
