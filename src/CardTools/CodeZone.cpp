@@ -1,5 +1,6 @@
 #include <memory>
-#include <stdio.h>
+#include <stdlib.h>
+#include <cstring>
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
@@ -12,6 +13,8 @@ static void triggerOnCompile(GtkWidget* widget, CodeZone* codeZone)
 {
     codeZone->onCompile();
 }
+
+static void compile(const char* content, int *success /* 0 for fail*/, char* reason, char* out);
 
 CodeZone::CodeZone(GtkWidget* window, StackZone* stackZone)
 {
@@ -38,7 +41,6 @@ CodeZone::CodeZone(GtkWidget* window, StackZone* stackZone)
 
 void CodeZone::onCompile()
 {
-    GtkWidget *dialog;
     GtkTextBuffer *buffer;
     GtkTextIter start, end;
     char* content;
@@ -50,29 +52,47 @@ void CodeZone::onCompile()
     content = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
 
     g_assert(mWindow);
-    dialog = gtk_dialog_new_with_buttons (
-        "Copy content to StackZone ?",
-        GTK_WINDOW (mWindow),
-        GTK_DIALOG_MODAL,
-        _("_OK"),
-        GTK_RESPONSE_OK,
-        "_Cancel",
-        GTK_RESPONSE_CANCEL,
-        NULL
-    );
 
-    g_assert(dialog);
-    response = gtk_dialog_run(GTK_DIALOG(dialog));
-    if (response == GTK_RESPONSE_OK)
+    int success = 0;
+    char reason[100];
+    char out[1024 * 4];
+    compile(content, &success, reason, out);
+    if (success)
     {
-        mStackZone->update(content);
+        mStackZone->update(out);
+    }
+    else
+    {
+        GtkWidget *dialog;
+        dialog = gtk_message_dialog_new (
+            GTK_WINDOW (mWindow),
+            GTK_DIALOG_MODAL,
+            GTK_MESSAGE_INFO,
+            GTK_BUTTONS_OK_CANCEL,
+            reason
+        );
+        gtk_dialog_run(GTK_DIALOG(dialog));
+        gtk_widget_destroy(dialog);
     }
 
-    gtk_widget_destroy(dialog);
     g_free(content);
 }
 
 GtkWidget* CodeZone::getRoot()
 {
     return mRoot;
+}
+
+static void compile(const char* content, int *success, char* reason, char* out)
+{
+    if (strcmp(content, "Code Zone") == 0)
+    {
+        *success = 1;
+        strcpy(out, "Wonderful");
+    }
+    else
+    {
+        *success = 0;
+        strcpy(reason, "Text in Code Zone should be 'Code Zone'");
+    }
 }
