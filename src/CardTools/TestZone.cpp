@@ -3,6 +3,8 @@
 #include "TestZone.h"
 #include "Utils.h"
 
+#include "stdio.h"
+
 using namespace CardTools;
 
 static void onAddClick(GtkWidget* view, TestZone* testZone);
@@ -44,14 +46,21 @@ TestZone::TestZone()
 
 void TestZone::addSample(int health, int attach)
 {
+    if (health < 0 || attach < 0)
+    {
+        return;
+    }
+    printf("Add Sample %d %d\n", health, attach);
 }
 
 void TestZone::setInstruction()
 {
+    printf("setInstruction\n");
 }
 
 void TestZone::runTest()
 {
+    printf("runTest\n");
 }
 
 GtkWidget* TestZone::getRoot()
@@ -61,13 +70,11 @@ GtkWidget* TestZone::getRoot()
 
 static void onAddClick(GtkWidget* view, TestZone* testZone)
 {
-    char* healthStr = Utils::getContent(testZone->mHealthText);
-    char* attachStr = Utils::getContent(testZone->mAttachText);
+    const char* healthStr = Utils::getEntryContent(testZone->mHealthText);
+    const char* attachStr = Utils::getEntryContent(testZone->mAttachText);
     int healthInt = Utils::str2int(healthStr);
     int attachInt = Utils::str2int(attachStr);
     testZone->addSample(healthInt, attachInt);
-    g_free(healthStr);
-    g_free(attachStr);
 }
 
 static void onRunClick(GtkWidget* view, TestZone* testZone)

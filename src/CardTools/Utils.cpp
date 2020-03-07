@@ -3,7 +3,7 @@
 
 #include "Utils.h"
 
-char* Utils::getContent(GtkWidget* textView)
+char* Utils::getTextViewContent(GtkWidget* textView)
 {
     GtkTextBuffer *buffer;
     GtkTextIter start, end;
@@ -17,7 +17,18 @@ char* Utils::getContent(GtkWidget* textView)
     return content;
 }
 
+const char* Utils::getEntryContent(GtkWidget* entry)
+{
+    GtkEntryBuffer *buffer;
+    buffer = gtk_entry_get_buffer(GTK_ENTRY(entry));
+    return gtk_entry_buffer_get_text(buffer);
+}
+
 int Utils::str2int(const char* str)
 {
-    return std::stoi(str);
+    try {
+        return std::stoi(str);
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
