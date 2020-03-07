@@ -3,6 +3,7 @@
 
 #include "CodeZone.h"
 #include "StackZone.h"
+#include "TestZone.h"
 
 using namespace CardTools;
 
@@ -18,13 +19,15 @@ int main(int argc, char *argv[])
 
     g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
+    TestZone testZone;
     StackZone stackZone;
     CodeZone codeZone(window, &stackZone);
 
-    GtkWidget* table = gtk_table_new(1, 2, TRUE);
+    GtkWidget* table = gtk_table_new(1, 3, TRUE);
     gtk_container_add(GTK_CONTAINER(window), table);
     gtk_table_attach_defaults(GTK_TABLE(table), codeZone.getRoot(), 0, 1, 0, 1);
     gtk_table_attach_defaults(GTK_TABLE(table), stackZone.getRoot(), 1, 2, 0, 1);
+    gtk_table_attach_defaults(GTK_TABLE(table), testZone.getRoot(), 2, 3, 0, 1);
 
     gtk_widget_show_all(window);
 

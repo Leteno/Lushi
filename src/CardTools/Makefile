@@ -3,7 +3,7 @@ include ../Makefile.common
 
 MACHINE_OBJ_DEPS=
 
-OBJS = Machine.o CodeZone.o StackZone.o
+OBJS = Machine.o CodeZone.o StackZone.o TestZone.o Utils.o
 
 CardTools: machine codeGen CardToolsGUI
 
