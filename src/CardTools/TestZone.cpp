@@ -18,33 +18,33 @@ TestZone::TestZone()
     mRoot = gtk_table_new(4, 4, TRUE);
     mTestList = gtk_vbox_new(FALSE, 10);
     //gtk_widget_set_vexpand(mTestList, TRUE);
-    gtk_table_attach_defaults(GTK_TABLE(mRoot), mTestList, 3, 4, 0, 4);
+    gtk_table_attach_defaults(GTK_TABLE(mRoot), mTestList, 2, 4, 0, 4);
 
     GtkWidget *table;
     GtkWidget *labelHealth, *textHealth;
     GtkWidget *labelAttach, *textAttach;
     GtkWidget *buttonAdd, *buttonRun;
 
-    table = gtk_table_new(6, 6, TRUE);
-    gtk_table_attach_defaults(GTK_TABLE(mRoot), table, 0, 3, 0, 4);
+    table = gtk_table_new(12, 12, TRUE);
+    gtk_table_attach_defaults(GTK_TABLE(mRoot), table, 0, 2, 0, 4);
 
     labelHealth = gtk_label_new_with_mnemonic("Health: ");
     mHealthText = gtk_entry_new();
-    gtk_table_attach_defaults(GTK_TABLE(table), labelHealth, 1, 3, 1, 2);
-    gtk_table_attach_defaults(GTK_TABLE(table), mHealthText, 3, 4, 1, 2);
+    gtk_table_attach_defaults(GTK_TABLE(table), labelHealth, 0, 4, 1, 4);
+    gtk_table_attach_defaults(GTK_TABLE(table), mHealthText, 5, 8, 1, 4);
 
     labelAttach = gtk_label_new_with_mnemonic("Attach: ");
     mAttachText = gtk_entry_new();
-    gtk_table_attach_defaults(GTK_TABLE(table), labelAttach, 1, 3, 2, 3);
-    gtk_table_attach_defaults(GTK_TABLE(table), mAttachText, 3, 4, 2, 3);
+    gtk_table_attach_defaults(GTK_TABLE(table), labelAttach, 0, 4, 4, 5);
+    gtk_table_attach_defaults(GTK_TABLE(table), mAttachText, 5, 8, 4, 5);
 
     buttonAdd = gtk_button_new_with_label("Add");
     g_signal_connect(buttonAdd, "clicked", G_CALLBACK(onAddClick), this);
-    gtk_table_attach_defaults(GTK_TABLE(table), buttonAdd, 3, 4, 3, 4);
+    gtk_table_attach_defaults(GTK_TABLE(table), buttonAdd, 1, 8, 6, 7);
 
     buttonRun = gtk_button_new_with_label("Run");
     g_signal_connect(buttonRun, "clicked", G_CALLBACK(onRunClick), this);
-    gtk_table_attach_defaults(GTK_TABLE(table), buttonRun, 3, 4, 4, 5);
+    gtk_table_attach_defaults(GTK_TABLE(table), buttonRun, 1, 8, 7, 8);
 }
 
 void TestZone::addSample(int health, int attack)
