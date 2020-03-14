@@ -5,6 +5,9 @@
 
 #include "stdio.h"
 
+#include "TesterData.h"
+#include "TesterItem.h"
+
 using namespace CardTools;
 
 static void onAddClick(GtkWidget* view, TestZone* testZone);
@@ -13,7 +16,7 @@ static void onRunClick(GtkWidget* view, TestZone* testZone);
 TestZone::TestZone()
 {
     mRoot = gtk_table_new(4, 4, TRUE);
-    mTestList = gtk_scrolled_window_new(NULL, NULL);
+    mTestList = gtk_vbox_new(FALSE, 10);
     //gtk_widget_set_vexpand(mTestList, TRUE);
     gtk_table_attach_defaults(GTK_TABLE(mRoot), mTestList, 3, 4, 0, 4);
 
@@ -44,13 +47,17 @@ TestZone::TestZone()
     gtk_table_attach_defaults(GTK_TABLE(table), buttonRun, 3, 4, 4, 5);
 }
 
-void TestZone::addSample(int health, int attach)
+void TestZone::addSample(int health, int attack)
 {
-    if (health < 0 || attach < 0)
+    if (health < 0 || attack < 0)
     {
         return;
     }
-    printf("Add Sample %d %d\n", health, attach);
+    printf("Add Sample %d %d\n", health, attack);
+    auto data = new TesterData(health, attack);
+    auto item = new TesterItem(data);
+    gtk_box_pack_start(GTK_BOX(mTestList), item->getView(), FALSE, FALSE, 0);
+    gtk_widget_show_all(mTestList);
 }
 
 void TestZone::setInstruction()
