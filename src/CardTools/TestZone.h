@@ -1,6 +1,9 @@
 #pragma once
 
 #include <gtk/gtk.h>
+#include <list>
+
+#include "TesterItem.h"
 
 namespace CardTools {
     class TestZone {
@@ -13,6 +16,7 @@ namespace CardTools {
         GtkWidget* mHealthText;
         GtkWidget* mAttachText;
     private:
+        std::list<TesterItem*> mTesterItemList;
         GtkWidget* mRoot;
         GtkWidget* mTestList;
     };

@@ -58,6 +58,7 @@ void TestZone::addSample(int health, int attack)
     auto item = new TesterItem(data);
     gtk_box_pack_start(GTK_BOX(mTestList), item->getView(), FALSE, FALSE, 0);
     gtk_widget_show_all(mTestList);
+    mTesterItemList.push_back(item);
 }
 
 void TestZone::setInstruction()
@@ -68,6 +69,14 @@ void TestZone::setInstruction()
 void TestZone::runTest()
 {
     printf("runTest\n");
+    for (auto it = mTesterItemList.begin();
+        it != mTesterItemList.end();
+        ++it)
+    {
+        auto item = *it;
+        item->quickTest();
+        item->update();
+    }
 }
 
 GtkWidget* TestZone::getRoot()

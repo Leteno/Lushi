@@ -31,3 +31,9 @@ void TesterItem::update()
     sprintf(buffer, "Attack: %d", mData->mAttack);
     gtk_label_set_text(GTK_LABEL(mLabelAttack), buffer);
 }
+
+void TesterItem::quickTest()
+{
+    mData->mHealth += 1;
+    mData->mAttack += 2;
+}

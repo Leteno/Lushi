@@ -10,6 +10,7 @@ namespace CardTools {
         TesterItem(TesterData* data);
         GtkWidget* getView();
         void update();
+        void quickTest();
     private:
         TesterData*  mData;
         GtkWidget* mRoot;
