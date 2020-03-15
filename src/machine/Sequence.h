@@ -100,6 +100,8 @@ public:
 
     static int* writeCode(int* p_dest, Code code);
     static int* writeValue(int* p_dest, Value value);
+    static Sequence::Instruction buildInstruction(Sequence::Code code,
+        Sequence::Value::Type valType, int val);
 
 private:
     const int* readCode(const int* p_seq, Code* codeRet);

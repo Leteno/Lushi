@@ -77,3 +77,13 @@ int* Sequence::writeValue(int* p_dest, Value value)
     }
     return result;
 }
+
+Sequence::Instruction Sequence::buildInstruction(Sequence::Code code,
+    Sequence::Value::Type valType, int val)
+{
+    Sequence::Instruction inst;
+    inst.code = code;
+    inst.value.type = valType;
+    inst.value.intVal = val;
+    return inst;
+}
