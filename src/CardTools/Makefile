@@ -3,18 +3,23 @@ include ../Makefile.common
 
 MACHINE_OBJ_DEPS=
 
-OBJS = Machine.o CodeZone.o StackZone.o TestZone.o Utils.o TesterItem.o TesterData.o
+MAIN_OBJ = Main.o
+
+OBJS = CodeZone.o StackZone.o TestZone.o Utils.o TesterItem.o TesterData.o
 
 EXTERNAL_OBJS = ../machine/Sequence.o ../misc/StringSeperator.o
 
 CardTools: machine codeGen CardToolsGUI
 
-machine: $(OBJS) external
-	$(CC) $(OBJS) $(EXTERNAL_OBJS) -o machine $(CFLAGS) `pkg-config --cflags --libs gtk+-2.0`
+machine: $(MAIN_OBJ) $(OBJS) external
+	$(CC) $(MAIN_OBJ) $(OBJS) $(EXTERNAL_OBJS) -o machine $(CFLAGS) `pkg-config --cflags --libs gtk+-2.0`
 
 external:
 	make -C ../misc/ test
 	make -C ../machine/ test
+
+$(MAIN_OBJ) : %.o : %.cpp
+	$(CC) -c $< -o $@ $(CFLAGS) `pkg-config --cflags --libs gtk+-2.0`
 
 $(OBJS) : %.o : %.cpp %.h
 	$(CC) -c $< -o $@ $(CFLAGS) `pkg-config --cflags --libs gtk+-2.0`
