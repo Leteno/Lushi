@@ -10,13 +10,15 @@
 #include "State.h"
 #include "TestMachine.h"
 
+using namespace machine;
+
 UT::Report testMath();
 UT::Report testLogic();
 UT::Report testPushAndPop();
 UT::Report testJump();
 UT::Report testLoadAndStore();
 
-UT::Report testMachine()
+UT::Report machine::testMachine()
 {
     UT::Report report;
     report.mergeReport(testMath());
@@ -475,7 +477,7 @@ UT::Report testStoreInternal(int a, int b)
     return report;
 }
 
-Sequence::Instruction buildInstruction(Sequence::Code code,
+Sequence::Instruction machine::buildInstruction(Sequence::Code code,
     Sequence::Value::Type valType, int val)
 {
     Sequence::Instruction inst;

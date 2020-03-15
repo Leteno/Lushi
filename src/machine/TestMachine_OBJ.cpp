@@ -10,6 +10,8 @@
 #include "TestMachine.h"
 #include "TestMachine_OBJ.h"
 
+using namespace machine;
+
 UT::Report testTravalGameObject();
 UT::Report testBuffAll();
 UT::Report testMachineObjectAttack();

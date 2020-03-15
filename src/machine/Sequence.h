@@ -2,6 +2,8 @@
 
 #include <list>
 
+namespace machine {
+
 class Sequence
 {
 public:
@@ -107,3 +109,5 @@ private:
     const int* readCode(const int* p_seq, Code* codeRet);
     const int* readValue(const int* p_seq, Code code, Value* valRet);
 };
+
+}

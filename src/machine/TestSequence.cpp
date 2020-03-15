@@ -5,6 +5,8 @@
 #include "Sequence.h"
 #include "../unit_test/UT.h"
 
+using namespace machine;
+
 UT::Report testSequenceAcceptType();
 UT::Report testSequenceRead();
 

@@ -3,6 +3,8 @@
 
 #include "State.h"
 
+using namespace machine;
+
 void State::reset()
 {
     m_InstructionIt = m_InstructionList.begin();

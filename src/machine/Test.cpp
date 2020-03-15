@@ -6,6 +6,8 @@
 #include "TestMachine_OBJ.h"
 #include "TestSequence.h"
 
+using namespace machine;
+
 int main()
 {
     UT::Report report;

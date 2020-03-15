@@ -5,6 +5,8 @@
 
 #include "Sequence.h"
 
+using namespace machine;
+
 std::list<Sequence::Instruction> Sequence::getSequence()
 {
     std::list<Sequence::Instruction> result;

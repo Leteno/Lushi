@@ -5,6 +5,8 @@
 #include "Sequence.h"
 #include "State.h"
 
+using namespace machine;
+
 bool Machine::executeOneInstruction(State* state)
 {
     assert(state);

@@ -5,6 +5,8 @@
 #include "Sequence.h"
 #include "../base/GameObject.h"
 
+namespace machine {
+
 class State
 {
 public:
@@ -28,3 +30,5 @@ public:
     GameObject *m_CurrentGameObject;
     std::list<int> m_LocalVariables;
 };
+
+}

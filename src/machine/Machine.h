@@ -2,6 +2,8 @@
 
 #include "State.h"
 
+namespace machine {
+
 class Machine
 {
 public:
@@ -30,3 +32,5 @@ private:
     bool getObjAttack(State* state);
     bool setObjAttack(State* state, Sequence::Value value);
 };
+
+}
