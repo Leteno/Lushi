@@ -125,7 +125,7 @@ bool Machine::logicCalculate(State* state, Sequence::Code code)
             pass = a <= b;
             break;
     }
-    state->m_LocalVariables.push_back(pass ? TRUE : FALSE);
+    state->m_LocalVariables.push_back(pass ? M_TRUE : M_FALSE);
     state->m_InstructionIt++;
     return true;
 }
@@ -141,7 +141,7 @@ bool Machine::jump_if_false(State* state, Sequence::Value value)
     assert(state->m_LocalVariables.size());
     int val = state->m_LocalVariables.back();
     state->m_LocalVariables.pop_back();
-    if (val == Machine::FALSE)
+    if (val == Machine::M_FALSE)
     {
         assert(value.type == Sequence::Value::INT);
         return state->movePCPointer(value.intVal);
@@ -207,7 +207,7 @@ bool Machine::store(State* state, Sequence::Value value)
 bool Machine::meetEndObj(State* state)
 {
     bool meetEnd = state->gameObjectMeetEnd();
-    state->m_LocalVariables.push_back(meetEnd ? TRUE : FALSE);
+    state->m_LocalVariables.push_back(meetEnd ? M_TRUE : M_FALSE);
     state->m_InstructionIt++;
     return true;
 }

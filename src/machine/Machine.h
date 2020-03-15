@@ -8,8 +8,8 @@ class Machine
 {
 public:
     enum BOOL {
-        TRUE = 1,
-        FALSE = 0,
+        M_TRUE = 1,
+        M_FALSE = 0,
     };
     bool executeOneInstruction(State* state);
 private:
