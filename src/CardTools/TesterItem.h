@@ -2,6 +2,7 @@
 
 #include <gtk/gtk.h>
 
+#include "../base/GameObject.h"
 #include "TesterData.h"
 
 namespace CardTools {
@@ -11,6 +12,8 @@ namespace CardTools {
         GtkWidget* getView();
         void update();
         void quickTest();
+        void toGameObject(GameObject* obj);
+        void applyFrom(GameObject obj);
     private:
         TesterData*  mData;
         GtkWidget* mRoot;

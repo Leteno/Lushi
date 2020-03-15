@@ -7,6 +7,8 @@
 
 #include "TesterItem.h"
 
+using namespace machine;
+
 namespace CardTools {
     class TestZone {
     public:

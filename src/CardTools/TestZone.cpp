@@ -1,5 +1,8 @@
 #include <gtk/gtk.h>
 
+#include "../base/GameObject.h"
+#include "../machine/Machine.h"
+
 #include "TestZone.h"
 #include "Utils.h"
 
@@ -9,6 +12,7 @@
 #include "TesterItem.h"
 
 using namespace CardTools;
+using namespace machine;
 
 static void onAddClick(GtkWidget* view, TestZone* testZone);
 static void onRunClick(GtkWidget* view, TestZone* testZone);
@@ -70,13 +74,43 @@ void TestZone::setInstruction(std::list<Sequence::Instruction> iList)
 void TestZone::runTest()
 {
     printf("runTest\n");
+
+    // prepare GameObjects
+    std::list<GameObject*> gList;
     for (auto it = mTesterItemList.begin();
         it != mTesterItemList.end();
         ++it)
     {
         auto item = *it;
-        item->quickTest();
-        item->update();
+        GameObject* obj = new GameObject(0, 0);
+        g_assert(obj);
+        item->toGameObject(obj);
+        gList.push_back(obj);
+    }
+
+    // run test
+    State state(mInstList, gList);
+    Machine machine;
+    while(machine.executeOneInstruction(&state));
+
+    // apply glist changes back to itemList
+    g_assert(gList.size() == mTesterItemList.size());
+    auto gIt = gList.begin();
+    auto mIt = mTesterItemList.begin();
+    for (;
+        gIt != gList.end() && mIt != mTesterItemList.end();
+        ++gIt, ++mIt)
+    {
+        auto pItem = *mIt;
+        auto pGObj = *gIt;
+        pItem->applyFrom(*pGObj);
+        pItem->update();
+    }
+
+    // free memory
+    for (auto obj : gList)
+    {
+        delete obj;
     }
 }
 

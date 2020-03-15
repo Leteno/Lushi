@@ -37,3 +37,15 @@ void TesterItem::quickTest()
     mData->mHealth += 1;
     mData->mAttack += 2;
 }
+
+void TesterItem::toGameObject(GameObject *obj)
+{
+    obj->setHealth(mData->mHealth);
+    obj->setAttack(mData->mAttack);
+}
+
+void TesterItem::applyFrom(GameObject obj)
+{
+    mData->mHealth = obj.getHealth();
+    mData->mAttack = obj.getAttack();
+}
