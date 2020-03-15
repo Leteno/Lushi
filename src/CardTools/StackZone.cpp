@@ -11,6 +11,7 @@
 #include "../misc/StringSeperator.h"
 
 using namespace CardTools;
+using namespace machine;
 
 static std::list<Sequence::Instruction> getSequenceInstruction(char *ch);
 
