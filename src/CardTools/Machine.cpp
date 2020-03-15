@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
     TestZone testZone;
-    StackZone stackZone;
+    StackZone stackZone(&testZone);
     CodeZone codeZone(window, &stackZone);
 
     GtkWidget* table = gtk_table_new(1, 3, TRUE);

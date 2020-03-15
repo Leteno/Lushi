@@ -4,6 +4,7 @@
 #include <string>
 
 #include "StackZone.h"
+#include "TestZone.h"
 #include "Utils.h"
 
 #include "../machine/Sequence.h"
@@ -11,9 +12,10 @@
 
 using namespace CardTools;
 
-static void getSequenceInstruction(char *ch);
+static std::list<Sequence::Instruction> getSequenceInstruction(char *ch);
 
-StackZone::StackZone()
+StackZone::StackZone(TestZone *testZone)
+    : mTestZone(testZone)
 {
     mRoot = gtk_frame_new(nullptr);
     gtk_widget_set_size_request(mRoot, 200, 200);
@@ -36,10 +38,10 @@ void StackZone::update(char* data)
 
     buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(mTextView));
     gtk_text_buffer_set_text(buffer, data, -1);
-    getSequenceInstruction(data);
+    mTestZone->setInstruction(getSequenceInstruction(data));
 }
 
-static void getSequenceInstruction(char *ch)
+static std::list<Sequence::Instruction> getSequenceInstruction(char *ch)
 {
     std::map<std::string, Sequence::Code> seqMap = {
         { "SAY", Sequence::Code::SAY },
@@ -117,4 +119,5 @@ static void getSequenceInstruction(char *ch)
         ));
         std::cout << "record: " << code << " " << -1 << std::endl;
     }
+    return instList;
 }

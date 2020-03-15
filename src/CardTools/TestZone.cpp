@@ -61,9 +61,10 @@ void TestZone::addSample(int health, int attack)
     mTesterItemList.push_back(item);
 }
 
-void TestZone::setInstruction()
+void TestZone::setInstruction(std::list<Sequence::Instruction> iList)
 {
     printf("setInstruction\n");
+    mInstList = iList;
 }
 
 void TestZone::runTest()
