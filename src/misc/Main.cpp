@@ -15,5 +15,9 @@ int main()
     {
         std::cout << result.toString() << std::endl;
     }
+    else
+    {
+        std::cout << "Pass!" << std::endl;
+    }
     return result.totalPass() ? 0 : 1;
 }
