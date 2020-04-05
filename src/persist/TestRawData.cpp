@@ -30,6 +30,7 @@ UT::Report persist::testRawData()
     report.addTest(Test::assertEquals(text, dupText));
     report.addTest(Test::assertEquals(age, dupAge));
     report.addTest(Test::assertEquals(score, dupScore));
+    report.addTest(Test::assertTrue(raw.meetEnd()));
 
     // test toString and RawData(string)
     RawData dupRawData(raw.toString());
@@ -43,6 +44,7 @@ UT::Report persist::testRawData()
     report.addTest(Test::assertEquals(text, dupText2));
     report.addTest(Test::assertEquals(age, dupAge2));
     report.addTest(Test::assertEquals(score, dupScore2));
+    report.addTest(Test::assertTrue(dupRawData.meetEnd()));
 
     return report;
 }

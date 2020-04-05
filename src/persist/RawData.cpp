@@ -51,6 +51,11 @@ void RawData::write(void* in, int sizeOfElement, int size)
     mWriteOffset += writeSize;
 }
 
+bool RawData::meetEnd()
+{
+    return mWriteOffset == mReadOffset;
+}
+
 std::string RawData::toString()
 {
     return std::string(mData, mWriteOffset + 1);

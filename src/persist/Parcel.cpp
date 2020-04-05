@@ -78,4 +78,4 @@ string Parcel::readString()
 
 string Parcel::toString() { return mData.toString(); }
 
-bool Parcel::meetEnd() { return false; }
+bool Parcel::meetEnd() { return mData.meetEnd(); }
