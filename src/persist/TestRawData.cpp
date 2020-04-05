@@ -20,7 +20,7 @@ UT::Report persist::testRawData()
     raw.write(&score, sizeof(double), 1);
 
     // test read
-    char dupText[1024];
+    char dupText[1024]; memset(dupText, 0, 1024);
     int dupAge = 0;
     double dupScore = 0;
     raw.read(dupText, sizeof(char), strlen(text));
@@ -33,7 +33,7 @@ UT::Report persist::testRawData()
 
     // test toString and RawData(string)
     RawData dupRawData(raw.toString());
-    char dupText2[1024];
+    char dupText2[1024]; memset(dupText2, 0, 1024);
     int dupAge2 = 0;
     double dupScore2 = 0;
     dupRawData.read(dupText2, sizeof(char), strlen(text));
