@@ -58,7 +58,7 @@ bool RawData::meetEnd()
 
 std::string RawData::toString()
 {
-    return std::string(mData, mWriteOffset + 1);
+    return std::string(mData, mWriteOffset);
 }
 
 void strncpy(char* dest, char* source, int size)
