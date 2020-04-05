@@ -4,7 +4,7 @@ include ../Makefile.common
 EXTERNAL_OBJS = ../unit_test/UT.o
 
 OBJS = Parcel.o Parcellable.o RawData.o
-T_OBJS = TestParcellable.o
+T_OBJS = TestParcellable.o TestRawData.o
 
 test: build_test
 	./test
