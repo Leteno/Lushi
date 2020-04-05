@@ -9,7 +9,9 @@ namespace persist {
         void read(void* out, int sizeOfElement, int size);
         void write(void* in, int sizeOfElement, int size);
         std::string toString();
+        ~RawData();
     private:
         char* mData;
+        int mCapacity, mWriteOffset, mReadOffset;
     };
 }
