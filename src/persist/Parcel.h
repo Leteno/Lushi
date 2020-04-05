@@ -28,6 +28,6 @@ namespace persist {
         bool meetEnd();
 
     private:
-        RawData data;
+        RawData mData;
     };
 }
