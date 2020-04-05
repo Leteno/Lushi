@@ -30,7 +30,6 @@ RawData::~RawData()
 
 void RawData::read(void* out, int sizeOfElement, int size)
 {
-    printf("read mReadOffset %d, mWriteOffset %d\n", mReadOffset, mWriteOffset);
     assert(mReadOffset < mWriteOffset);
 
     int retriveSize = sizeOfElement * size;
