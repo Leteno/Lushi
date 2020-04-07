@@ -71,7 +71,7 @@ string Parcel::readString()
     mData.read(&size, sizeof(int), 1);
     char* data = new char[size];
     mData.read(data, sizeof(char), size);
-    std::string out(data);
+    std::string out(data, size);
     delete data;
     return out;
 }
