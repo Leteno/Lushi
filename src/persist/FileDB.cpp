@@ -1,6 +1,6 @@
 
+#include "malloc.h"
 #include <stdio.h>
-#include <sstream>
 
 #include "FileDB.h"
 
@@ -28,20 +28,44 @@ std::string FileDB::readFromFile(std::string name, int *retCode)
         *retCode = -1;
         return "";
     }
-    std::stringstream ss;
 
-    const int BUF_SIZE = 16;
-    char buffer[BUF_SIZE];
-    int read = 0;
-    while((read = fread(buffer, sizeof(char), BUF_SIZE, fd)) != 0)
+    int current_size = 1024;
+    char *buffer = (char*) malloc(current_size * sizeof(char));
+    if (!buffer)
     {
-        if (read < BUF_SIZE)
-            ss << std::string(buffer, read);
-        else
-            ss << buffer;
+        *retCode = -2;
+        return "";
+    }
+    int read_size = 16;
+    int used_size = 0;
+    int read = 0;
+    while((read = fread(buffer + used_size, sizeof(char), read_size, fd)) != 0)
+    {
+        used_size += read;
+        if (read < read_size)
+        {
+            // this is finish.
+            break;
+        }
+        if (current_size < used_size + read_size)
+        {
+            // not enough space for next fread
+            char *old = buffer;
+            char *newBuffer = (char*) realloc(old, current_size * 2 * sizeof(char));
+            if (!newBuffer)
+            {
+                free(buffer);
+                *retCode = -3;
+                return "";
+            }
+            buffer = newBuffer;
+        }
     }
 
+    std::string result(buffer, 0, used_size);
+
+    free(buffer);
     fclose(fd);
 
-    return ss.str();
+    return result;
 }
