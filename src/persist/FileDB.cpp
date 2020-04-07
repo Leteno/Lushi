@@ -62,7 +62,7 @@ std::string FileDB::readFromFile(std::string name, int *retCode)
         }
     }
 
-    std::string result(buffer, 0, used_size);
+    std::string result(buffer, used_size);
 
     free(buffer);
     fclose(fd);
