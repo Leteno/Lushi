@@ -3,8 +3,8 @@ include ../Makefile.common
 
 EXTERNAL_OBJS = ../unit_test/UT.o
 
-OBJS = Parcel.o Parcellable.o RawData.o
-T_OBJS = TestParcellable.o TestRawData.o
+OBJS = Parcel.o Parcellable.o RawData.o FileDB.o
+T_OBJS = TestParcellable.o TestRawData.o TestFileDB.o
 
 test: build_test
 	./test
