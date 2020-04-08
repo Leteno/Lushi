@@ -7,6 +7,7 @@ namespace persist {
     public:
         Parcellable();
         virtual void writeToParcel(Parcel*);
+        virtual void readFromParcel(Parcel*);
         virtual ~Parcellable();
     };
 }

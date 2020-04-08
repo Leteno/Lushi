@@ -11,8 +11,9 @@ namespace persist {
 
     class TestParcellableChild : Parcellable {
     public:
+        TestParcellableChild();
         TestParcellableChild(int a, int b);
-        TestParcellableChild(Parcel*);
+        void readFromParcel(Parcel*);
         void writeToParcel(Parcel*);
         int a;
         int b;
@@ -20,8 +21,9 @@ namespace persist {
 
     class TestParcellable : Parcellable {
     public:
+        TestParcellable();
         TestParcellable(int i, double d, std::string s, TestParcellableChild tc, int i2);
-        TestParcellable(Parcel*);
+        void readFromParcel(Parcel*);
         void writeToParcel(Parcel*);
         int i;
         double d;

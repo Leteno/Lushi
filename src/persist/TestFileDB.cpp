@@ -56,7 +56,8 @@ UT::Report testWithParcel()
     report.addTest(UT::Test::assertFalse(decode.meetEnd()));
     if (!decode.meetEnd())
     {
-        TestParcellable newItem(&decode);
+        TestParcellable newItem;
+        newItem.readFromParcel(&decode);
         report.addTest(UT::Test::assertEquals(1, newItem.i));
         report.addTest(UT::Test::assertEquals(2.0, newItem.d));
         report.addTest(UT::Test::assertEquals("Hello", newItem.s));
