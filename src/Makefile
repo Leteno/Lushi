@@ -1,5 +1,5 @@
 
-PATHS = unit_test/ base/ machine/ misc/
+PATHS = unit_test/ base/ machine/ misc/ persist
 
 all:
 	@echo Hello world
