@@ -7,6 +7,12 @@ Card::Card() {}
 
 Card::~Card() {}
 
-void Card::readFromParcel(Parcel* parcel) {}
+void Card::readFromParcel(Parcel* parcel)
+{
+    this->name = parcel->readString();
+}
 
-void Card::writeToParcel(Parcel* parcel) {}
+void Card::writeToParcel(Parcel* parcel)
+{
+    parcel->writeString(this->name);
+}
