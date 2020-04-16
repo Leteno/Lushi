@@ -27,7 +27,7 @@ UT::Report testCard_BasicReadWrite()
     card.writeToParcel(&parcel);
 
     Card another;
-    card.readFromParcel(&parcel);
+    another.readFromParcel(&parcel);
     report.addTest(UT::Test::assertTrue(parcel.meetEnd()));
     report.addTest(UT::Test::assertEquals(another.name, "juzhen"));
 
