@@ -18,6 +18,8 @@ namespace card {
         void writeToParcel(Parcel*);
 
         void addCard(Card card);
+        Card get(int index);
+        int count();
     private:
         std::list<Card> cards;
     };
