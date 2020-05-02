@@ -29,7 +29,7 @@ void CardEffect::readFromParcel(Parcel* parcel)
             break;
         case Sequence::Value::STRING:
             instruction.value.type = Sequence::Value::STRING;
-            instruction.value.stringVal = const_cast<char*>(parcel->readString().c_str());
+            instruction.value.stringVal = parcel->readString();
             break;
         case Sequence::Value::NONE:
             instruction.value.type = Sequence::Value::NONE;
@@ -58,7 +58,7 @@ void CardEffect::writeToParcel(Parcel* parcel)
             parcel->writeInt(it->value.intVal);
             break;
         case Sequence::Value::STRING:
-            parcel->writeString(std::string(it->value.stringVal));
+            parcel->writeString(it->value.stringVal);
             break;
         case Sequence::Value::NONE:
             break;

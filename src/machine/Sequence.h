@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <string>
 
 namespace machine {
 
@@ -74,10 +75,8 @@ public:
             INT = 1,
             STRING = 2,
         } type;
-        union {
-            int intVal;
-            char* stringVal;
-        };
+        int intVal;
+        std::string stringVal;
     };
 
     struct Instruction

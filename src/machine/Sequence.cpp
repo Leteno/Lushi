@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <list>
+#include <string>
 #include "stdlib.h"
 #include "string.h"
 
@@ -46,11 +47,9 @@ const int* Sequence::readValue(const int* p_seq, Code code, Sequence::Value* val
             valRet->intVal = *result; ++result;
             break;
         case Value::Type::STRING:
-            int len = strlen((char*) result);
-            valRet->stringVal = (char*) malloc(sizeof(char) * len);
-            memcpy(valRet->stringVal, result, len);
-            valRet->stringVal[len] = '\0';
-            result += len * sizeof(char) / sizeof(int) + 1;
+            int len = *result; ++result;
+            valRet->stringVal = std::string((const char*)result, len);
+            result += len * sizeof(char) / sizeof(int);
             break;
     }
     return result;
@@ -69,12 +68,11 @@ int* Sequence::writeValue(int* p_dest, Value value)
             *result = value.intVal; ++result;
             break;
         case Value::Type::STRING:
-            int len = strlen(value.stringVal);
+            int len = value.stringVal.size();
+            *result = len; ++result;
             char* writeInChar = (char*)result;
-            memcpy(writeInChar, value.stringVal, len);
-            writeInChar[len] = '\0';
-            int cpyLenInInt = len * sizeof(char) / sizeof(int) + 1;
-            result += cpyLenInInt;
+            memcpy(writeInChar, value.stringVal.c_str(), len);
+            result += len;
             break;
     }
     return result;
