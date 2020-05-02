@@ -3,8 +3,8 @@ include ../Makefile.common
 
 EXTERNAL_OBJS = ../unit_test/UT.o ../persist/Parcellable.o ../persist/Parcel.o ../persist/RawData.o
 
-OBJS = Card.o CardPool.o
-T_OBJS = TestCard.o TestCardPool.o
+OBJS = Card.o CardPool.o CardEffect.o
+T_OBJS = TestCard.o TestCardPool.o TestCardEffect.o
 
 test: build_test
 	./test
