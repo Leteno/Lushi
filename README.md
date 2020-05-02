@@ -24,4 +24,4 @@ make clean && make
 ./machine
 ```
 
-![](CardTools.png "CardTools")
+![](CardTools.jpg "CardTools")
