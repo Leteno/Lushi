@@ -3,6 +3,8 @@
 #include "../persist/Parcel.h"
 #include "../persist/Parcellable.h"
 
+#include "CardEffect.h"
+
 using namespace persist;
 
 namespace card {
@@ -14,5 +16,6 @@ namespace card {
         void writeToParcel(Parcel*);
 
         std::string name;
+        CardEffect cardEffect;
     };
 }
