@@ -68,7 +68,7 @@ UT::Report testCard_BasicReadWrite()
         ));
         report.addTest(UT::Test::assertEquals(
             firstInstruction.value.stringVal,
-            "Love your, Leslie"
+            "Love you, Leslie"
         ));
         report.addTest(UT::Test::assertEquals(
             secondInstruction.code,
