@@ -8,77 +8,54 @@
 
 using namespace machine;
 
-std::list<Sequence::Instruction> Sequence::getSequence()
+
+Sequence::Instruction::Instruction() {}
+Sequence::Instruction::~Instruction() {}
+
+void Sequence::Instruction::readFromParcel(Parcel* parcel)
 {
-    std::list<Sequence::Instruction> result;
-    const int* p = m_Sequence;
-    while (*p)
+    code = Code(parcel->readInt());
+    int type = parcel->readInt();
+    switch(type)
     {
-        Sequence::Instruction inst;
-        p = readCode(p, &(inst.code));
-        p = readValue(p, inst.code, &(inst.value));
-        result.push_back(inst);
+    case Value::Type::INT:
+        value.type = Value::Type::INT;
+        value.intVal = parcel->readInt();
+        break;
+    case Value::Type::STRING:
+        value.type = Value::Type::STRING;
+        value.stringVal = parcel->readString();
+        break;
+    case Value::Type::NONE:
+        value.type = Value::Type::NONE;
+        break;
+    default:
+        // Fail Delibery
+        assert(type == Value::INT);
     }
-    return result;
 }
 
-const int* Sequence::readCode(const int* p_seq, Code* codeRet)
+void Sequence::Instruction::writeToParcel(Parcel* parcel)
 {
-    *codeRet = (Code)*p_seq;
-    return p_seq + 1;
-}
-
-int* Sequence::writeCode(int* p_dest, Code code)
-{
-    *p_dest = code;
-    return p_dest + 1;
-}
-
-const int* Sequence::readValue(const int* p_seq, Code code, Sequence::Value* valRet)
-{
-    const int* result = p_seq;
-    valRet->type = (Sequence::Value::Type)*result; ++result;
-    switch (valRet->type)
+    parcel->writeInt(code);
+    parcel->writeInt(value.type);
+    switch(value.type)
     {
-        case Value::Type::NONE:
-            // DO NOTHING
-            break;
-        case Value::Type::INT:
-            valRet->intVal = *result; ++result;
-            break;
-        case Value::Type::STRING:
-            int len = *result; ++result;
-            valRet->stringVal = std::string((const char*)result, len);
-            result += len * sizeof(char) / sizeof(int);
-            break;
+    case Value::INT:
+        parcel->writeInt(value.intVal);
+        break;
+    case Value::STRING:
+        parcel->writeString(value.stringVal);
+        break;
+    case Value::NONE:
+        break;
+    default:
+        // Fail Delibery
+        assert(value.type == Value::INT);
     }
-    return result;
 }
 
-int* Sequence::writeValue(int* p_dest, Value value)
-{
-    int* result = p_dest;
-    *result = value.type; ++result;
-    switch (value.type)
-    {
-        case Value::Type::NONE:
-            // DO NOTHING
-            break;
-        case Value::Type::INT:
-            *result = value.intVal; ++result;
-            break;
-        case Value::Type::STRING:
-            int len = value.stringVal.size();
-            *result = len; ++result;
-            char* writeInChar = (char*)result;
-            memcpy(writeInChar, value.stringVal.c_str(), len);
-            result += len;
-            break;
-    }
-    return result;
-}
-
-Sequence::Instruction Sequence::buildInstruction(Sequence::Code code,
+Sequence::Instruction Sequence::Instruction::buildInstruction(Sequence::Code code,
     Sequence::Value::Type valType, int val)
 {
     Sequence::Instruction inst;

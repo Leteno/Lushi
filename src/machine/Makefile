@@ -5,23 +5,25 @@ BASE = Sequence.o Machine.o State.o
 
 TEST = TestSequence.o TestMachine.o TestMachine_OBJ.o
 
-BASE_PATH = ../base/
-BASE_OBJ = ../base/GameObject.o ../base/Effect.o ../base/EffectMachine.o
-
-UT_PATHS = ../unit_test
-UT_OBJS = ../unit_test/UT.o
+EXTERNAL_OBJS = \
+	../persist/Parcellable.o ../persist/Parcel.o ../persist/RawData.o \
+	../base/GameObject.o ../base/Effect.o ../base/EffectMachine.o \
+	../unit_test/UT.o
 
 all:
 
-test: $(BASE) $(TEST) $(UT_OBJS) $(BASE_OBJ)
-	make -C $(UT_PATHS)
-	make -C $(BASE_PATH)
+test: $(BASE) $(TEST) $(UT_OBJS) $(BASE_OBJ) $(EXTERNAL_OBJS)
 	$(CC) -c Test.cpp -o Test.o $(CFLAGS)
-	$(CC) $(BASE) $(UT_OBJS) $(BASE_OBJ) $(TEST) Test.o -o test $(CFLAGS)
+	$(CC) $(BASE) $(EXTERNAL_OBJS) $(TEST) Test.o -o test $(CFLAGS)
 	./test
 
 $(BASE) $(TEST): %.o : %.cpp %.h
 	$(CC) -c $< -o $@ $(CFLAGS)
+
+$(EXTERNAL_OBJS):
+	make -C ../base test
+	make -C ../persist test
+	make -C ../unit_test test
 
 clean:
 	-rm $(BASE) $(TEST) Test.o test

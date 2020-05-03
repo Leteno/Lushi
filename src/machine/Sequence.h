@@ -3,11 +3,15 @@
 #include <list>
 #include <string>
 
+#include "../persist/Parcel.h"
+#include "../persist/Parcellable.h"
+
+using namespace persist;
+
 namespace machine {
 
-class Sequence
+namespace Sequence
 {
-public:
     enum Code {
 
         // player related
@@ -46,28 +50,6 @@ public:
         STORE = 401,
     };
 
-    /**
-     *  This Sequence accept what type of objs, will read the obj queue in this order:
-     *  
-     *  PLAYER/NULL/
-     *  ALL_MONSTER/NULL/
-     *  MY_MONSTER/NULL/
-     *  ENEMY_MONSTER/NULL/
-     * 
-     *  Any type must end with NULL.
-     * 
-     * 
-     *  MY_MONSTER/ENEMY_MONSTER  vs ALL_MONSTER.
-     *  we may have this situation:
-     *  * increase all monster 1 attack, increase my monster 1 health, decrease enemy monster 1 health.
-     */
-    enum AcceptType{
-        PLAYER = 0x1,
-        ALL_MONSTER = 0x10,
-        My_MONSTER = 0x100,
-        ENEMY_MONSTER = 0x1000,
-    };
-
     struct Value
     {
         enum Type {
@@ -79,34 +61,19 @@ public:
         std::string stringVal;
     };
 
-    struct Instruction
+    class Instruction : Parcellable
     {
+    public:
+        Instruction();
+        ~Instruction();
+        void readFromParcel(Parcel*);
+        void writeToParcel(Parcel*);
+        static Instruction buildInstruction(Sequence::Code code,
+            Sequence::Value::Type valType, int val);
+
         Code code;
         Value value;
     };
-
-private:
-    const int m_AcceptType;
-    const int* m_Sequence;
-
-public:
-    Sequence(int type, int* sequence):
-        m_AcceptType(type), m_Sequence(sequence) {}
-    Sequence(): m_AcceptType(0), m_Sequence(nullptr) {}
-    int getAcceptType()
-    {
-        return m_AcceptType;
-    }
-    std::list<Instruction> getSequence();
-
-    static int* writeCode(int* p_dest, Code code);
-    static int* writeValue(int* p_dest, Value value);
-    static Sequence::Instruction buildInstruction(Sequence::Code code,
-        Sequence::Value::Type valType, int val);
-
-private:
-    const int* readCode(const int* p_seq, Code* codeRet);
-    const int* readValue(const int* p_seq, Code code, Value* valRet);
 };
 
 }

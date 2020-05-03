@@ -1,7 +1,7 @@
 
 include ../Makefile.common
 
-EXTERNAL_OBJS = ../unit_test/UT.o ../persist/Parcellable.o ../persist/Parcel.o ../persist/RawData.o
+EXTERNAL_OBJS = ../unit_test/UT.o ../machine/Sequence.o ../persist/Parcellable.o ../persist/Parcel.o ../persist/RawData.o
 
 OBJS = Card.o CardPool.o CardEffect.o
 T_OBJS = TestCard.o TestCardPool.o TestCardEffect.o
@@ -16,6 +16,7 @@ build_test: $(EXTERNAL_OBJS) $(OBJS) $(T_OBJS) Test.cpp
 $(EXTERNAL_OBJS):
 	make -C ../unit_test/ test
 	make -C ../persist test
+	make -C ../machine test
 
 $(OBJS) $(T_OBJS): %.o : %.cpp %.h
 	$(CC) -c $< -o $@ $(CFLAGS)
