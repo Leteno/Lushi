@@ -10,6 +10,7 @@ OBJS = CodeZone.o StackZone.o TestZone.o Utils.o TesterItem.o TesterData.o
 EXTERNAL_OBJS = \
 	$(patsubst %.cpp, %.o, $(shell ls ../base/*.cpp | grep -v Test)) \
 	$(patsubst %.cpp, %.o, $(shell ls ../machine/*.cpp | grep -v Test)) \
+	$(patsubst %.cpp, %.o, $(shell ls ../persist/*.cpp | grep -v Test)) \
 	../misc/StringSeperator.o
 
 CardTools: machine codeGen CardToolsGUI
@@ -21,6 +22,7 @@ external:
 	make -C ../misc/ test
 	make -C ../machine/ test
 	make -C ../base/ test
+	make -C ../persist/ test
 
 $(MAIN_OBJ) : %.o : %.cpp
 	$(CC) -c $< -o $@ $(CFLAGS) `pkg-config --cflags --libs gtk+-2.0`

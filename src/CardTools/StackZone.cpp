@@ -86,7 +86,7 @@ static std::list<Sequence::Instruction> getSequenceInstruction(char *ch)
         {
             if (gotCode)
             {
-                instList.push_back(Sequence::buildInstruction(
+                instList.push_back(Sequence::Instruction::buildInstruction(
                     code,
                     Sequence::Value::NONE,
                     -1
@@ -101,7 +101,7 @@ static std::list<Sequence::Instruction> getSequenceInstruction(char *ch)
         {
             // it should be number
             int num = Utils::str2int(s.c_str());
-            instList.push_back(Sequence::buildInstruction(
+            instList.push_back(Sequence::Instruction::buildInstruction(
                 code,
                 Sequence::Value::INT,
                 num
@@ -113,7 +113,7 @@ static std::list<Sequence::Instruction> getSequenceInstruction(char *ch)
     }
     if (gotCode)
     {
-        instList.push_back(Sequence::buildInstruction(
+        instList.push_back(Sequence::Instruction::buildInstruction(
             code,
             Sequence::Value::NONE,
             -1
