@@ -5,7 +5,7 @@ MACHINE_OBJ_DEPS=
 
 MAIN_OBJ = Main.o
 
-OBJS = CodeZone.o StackZone.o TestZone.o Utils.o TesterItem.o TesterData.o
+OBJS = CodeZone.o StackZone.o TestZone.o Utils.o TesterItem.o TesterData.o CardEffectListZone.o
 
 EXTERNAL_OBJS = \
 	$(patsubst %.cpp, %.o, $(shell ls ../base/*.cpp | grep -v Test)) \
