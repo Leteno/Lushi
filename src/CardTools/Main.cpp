@@ -5,6 +5,7 @@
 #include "CodeZone.h"
 #include "StackZone.h"
 #include "TestZone.h"
+#include "SaveZone.h"
 
 using namespace CardTools;
 
@@ -24,6 +25,7 @@ int main(int argc, char *argv[])
     StackZone stackZone(&testZone);
     CodeZone codeZone(window, &stackZone);
     CardEffectListZone cardEffectZone(window);
+    SaveZone saveZone(window);
 
     GtkWidget* table = gtk_table_new(2, 3, TRUE);
     gtk_container_add(GTK_CONTAINER(window), table);
@@ -31,6 +33,7 @@ int main(int argc, char *argv[])
     gtk_table_attach_defaults(GTK_TABLE(table), codeZone.getRoot(), 1, 2, 0, 1);
     gtk_table_attach_defaults(GTK_TABLE(table), stackZone.getRoot(), 2, 3, 0, 1);
     gtk_table_attach_defaults(GTK_TABLE(table), testZone.getRoot(), 1, 2, 1, 2);
+    gtk_table_attach_defaults(GTK_TABLE(table), saveZone.getRoot(), 2, 3, 1, 2);
 
     gtk_widget_show_all(window);
 
