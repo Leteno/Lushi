@@ -11,6 +11,7 @@ EXTERNAL_OBJS = \
 	$(patsubst %.cpp, %.o, $(shell ls ../base/*.cpp | grep -v Test)) \
 	$(patsubst %.cpp, %.o, $(shell ls ../machine/*.cpp | grep -v Test)) \
 	$(patsubst %.cpp, %.o, $(shell ls ../persist/*.cpp | grep -v Test)) \
+	$(patsubst %.cpp, %.o, $(shell ls ../card/*.cpp | grep -v Test)) \
 	../misc/StringSeperator.o
 
 CardTools: machine codeGen CardToolsGUI
@@ -23,6 +24,7 @@ external:
 	make -C ../machine/ test
 	make -C ../base/ test
 	make -C ../persist/ test
+	make -C ../card/ test
 
 $(MAIN_OBJ) : %.o : %.cpp
 	$(CC) -c $< -o $@ $(CFLAGS) `pkg-config --cflags --libs gtk+-2.0`
