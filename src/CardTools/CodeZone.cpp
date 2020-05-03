@@ -6,6 +6,7 @@
 #include <gtk/gtk.h>
 
 #include "CodeZone.h"
+#include "Utils.h"
 
 using namespace CardTools;
 
@@ -100,6 +101,12 @@ void CodeZone::onCompile()
 GtkWidget* CodeZone::getRoot()
 {
     return mRoot;
+}
+
+std::string CodeZone::getAllCode()
+{
+    std::string out = Utils::getTextViewContent(mTextView);
+    return out;
 }
 
 static void compile(const char* content, int *success, char* reason, char* out)

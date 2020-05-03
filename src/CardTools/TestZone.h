@@ -14,6 +14,7 @@ namespace CardTools {
     public:
         TestZone();
         void setInstruction(std::list<Sequence::Instruction> iList);
+        std::list<Sequence::Instruction> getInstructions() { return mInstList; };
         GtkWidget* getRoot();
         void addSample(int health, int attach);
         void runTest();

@@ -27,6 +27,8 @@ int main(int argc, char *argv[])
     CardEffectListZone cardEffectZone(window);
     SaveZone saveZone(window);
 
+    saveZone.bind(&codeZone, &testZone);
+
     GtkWidget* table = gtk_table_new(2, 3, TRUE);
     gtk_container_add(GTK_CONTAINER(window), table);
     gtk_table_attach_defaults(GTK_TABLE(table), cardEffectZone.getRoot(), 0, 1, 0, 2);

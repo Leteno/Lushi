@@ -9,6 +9,7 @@ namespace CardTools {
             CodeZone(GtkWidget* window, StackZone* stackZone);
             GtkWidget* getRoot();
             void onCompile();
+            std::string getAllCode();
         private:
             GtkWidget* mWindow;
             StackZone* mStackZone;
