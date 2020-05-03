@@ -36,7 +36,11 @@ codeGen:
 CardToolsGUI:
 	@echo Hello Java !
 
-test: machine
+test: machine testScript
+
+testScript:
+	python3 ../../tools/CodeGenerator/buildInstructionCode.py test
 
 clean:
 	-rm machine $(OBJS)
+	-rm ../../tools/CodeGenerator/*.pyc
