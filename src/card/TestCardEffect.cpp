@@ -17,6 +17,7 @@ UT::Report card::testCardEffect() {
 UT::Report testCardEffectReadAndWrite()
 {
     CardEffect cardEffect;
+    cardEffect.setName("My name is Ozymandias");
     cardEffect.setOriginalCode("ABC");
 
     Sequence::Instruction instruction;
@@ -34,6 +35,10 @@ UT::Report testCardEffectReadAndWrite()
 
     UT::Report report;
     report.addTest(UT::Test::assertTrue(parcel.meetEnd()));
+    report.addTest(UT::Test::assertEquals(
+        newOne.getName(),
+        "My name is Ozymandias"
+    ));
     report.addTest(UT::Test::assertEquals(
         newOne.getOriginalCode(),
         "ABC"

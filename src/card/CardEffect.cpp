@@ -14,6 +14,7 @@ CardEffect::~CardEffect()
 
 void CardEffect::readFromParcel(Parcel* parcel)
 {
+    name = parcel->readString();
     originalCode = parcel->readString();
     instructionList.clear();
     int size = parcel->readInt();
@@ -27,6 +28,7 @@ void CardEffect::readFromParcel(Parcel* parcel)
 
 void CardEffect::writeToParcel(Parcel* parcel)
 {
+    parcel->writeString(name);
     parcel->writeString(originalCode);
     parcel->writeInt(instructionList.size());
     for (auto it = instructionList.begin();
