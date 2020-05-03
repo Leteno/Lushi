@@ -34,7 +34,7 @@ codeGen:
 CardToolsGUI:
 	@echo Hello Java !
 
-test:
+test: machine
 
 clean:
 	-rm machine $(OBJS)

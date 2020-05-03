@@ -1,5 +1,5 @@
 
-PATHS = unit_test/ base/ card/ machine/ misc/ persist/
+PATHS = unit_test/ base/ card/ machine/ misc/ persist/ CardTools/
 
 all:
 	@echo Hello world
