@@ -13,39 +13,66 @@ UT::Report CardTools::unit_test::testCardEffectsModelNormalOps()
         model.getCardEffectList().size(),
         0
     ));
-    CardEffect* newOne = model.addNew();
+    CardEffect* firstOne = model.addNew();
     report.addTest(UT::Test::assertTrue(
-        newOne != nullptr
+        firstOne != nullptr
     ));
     report.addTest(UT::Test::assertEquals(
         model.getCardEffectList().size(),
         1
     ));
-    if (newOne != nullptr)
+    if (firstOne != nullptr)
     {
-        newOne->setName("juzhen");
-        newOne->setOriginalCode("Hello world");
+        firstOne->setName("juzhen");
+        firstOne->setOriginalCode("Hello world");
         std::list<CardEffect*> cardEffects = model.getCardEffectList();
         if (cardEffects.size() == 1)
         {
-            CardEffect* firstOne = *cardEffects.begin();
+            CardEffect* one = *cardEffects.begin();
             report.addTest(UT::Test::assertTrue(
-                firstOne != nullptr
+                one != nullptr
             ));
-            if (firstOne != nullptr)
+            if (one != nullptr)
             {
                 report.addTest(UT::Test::assertEquals(
-                    firstOne->getName(),
+                    one->getName(),
                     "juzhen"
                 ));
                 report.addTest(UT::Test::assertEquals(
-                    firstOne->getOriginalCode(),
+                    one->getOriginalCode(),
                     "Hello world"
                 ));
             }
         }
     }
-    model.remove(newOne);
+
+    CardEffect* secondOne = model.addNew();
+    report.addTest(UT::Test::assertEquals(
+        model.getCardEffectList().size(),
+        2
+    ));
+    if (secondOne != nullptr)
+    {
+        secondOne->setName("second one");
+        secondOne->setOriginalCode("become better");
+    }
+    model.remove(firstOne);
+    report.addTest(UT::Test::assertEquals(
+        model.getCardEffectList().size(),
+        1
+    ));
+    if (model.getCardEffectList().size() == 1) {
+        CardEffect* lastOne = *model.getCardEffectList().begin();
+        report.addTest(UT::Test::assertEquals(
+            lastOne->getName(),
+            "second one"
+        ));
+        report.addTest(UT::Test::assertEquals(
+            lastOne->getOriginalCode(),
+            "become better"
+        ));
+    }
+    model.remove(secondOne);
     report.addTest(UT::Test::assertEquals(
         model.getCardEffectList().size(),
         0
