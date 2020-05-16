@@ -5,7 +5,16 @@ MACHINE_OBJ_DEPS=
 
 MAIN_OBJ = Main.o
 
-OBJS = CodeZone.o StackZone.o TestZone.o Utils.o TesterItem.o TesterData.o CardEffectListZone.o SaveZone.o
+TEST_OBJ = unit_test/Test.o
+
+OBJS = CodeZone.o StackZone.o TestZone.o \
+	Utils.o TesterItem.o TesterData.o \
+	CardEffectListZone.o SaveZone.o \
+	CardEffectsModel.o
+
+TEST_OBJS = $(patsubst %.cpp, %.o, $(shell ls unit_test/*.cpp | grep -v Test.cpp))
+
+TEST_EXTERNAL_OBJS = ../unit_test/UT.o
 
 EXTERNAL_OBJS = \
 	$(patsubst %.cpp, %.o, $(shell ls ../base/*.cpp | grep -v Test)) \
@@ -26,10 +35,13 @@ external:
 	make -C ../persist/ test
 	make -C ../card/ test
 
-$(MAIN_OBJ) : %.o : %.cpp
+$(TEST_EXTERNAL_OBJS):
+	make -C ../unit_test/ test
+
+$(MAIN_OBJ) $(TEST_OBJ) : %.o : %.cpp
 	$(CC) -c $< -o $@ $(CFLAGS) `pkg-config --cflags --libs gtk+-2.0`
 
-$(OBJS) : %.o : %.cpp %.h
+$(OBJS) $(TEST_OBJS): %.o : %.cpp %.h
 	$(CC) -c $< -o $@ $(CFLAGS) `pkg-config --cflags --libs gtk+-2.0`
 
 codeGen:
@@ -38,11 +50,13 @@ codeGen:
 CardToolsGUI:
 	@echo Hello Java !
 
-test: machine testScript
+test: machine testScript $(TEST_OBJS) $(TEST_OBJ) $(TEST_EXTERNAL_OBJS)
+	$(CC) $(TEST_OBJ) $(TEST_OBJS) $(OBJS) $(EXTERNAL_OBJS) $(TEST_EXTERNAL_OBJS) -o test $(CFLAGS) `pkg-config --cflags --libs gtk+-2.0`
+	./test
 
 testScript:
 	python3 ../../tools/CodeGenerator/buildInstructionCode.py test
 
 clean:
-	-rm machine $(OBJS)
+	-rm machine $(OBJS) $(TEST_OBJ) $(TEST_OBJS)
 	-rm ../../tools/CodeGenerator/*.pyc
