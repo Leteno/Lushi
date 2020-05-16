@@ -22,5 +22,8 @@ namespace CardTools {
         CardEffect* addNew();
         void remove(CardEffect*);
         std::list<CardEffect*> getCardEffectList();
+
+    private:
+        std::list<CardEffect> mList;
     };
 }
