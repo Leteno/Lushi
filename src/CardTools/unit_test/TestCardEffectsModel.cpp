@@ -1,5 +1,5 @@
 
-#include "TestCardEffectList.h"
+#include "TestCardEffectsModel.h"
 #include "../CardEffectsModel.h"
 
 using namespace CardTools;

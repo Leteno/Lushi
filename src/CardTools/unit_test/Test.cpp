@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "../../unit_test/UT.h"
-#include "TestCardEffectList.h"
+#include "TestCardEffectsModel.h"
 
 using namespace CardTools::unit_test;
 
