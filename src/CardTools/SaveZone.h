@@ -5,6 +5,7 @@
 #include "../card/CardEffect.h"
 #include "CodeZone.h"
 #include "TestZone.h"
+#include "CardEffectListZone.h"
 
 using namespace card;
 
@@ -13,7 +14,12 @@ namespace CardTools {
         public:
             SaveZone(GtkWidget* window);
             GtkWidget* getRoot();
-            void bind(CodeZone* codeZone, TestZone* testZone) { mCodeZone = codeZone; mTestZone = testZone; }
+            void bind(CodeZone* codeZone, TestZone* testZone, CardEffectListZone* cardEffectListZone)
+            {
+                mCodeZone = codeZone;
+                mTestZone = testZone;
+                mCardEffectListZone = cardEffectListZone;
+            }
             void save();
         private:
             void saveToFile(CardEffect cardEffect);
@@ -24,5 +30,6 @@ namespace CardTools {
 
             CodeZone* mCodeZone;
             TestZone* mTestZone;
+            CardEffectListZone* mCardEffectListZone;
     };
 }

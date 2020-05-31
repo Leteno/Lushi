@@ -41,7 +41,7 @@ void SaveZone::save()
     cardEffect.setName(Utils::getEntryContent(mNameText));
     cardEffect.setOriginalCode(mCodeZone->getAllCode());
     cardEffect.setInstructionList(mTestZone->getInstructions());
-    saveToFile(cardEffect);
+    mCardEffectListZone->save(cardEffect);
 }
 
 void SaveZone::saveToFile(CardEffect cardEffect)
