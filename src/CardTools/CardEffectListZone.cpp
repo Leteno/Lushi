@@ -23,6 +23,7 @@ CardEffectListZone::CardEffectListZone(GtkWidget* window) :
 static void removeWidget(GtkWidget* child, GtkContainer* parent)
 {
     gtk_container_remove(parent, child);
+    gtk_widget_destroy(child);
 }
 
 void CardEffectListZone::update()
