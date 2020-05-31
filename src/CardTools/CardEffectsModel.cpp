@@ -76,18 +76,19 @@ CardEffect* CardEffectsModel::add(CardEffect effect)
     return &(*ret);
 }
 
-void CardEffectsModel::remove(CardEffect* effect)
+bool CardEffectsModel::remove(CardEffect* effect)
 {
-    if (effect == nullptr) return;
+    if (effect == nullptr) return false;
     auto it = mList.begin();
     for (; it != mList.end(); ++it)
     {
         if (&(*it) == effect)
         {
             mList.erase(it);
-            return;
+            return true;
         }
     }
+    return false;
 }
 
 std::list<CardEffect*> CardEffectsModel::getCardEffectList()

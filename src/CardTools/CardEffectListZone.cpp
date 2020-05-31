@@ -3,6 +3,7 @@
 
 #include "CardEffectsModel.h"
 #include "CardEffectListZone.h"
+#include "Utils.h"
 #include "Constant.h"
 
 #include <iostream>
@@ -10,19 +11,30 @@
 using namespace card;
 using namespace CardTools;
 
+static CardEffect* sSelectedCardEffect;
 static GtkWidget* sLastClickedView;
 static GdkColor sColorOnNormal;
 static GdkColor sColorOnSelected;
 static void onItemClicked(GtkWidget* view, CardEffect* effect);
+static void onDeleteButtonClicked(GtkWidget* view, CardEffectListZone* zone);
 
 CardEffectListZone::CardEffectListZone(GtkWidget* window) :
     mWindow(window) {
 
     mModel.readFromFile(Constant::path::cardEffectFile);
 
-    mRoot = gtk_table_new(1, 16, TRUE);
+    mRoot = gtk_table_new(10, 16, TRUE);
     mListView = gtk_table_new(12, 12, TRUE);
-    gtk_table_attach_defaults(GTK_TABLE(mRoot), mListView, 0, 16, 0, 1);
+    gtk_table_attach_defaults(GTK_TABLE(mRoot), mListView, 0, 15, 0, 10);
+
+    GtkWidget *deleteButton = gtk_button_new_with_label("Delete");
+    gtk_table_attach_defaults(GTK_TABLE(mRoot), deleteButton, 15, 16, 8, 9);
+    g_signal_connect(
+        deleteButton,
+        "clicked",
+        G_CALLBACK(onDeleteButtonClicked),
+        this
+    );
 
     gdk_color_parse("white", &sColorOnNormal);
     gdk_color_parse("yellow", &sColorOnSelected);
@@ -74,6 +86,24 @@ void CardEffectListZone::save(CardEffect cardEffect)
     update();
 }
 
+void CardEffectListZone::deleteItem(CardEffect* cardEffect)
+{
+    if (cardEffect == nullptr)
+    {
+        Utils::showMessageDialog(mWindow, "deleteItem on empty one");
+        return;
+    }
+    if (mModel.remove(cardEffect))
+    {
+        std::cout << "deleteItem " << cardEffect->getName() << std::endl;
+        update();
+    }
+    else
+    {
+        Utils::showMessageDialog(mWindow, "DeleteItem fail");
+    }
+}
+
 GtkWidget* CardEffectListZone::getRoot()
 {
     return mRoot;
@@ -92,4 +122,11 @@ void onItemClicked(GtkWidget* view, CardEffect* effect)
         gtk_widget_modify_bg(sLastClickedView, GTK_STATE_PRELIGHT, &sColorOnNormal);
     }
     sLastClickedView = view;
+    sSelectedCardEffect = effect;
+}
+
+void onDeleteButtonClicked(GtkWidget* view, CardEffectListZone* zone)
+{
+    zone->deleteItem(sSelectedCardEffect);
+    sSelectedCardEffect = nullptr;
 }

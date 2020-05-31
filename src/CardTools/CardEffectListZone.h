@@ -15,6 +15,7 @@ namespace CardTools {
             CardEffectsModel* getModel() { return &mModel; }
             void update();
             void save(CardEffect);
+            void deleteItem(CardEffect*);
 
         private:
             GtkWidget* mWindow;
