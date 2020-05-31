@@ -15,11 +15,11 @@ static CardEffect* sSelectedCardEffect;
 static GtkWidget* sLastClickedView;
 static GdkColor sColorOnNormal;
 static GdkColor sColorOnSelected;
-static void onItemClicked(GtkWidget* view, CardEffect* effect);
+static void onItemClicked(GtkWidget* view, CardEffectListAdapter* adapter);
 static void onDeleteButtonClicked(GtkWidget* view, CardEffectListZone* zone);
 
 CardEffectListZone::CardEffectListZone(GtkWidget* window) :
-    mWindow(window) {
+    mWindow(window), mAdapter(nullptr) {
 
     mModel.readFromFile(Constant::path::cardEffectFile);
 
@@ -55,27 +55,36 @@ void CardEffectListZone::update()
         (GtkCallback)removeWidget,
         GTK_CONTAINER(mListView)
     );
+    if (mAdapter != nullptr) delete mAdapter;
+
     auto effectsList = mModel.getCardEffectList();
-    int i = 0;
-    for (auto it = effectsList.begin();
-        it != effectsList.end(); ++it, ++i)
+    if (effectsList.size() > 0)
     {
-        CardEffect* effect = *it;
-        GtkWidget *button = gtk_button_new_with_label(effect->getName().c_str());
-        gtk_table_attach_defaults(
-            GTK_TABLE(mListView),
-            button,
-            0, 12, i, i+1
-        );
-        g_signal_connect(
-            button,
-            "clicked",
-            G_CALLBACK(onItemClicked),
-            effect
-        );
-        gtk_widget_modify_bg(button, GTK_STATE_NORMAL, &sColorOnNormal);
-        gtk_widget_modify_bg(button, GTK_STATE_PRELIGHT, &sColorOnNormal);
+        mAdapter = new CardEffectListAdapter[effectsList.size()];
+        int i = 0;
+        for (auto it = effectsList.begin();
+            it != effectsList.end(); ++it, ++i)
+        {
+            CardEffect* effect = *it;
+            GtkWidget *button = gtk_button_new_with_label(effect->getName().c_str());
+            gtk_table_attach_defaults(
+                GTK_TABLE(mListView),
+                button,
+                0, 12, i, i+1
+            );
+            mAdapter[i].effect = effect;
+            mAdapter[i].zone = this;
+            g_signal_connect(
+                button,
+                "clicked",
+                G_CALLBACK(onItemClicked),
+                mAdapter + i
+            );
+            gtk_widget_modify_bg(button, GTK_STATE_NORMAL, &sColorOnNormal);
+            gtk_widget_modify_bg(button, GTK_STATE_PRELIGHT, &sColorOnNormal);
+        }
     }
+
     gtk_widget_show_all(mListView);
 }
 
@@ -109,8 +118,9 @@ GtkWidget* CardEffectListZone::getRoot()
     return mRoot;
 }
 
-void onItemClicked(GtkWidget* view, CardEffect* effect)
+void onItemClicked(GtkWidget* view, CardEffectListAdapter* adapter)
 {
+    CardEffect* effect = adapter->effect;
     std::cout << "itemClicked: " << effect->getName() << std::endl;
 
     gtk_widget_modify_bg(view, GTK_STATE_NORMAL, &sColorOnSelected);

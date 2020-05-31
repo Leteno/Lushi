@@ -7,6 +7,7 @@
 using namespace card;
 
 namespace CardTools {
+    class CardEffectListAdapter;
     class CardEffectListZone {
         public:
             CardEffectListZone(GtkWidget* window);
@@ -21,7 +22,13 @@ namespace CardTools {
             GtkWidget* mWindow;
             GtkWidget* mRoot;
             GtkWidget* mListView;
+            CardEffectListAdapter* mAdapter;
 
             CardEffectsModel mModel;
+    };
+    class CardEffectListAdapter {
+    public:
+        CardEffect *effect;
+        CardEffectListZone *zone;
     };
 }
