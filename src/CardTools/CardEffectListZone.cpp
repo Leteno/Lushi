@@ -13,12 +13,9 @@ CardEffectListZone::CardEffectListZone(GtkWidget* window) :
 
     mModel.readFromFile(Constant::path::cardEffectFile);
 
-    mRoot = gtk_table_new(16, 1, TRUE);
-    GtkWidget* textView = gtk_text_view_new();
-    gtk_table_attach_defaults(GTK_TABLE(mRoot), textView, 0, 1, 0, 1);
-
+    mRoot = gtk_table_new(1, 16, TRUE);
     mListView = gtk_table_new(12, 12, TRUE);
-    gtk_table_attach_defaults(GTK_TABLE(mRoot), mListView, 2, 15, 0, 1);
+    gtk_table_attach_defaults(GTK_TABLE(mRoot), mListView, 0, 16, 0, 1);
 
     update();
 }
@@ -45,7 +42,7 @@ void CardEffectListZone::update()
         gtk_table_attach_defaults(
             GTK_TABLE(mListView),
             label,
-            i, i+1, 0, 12
+            0, 12, i, i+1
         );
     }
     gtk_widget_show_all(mListView);
