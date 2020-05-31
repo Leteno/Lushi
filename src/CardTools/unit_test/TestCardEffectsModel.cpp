@@ -78,6 +78,41 @@ UT::Report CardTools::unit_test::testCardEffectsModelNormalOps()
         0
     ));
 
+    CardEffect thirdOne;
+    thirdOne.setName("juzhen");
+    thirdOne.setOriginalCode("hello world");
+    CardEffect* thirdOneP = model.add(thirdOne);
+    report.addTest(UT::Test::assertTrue(
+        thirdOneP != nullptr
+    ));
+    if (thirdOneP != nullptr)
+    {
+        report.addTest(UT::Test::assertEquals(
+            thirdOne.getName(),
+            thirdOneP->getName()
+        ));
+        report.addTest(UT::Test::assertEquals(
+            thirdOne.getOriginalCode(),
+            thirdOneP->getOriginalCode()
+        ));
+    }
+
+    report.addTest(UT::Test::assertTrue(
+        model.getCardEffectList().size() == 1
+    ));
+    if (model.getCardEffectList().size() == 1)
+    {
+        CardEffect* thirdOneInList = *(model.getCardEffectList().begin());
+        report.addTest(UT::Test::assertEquals(
+            thirdOne.getName(),
+            thirdOneInList->getName()
+        ));
+        report.addTest(UT::Test::assertEquals(
+            thirdOne.getOriginalCode(),
+            thirdOneInList->getOriginalCode()
+        ));
+    }
+
     return report;
 }
 

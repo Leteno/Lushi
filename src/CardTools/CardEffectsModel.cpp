@@ -15,6 +15,7 @@ CardEffectsModel::~CardEffectsModel() {}
 void CardEffectsModel::readFromParcel(Parcel* parcel)
 {
     mList.clear();
+    if (parcel->meetEnd()) return;
     int size = parcel->readInt();
     for (int i = 0; i < size; ++i)
     {
@@ -61,6 +62,14 @@ void CardEffectsModel::readFromFile(std::string filePath)
 CardEffect* CardEffectsModel::addNew()
 {
     CardEffect effect;
+    mList.push_back(effect);
+    auto ret = mList.begin();
+    std::advance(ret, mList.size() - 1);
+    return &(*ret);
+}
+
+CardEffect* CardEffectsModel::add(CardEffect effect)
+{
     mList.push_back(effect);
     auto ret = mList.begin();
     std::advance(ret, mList.size() - 1);

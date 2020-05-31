@@ -20,6 +20,7 @@ namespace CardTools {
         void readFromFile(std::string filePath);
 
         CardEffect* addNew();
+        CardEffect* add(CardEffect);
         void remove(CardEffect*);
         std::list<CardEffect*> getCardEffectList();
 
