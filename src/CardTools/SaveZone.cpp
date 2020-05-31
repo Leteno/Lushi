@@ -1,6 +1,7 @@
 
 #include <assert.h>
 
+#include "string.h"
 #include "SaveZone.h"
 #include "Utils.h"
 #include "Constant.h"
@@ -38,9 +39,21 @@ GtkWidget* SaveZone::getRoot()
 void SaveZone::save()
 {
     CardEffect cardEffect;
-    cardEffect.setName(Utils::getEntryContent(mNameText));
+    auto name = Utils::getEntryContent(mNameText);
+    if (strlen(name) == 0)
+    {
+        Utils::showMessageDialog(mWindow, "Name should not be empty");
+        return;
+    }
+    cardEffect.setName(name);
     cardEffect.setOriginalCode(mCodeZone->getAllCode());
-    cardEffect.setInstructionList(mTestZone->getInstructions());
+    auto instructions = mTestZone->getInstructions();
+    if (instructions.size() == 0)
+    {
+        Utils::showMessageDialog(mWindow, "Instruction is empty. Please run \"compile\" to generate it");
+        return;
+    }
+    cardEffect.setInstructionList(instructions);
     mCardEffectListZone->save(cardEffect);
 }
 

@@ -11,6 +11,8 @@ namespace Utils {
 char* getTextViewContent(GtkWidget* textView);
 const char* getEntryContent(GtkWidget* textView);
 
+void showMessageDialog(GtkWidget *window, char* message);
+
 int str2int(const char* str);
 
 }
