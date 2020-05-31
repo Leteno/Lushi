@@ -58,5 +58,5 @@ testScript:
 	python3 ../../tools/CodeGenerator/buildInstructionCode.py test
 
 clean:
-	-rm machine $(OBJS) $(TEST_OBJ) $(TEST_OBJS)
+	-rm machine $(OBJS) $(TEST_OBJ) $(TEST_OBJS) $(MAIN_OBJ)
 	-rm ../../tools/CodeGenerator/*.pyc
