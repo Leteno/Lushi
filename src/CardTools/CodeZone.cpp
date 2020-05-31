@@ -109,6 +109,11 @@ std::string CodeZone::getAllCode()
     return out;
 }
 
+void CodeZone::setCode(std::string newCode)
+{
+    Utils::setTextViewContent(mTextView, newCode);
+}
+
 static void compile(const char* content, int *success, char* reason, char* out)
 {
     commandline("python3 ../../tools/CodeGenerator/buildInstructionCode.py", content, success, out, reason);

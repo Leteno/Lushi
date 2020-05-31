@@ -10,6 +10,7 @@ namespace CardTools {
             GtkWidget* getRoot();
             void onCompile();
             std::string getAllCode();
+            void setCode(std::string newCode);
         private:
             GtkWidget* mWindow;
             StackZone* mStackZone;

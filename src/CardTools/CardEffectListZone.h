@@ -4,9 +4,14 @@
 #include "CardEffectsModel.h"
 #include "../card/CardEffect.h"
 
+#include "CodeZone.h"
+#include "StackZone.h"
+#include "SaveZone.h"
+
 using namespace card;
 
 namespace CardTools {
+    class SaveZone;
     class CardEffectListAdapter;
     class CardEffectListZone {
         public:
@@ -18,6 +23,14 @@ namespace CardTools {
             void save(CardEffect);
             void deleteItem(CardEffect*);
 
+            void bind(CodeZone* code, StackZone* stack, SaveZone* save)
+            {
+                mCodeZone = code;
+                mStackZone = stack;
+                mSaveZone = save;
+            }
+            void updateCurrentCard(CardEffect* cardEffect);
+
         private:
             GtkWidget* mWindow;
             GtkWidget* mRoot;
@@ -25,6 +38,10 @@ namespace CardTools {
             CardEffectListAdapter* mAdapter;
 
             CardEffectsModel mModel;
+
+            CodeZone* mCodeZone;
+            StackZone* mStackZone;
+            SaveZone* mSaveZone;
     };
     class CardEffectListAdapter {
     public:

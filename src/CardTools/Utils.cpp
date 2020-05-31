@@ -17,6 +17,15 @@ char* Utils::getTextViewContent(GtkWidget* textView)
     return content;
 }
 
+void Utils::setTextViewContent(GtkWidget* textView, std::string newContent)
+{
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer(
+        GTK_TEXT_VIEW(textView)
+    );
+    gtk_text_buffer_set_text(buffer, newContent.c_str(), -1);
+    gtk_widget_show_all(textView);
+}
+
 const char* Utils::getEntryContent(GtkWidget* entry)
 {
     GtkEntryBuffer *buffer;

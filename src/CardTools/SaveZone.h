@@ -10,6 +10,7 @@
 using namespace card;
 
 namespace CardTools {
+    class CardEffectListZone;
     class SaveZone {
         public:
             SaveZone(GtkWidget* window);
@@ -21,6 +22,8 @@ namespace CardTools {
                 mCardEffectListZone = cardEffectListZone;
             }
             void save();
+
+            void setName(std::string newName);
         private:
             void saveToFile(CardEffect cardEffect);
 

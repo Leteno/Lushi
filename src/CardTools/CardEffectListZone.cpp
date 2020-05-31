@@ -19,7 +19,8 @@ static void onItemClicked(GtkWidget* view, CardEffectListAdapter* adapter);
 static void onDeleteButtonClicked(GtkWidget* view, CardEffectListZone* zone);
 
 CardEffectListZone::CardEffectListZone(GtkWidget* window) :
-    mWindow(window), mAdapter(nullptr) {
+    mWindow(window), mAdapter(nullptr), mSaveZone(nullptr),
+    mStackZone(nullptr), mCodeZone(nullptr) {
 
     mModel.readFromFile(Constant::path::cardEffectFile);
 
@@ -113,6 +114,22 @@ void CardEffectListZone::deleteItem(CardEffect* cardEffect)
     }
 }
 
+void CardEffectListZone::updateCurrentCard(CardEffect* card)
+{
+    if (mCodeZone != nullptr)
+    {
+        mCodeZone->setCode(card->getOriginalCode());
+    }
+    if (mStackZone != nullptr)
+    {
+        mStackZone->updateInstruction(card->getInstructionList());
+    }
+    if (mSaveZone != nullptr)
+    {
+        mSaveZone->setName(card->getName());
+    }
+}
+
 GtkWidget* CardEffectListZone::getRoot()
 {
     return mRoot;
@@ -120,7 +137,9 @@ GtkWidget* CardEffectListZone::getRoot()
 
 void onItemClicked(GtkWidget* view, CardEffectListAdapter* adapter)
 {
+    CardEffectListZone* zone = adapter->zone;
     CardEffect* effect = adapter->effect;
+    zone->updateCurrentCard(effect);
     std::cout << "itemClicked: " << effect->getName() << std::endl;
 
     gtk_widget_modify_bg(view, GTK_STATE_NORMAL, &sColorOnSelected);

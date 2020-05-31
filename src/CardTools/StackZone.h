@@ -9,6 +9,7 @@ namespace CardTools {
             StackZone(TestZone *testZone);
             GtkWidget* getRoot();
             void update(char* data);
+            void updateInstruction(std::list<Sequence::Instruction>);
         private:
             TestZone* mTestZone;
             GtkWidget* mRoot;

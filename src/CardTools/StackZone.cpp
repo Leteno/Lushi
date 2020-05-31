@@ -42,6 +42,11 @@ void StackZone::update(char* data)
     mTestZone->setInstruction(getSequenceInstruction(data));
 }
 
+void StackZone::updateInstruction(std::list<Sequence::Instruction>)
+{
+    std::cout << "updateInstruction" << std::endl;
+}
+
 static std::list<Sequence::Instruction> getSequenceInstruction(char *ch)
 {
     std::map<std::string, Sequence::Code> seqMap = {

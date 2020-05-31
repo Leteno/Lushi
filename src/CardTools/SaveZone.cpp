@@ -2,6 +2,8 @@
 #include <assert.h>
 
 #include "string.h"
+#include <iostream>
+
 #include "SaveZone.h"
 #include "Utils.h"
 #include "Constant.h"
@@ -55,6 +57,11 @@ void SaveZone::save()
     }
     cardEffect.setInstructionList(instructions);
     mCardEffectListZone->save(cardEffect);
+}
+
+void SaveZone::setName(std::string newName)
+{
+    std::cout << "setName: " << newName << std::endl;
 }
 
 void SaveZone::saveToFile(CardEffect cardEffect)
