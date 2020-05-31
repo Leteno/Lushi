@@ -6,6 +6,6 @@ namespace CardTools::Constant
 {
     namespace path
     {
-        std::string cardEffectFile = "cardEffect.dat";
+        static const std::string cardEffectFile = "cardEffect.dat";
     }
 }
