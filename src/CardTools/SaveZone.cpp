@@ -61,7 +61,7 @@ void SaveZone::save()
     mCard->setOriginalCode(originalCode);
     mCard->setInstructionList(instructions);
     mCardEffectListZone->save();
-    mCardEffectListZone->update();
+    mCardEffectListZone->updateUI();
 }
 
 void SaveZone::setCard(CardEffect* newCard)

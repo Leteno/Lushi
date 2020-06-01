@@ -12,7 +12,6 @@ using namespace card;
 using namespace CardTools;
 
 static CardEffect* sSelectedCardEffect;
-static GtkWidget* sLastClickedView;
 static GdkColor sColorOnNormal;
 static GdkColor sColorOnSelected;
 static void onItemClicked(GtkWidget* view, CardEffectListAdapter* adapter);
@@ -50,7 +49,7 @@ CardEffectListZone::CardEffectListZone(GtkWidget* window) :
     gdk_color_parse("white", &sColorOnNormal);
     gdk_color_parse("yellow", &sColorOnSelected);
 
-    update();
+    updateUI();
 }
 
 static void removeWidget(GtkWidget* child, GtkContainer* parent)
@@ -59,7 +58,7 @@ static void removeWidget(GtkWidget* child, GtkContainer* parent)
     gtk_widget_destroy(child);
 }
 
-void CardEffectListZone::update()
+void CardEffectListZone::updateUI()
 {
     gtk_container_foreach(
         GTK_CONTAINER(mListView),
@@ -91,8 +90,16 @@ void CardEffectListZone::update()
                 G_CALLBACK(onItemClicked),
                 mAdapter + i
             );
-            gtk_widget_modify_bg(button, GTK_STATE_NORMAL, &sColorOnNormal);
-            gtk_widget_modify_bg(button, GTK_STATE_PRELIGHT, &sColorOnNormal);
+            if (sSelectedCardEffect == effect)
+            {
+                gtk_widget_modify_bg(button, GTK_STATE_NORMAL, &sColorOnSelected);
+                gtk_widget_modify_bg(button, GTK_STATE_PRELIGHT, &sColorOnSelected);
+            }
+            else
+            {
+                gtk_widget_modify_bg(button, GTK_STATE_NORMAL, &sColorOnNormal);
+                gtk_widget_modify_bg(button, GTK_STATE_PRELIGHT, &sColorOnNormal);
+            }
         }
     }
 
@@ -120,7 +127,7 @@ void CardEffectListZone::deleteItem(CardEffect* cardEffect)
     if (mModel.remove(cardEffect))
     {
         std::cout << "deleteItem " << cardEffect->getName() << std::endl;
-        update();
+        updateUI();
     }
     else
     {
@@ -155,28 +162,21 @@ void onItemClicked(GtkWidget* view, CardEffectListAdapter* adapter)
     CardEffect* effect = adapter->effect;
     zone->updateCurrentCard(effect);
     std::cout << "itemClicked: " << effect->getName() << std::endl;
-
-    gtk_widget_modify_bg(view, GTK_STATE_NORMAL, &sColorOnSelected);
-    gtk_widget_modify_bg(view, GTK_STATE_PRELIGHT, &sColorOnSelected);
-
-    if (sLastClickedView != nullptr)
-    {
-        gtk_widget_modify_bg(sLastClickedView, GTK_STATE_NORMAL, &sColorOnNormal);
-        gtk_widget_modify_bg(sLastClickedView, GTK_STATE_PRELIGHT, &sColorOnNormal);
-    }
-    sLastClickedView = view;
     sSelectedCardEffect = effect;
+    zone->updateUI();
 }
 
 void onNewButtonClicked(GtkWidget* view, CardEffectListZone* zone)
 {
     CardEffect* newCard = zone->addNewCard();
+    sSelectedCardEffect = newCard;
     zone->updateCurrentCard(newCard);
-    zone->update();
+    zone->updateUI();
 }
 
 void onDeleteButtonClicked(GtkWidget* view, CardEffectListZone* zone)
 {
     zone->deleteItem(sSelectedCardEffect);
     sSelectedCardEffect = nullptr;
+    zone->updateUI();
 }

@@ -19,7 +19,7 @@ namespace CardTools {
             GtkWidget* getRoot();
 
             CardEffectsModel* getModel() { return &mModel; }
-            void update();
+            void updateUI();
             void save();
             CardEffect* addNewCard();
             void deleteItem(CardEffect*);
