@@ -24,12 +24,12 @@ CardEffectListZone::CardEffectListZone(GtkWidget* window) :
 
     mModel.readFromFile(Constant::path::cardEffectFile);
 
-    mRoot = gtk_table_new(10, 16, TRUE);
+    mRoot = gtk_table_new(16, 16, TRUE);
     mListView = gtk_table_new(12, 12, TRUE);
-    gtk_table_attach_defaults(GTK_TABLE(mRoot), mListView, 0, 15, 0, 10);
+    gtk_table_attach_defaults(GTK_TABLE(mRoot), mListView, 0, 15, 0, 15);
 
     GtkWidget *deleteButton = gtk_button_new_with_label("Delete");
-    gtk_table_attach_defaults(GTK_TABLE(mRoot), deleteButton, 15, 16, 8, 9);
+    gtk_table_attach_defaults(GTK_TABLE(mRoot), deleteButton, 10, 15, 14, 15);
     g_signal_connect(
         deleteButton,
         "clicked",
