@@ -46,7 +46,7 @@ TestZone::TestZone()
     g_signal_connect(buttonAdd, "clicked", G_CALLBACK(onAddClick), this);
     gtk_table_attach_defaults(GTK_TABLE(table), buttonAdd, 1, 8, 6, 7);
 
-    buttonRun = gtk_button_new_with_label("Run");
+    buttonRun = gtk_button_new_with_label("Test");
     g_signal_connect(buttonRun, "clicked", G_CALLBACK(onRunClick), this);
     gtk_table_attach_defaults(GTK_TABLE(table), buttonRun, 1, 8, 7, 8);
 }

@@ -48,16 +48,16 @@ CodeZone::CodeZone(GtkWidget* window, StackZone* stackZone)
 "}\n";
     text = "enter code here, see this for detail:\n  tools/CodeGenerator/buildInstructionCode.py";
 
-    table = gtk_table_new(5, 5, TRUE);
+    table = gtk_table_new(10, 10, TRUE);
     gtk_container_add(GTK_CONTAINER(mRoot), table);
 
     buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(mTextView));
     gtk_text_buffer_set_text(buffer, text, -1);
-    gtk_table_attach_defaults(GTK_TABLE(table), mTextView, 0, 5, 0, 4);
+    gtk_table_attach_defaults(GTK_TABLE(table), mTextView, 0, 10, 0, 9);
 
     button = gtk_button_new_with_label("Compile");
     g_signal_connect(button, "clicked", G_CALLBACK(triggerOnCompile), this);
-    gtk_table_attach_defaults(GTK_TABLE(table), button, 4, 5, 4, 5);
+    gtk_table_attach_defaults(GTK_TABLE(table), button, 7, 10, 9, 10);
 }
 
 void CodeZone::onCompile()
