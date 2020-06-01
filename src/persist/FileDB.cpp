@@ -51,13 +51,15 @@ std::string FileDB::readFromFile(std::string name, int *retCode)
         {
             // not enough space for next fread
             char *old = buffer;
-            char *newBuffer = (char*) realloc(old, current_size * 2 * sizeof(char));
+            int newSize = current_size * 2 * sizeof(char);
+            char *newBuffer = (char*) realloc(old, newSize);
             if (!newBuffer)
             {
                 free(buffer);
                 *retCode = -3;
                 return "";
             }
+            current_size = newSize;
             buffer = newBuffer;
         }
     }
