@@ -46,6 +46,7 @@ CodeZone::CodeZone(GtkWidget* window, StackZone* stackZone)
 "        obj.setHealth(k - 10);\n"
 "    }\n"
 "}\n";
+    text = "enter code here, see this for detail:\n  tools/CodeGenerator/buildInstructionCode.py";
 
     table = gtk_table_new(5, 5, TRUE);
     gtk_container_add(GTK_CONTAINER(mRoot), table);
