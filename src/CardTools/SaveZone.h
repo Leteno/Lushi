@@ -29,6 +29,7 @@ namespace CardTools {
             GtkWidget* mWindow;
             GtkWidget* mRoot;
             GtkWidget* mNameText;
+            GtkWidget* mDescText;
 
             CodeZone* mCodeZone;
             TestZone* mTestZone;

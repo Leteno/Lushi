@@ -28,6 +28,11 @@ SaveZone::SaveZone(GtkWidget* window)
     mNameText = gtk_entry_new();
     gtk_table_attach_defaults(GTK_TABLE(mRoot), mNameText, 7, 10, 2, 3);
 
+    GtkWidget* descLabel = gtk_label_new_with_mnemonic("Description:");
+    gtk_table_attach_defaults(GTK_TABLE(mRoot), descLabel, 2, 5, 3, 5);
+    mDescText = gtk_text_view_new();
+    gtk_table_attach_defaults(GTK_TABLE(mRoot), mDescText, 7, 10, 3, 5);
+
     GtkWidget* saveButton = gtk_button_new_with_label("Save");
     g_signal_connect(saveButton, "clicked", G_CALLBACK(onSaveButtonClicked), this);
     gtk_table_attach_defaults(GTK_TABLE(mRoot), saveButton, 7, 10, 5, 6);
@@ -47,6 +52,7 @@ void SaveZone::save()
         return;
     }
     auto originalCode = mCodeZone->getAllCode();
+    std::string desc = Utils::getTextViewContent(mDescText);
     auto instructions = mTestZone->getInstructions();
     if (instructions.size() == 0)
     {
@@ -59,6 +65,7 @@ void SaveZone::save()
     }
     mCard->setName(name);
     mCard->setOriginalCode(originalCode);
+    mCard->setDescription(desc);
     mCard->setInstructionList(instructions);
     mCardEffectListZone->save();
     mCardEffectListZone->updateUI();
@@ -67,6 +74,7 @@ void SaveZone::save()
 void SaveZone::setCard(CardEffect* newCard)
 {
     Utils::setEntryContent(mNameText, newCard->getName());
+    Utils::setTextViewContent(mDescText, newCard->getDescription());
     mCard = newCard;
 }
 

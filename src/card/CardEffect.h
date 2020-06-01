@@ -21,6 +21,8 @@ class CardEffect : Parcellable {
 
         void setName(std::string newName) { name = newName; }
         std::string getName() { return name; }
+        void setDescription(std::string newDesc) {description = newDesc; }
+        std::string getDescription() { return description; }
         void setOriginalCode(std::string newCode) { originalCode = newCode; }
         std::string getOriginalCode() { return originalCode; }
         void setInstructionList(std::list<Sequence::Instruction> newCodes) { instructionList = newCodes; }
@@ -28,6 +30,7 @@ class CardEffect : Parcellable {
     private:
         std::string name;
         std::string originalCode;
+        std::string description;
         std::list<Sequence::Instruction> instructionList;
 };
 }
