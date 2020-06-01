@@ -25,7 +25,6 @@ namespace CardTools {
 
             void setName(std::string newName);
         private:
-            void saveToFile(CardEffect cardEffect);
 
             GtkWidget* mWindow;
             GtkWidget* mRoot;

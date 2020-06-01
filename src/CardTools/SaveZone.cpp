@@ -64,20 +64,6 @@ void SaveZone::setName(std::string newName)
     Utils::setEntryContent(mNameText, newName);
 }
 
-void SaveZone::saveToFile(CardEffect cardEffect)
-{
-    printf("cardEffect: \nname: %s\noriginalCode: %s\nInstructionSize: %d\n",
-        cardEffect.getName().c_str(),
-        cardEffect.getOriginalCode().c_str(),
-        cardEffect.getInstructionList().size());
-    std::string filePath = Constant::path::cardEffectFile;
-    Parcel parcel(10 * 1024);
-    cardEffect.writeToParcel(&parcel);
-    int retCode = -1;
-    FileDB::saveToFile(filePath, parcel.toString(), &retCode);
-    assert(retCode == 0);
-}
-
 static void onSaveButtonClicked(GtkWidget* view, SaveZone* saveZone)
 {
     saveZone->save();
