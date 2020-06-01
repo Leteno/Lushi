@@ -33,6 +33,12 @@ const char* Utils::getEntryContent(GtkWidget* entry)
     return gtk_entry_buffer_get_text(buffer);
 }
 
+void Utils::setEntryContent(GtkWidget* entry, std::string newContent)
+{
+    GtkEntryBuffer *buffer = gtk_entry_get_buffer(GTK_ENTRY(entry));
+    gtk_entry_buffer_set_text(buffer, newContent.c_str(), -1);
+}
+
 void Utils::showMessageDialog(GtkWidget* window, char* message)
 {
     GtkWidget *dialog;

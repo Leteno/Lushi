@@ -12,6 +12,7 @@ namespace Utils {
 char* getTextViewContent(GtkWidget* textView);
 const char* getEntryContent(GtkWidget* textView);
 void setTextViewContent(GtkWidget* textView, std::string content);
+void setEntryContent(GtkWidget* textView, std::string content);
 
 void showMessageDialog(GtkWidget *window, char* message);
 

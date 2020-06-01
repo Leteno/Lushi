@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <iostream>
 #include <map>
 #include <sstream>
@@ -13,6 +14,7 @@
 using namespace CardTools;
 using namespace machine;
 
+static std::string getString(std::list<Sequence::Instruction> lst);
 static std::list<Sequence::Instruction> getSequenceInstruction(char *ch);
 
 StackZone::StackZone(TestZone *testZone)
@@ -42,40 +44,71 @@ void StackZone::update(char* data)
     mTestZone->setInstruction(getSequenceInstruction(data));
 }
 
-void StackZone::updateInstruction(std::list<Sequence::Instruction>)
+void StackZone::updateInstruction(std::list<Sequence::Instruction> lst)
 {
     std::cout << "updateInstruction" << std::endl;
+    Utils::setTextViewContent(mTextView, getString(lst));
+    mTestZone->setInstruction(lst);
+}
+
+static std::map<std::string, Sequence::Code> seqMap = {
+    { "SAY", Sequence::Code::SAY },
+    { "GET_ATTACK", Sequence::Code::GET_ATTACK },
+    { "SET_ATTACK", Sequence::Code::SET_ATTACK },
+    { "GET_HEALTH", Sequence::Code::GET_HEALTH },
+    { "SET_HEALTH", Sequence::Code::SET_HEALTH },
+    { "RESET_OBJ", Sequence::Code::RESET_OBJ },
+    { "MEET_END_OBJ", Sequence::Code::MEET_END_OBJ },
+    { "LOAD_OBJ", Sequence::Code::LOAD_OBJ },
+    { "MOVE_ON_OBJ", Sequence::Code::MOVE_ON_OBJ },
+    { "NOP", Sequence::Code::NOP },
+    { "ADD", Sequence::Code::ADD },
+    { "MINUS", Sequence::Code::MINUS },
+    { "MUL", Sequence::Code::MUL },
+    { "DIV", Sequence::Code::DIV },
+    { "GT", Sequence::Code::GT },
+    { "GTE", Sequence::Code::GTE },
+    { "LT", Sequence::Code::LT },
+    { "LTE", Sequence::Code::LTE },
+    { "JMP", Sequence::Code::JMP },
+    { "JMP_IF_FALSE", Sequence::Code::JMP_IF_FALSE },
+    { "PUSH", Sequence::Code::PUSH },
+    { "POP", Sequence::Code::POP },
+    { "LOAD", Sequence::Code::LOAD },
+    { "STORE", Sequence::Code::STORE },
+};
+static std::string getString(std::list<Sequence::Instruction> lst)
+{
+    std::stringstream ss;
+    auto it = lst.begin();
+    auto i = seqMap.begin();
+    for (; it != lst.end(); ++it)
+    {
+        Sequence::Instruction inst = *it;
+        for (i = seqMap.begin(); i != seqMap.end(); ++i)
+        {
+            if (i->second == inst.code)
+            {
+                ss << i->first;
+                switch(inst.value.type) {
+                case Sequence::Value::Type::STRING:
+                    assert(false); // string is not support here
+                    break;
+                case Sequence::Value::Type::INT:
+                    ss << " " << inst.value.intVal;
+                    break;
+                case Sequence::Value::Type::NONE:
+                    break;
+                }
+                ss << "\n";
+            }
+        }
+    }
+    return ss.str();
 }
 
 static std::list<Sequence::Instruction> getSequenceInstruction(char *ch)
 {
-    std::map<std::string, Sequence::Code> seqMap = {
-        { "SAY", Sequence::Code::SAY },
-        { "GET_ATTACK", Sequence::Code::GET_ATTACK },
-        { "SET_ATTACK", Sequence::Code::SET_ATTACK },
-        { "GET_HEALTH", Sequence::Code::GET_HEALTH },
-        { "SET_HEALTH", Sequence::Code::SET_HEALTH },
-        { "RESET_OBJ", Sequence::Code::RESET_OBJ },
-        { "MEET_END_OBJ", Sequence::Code::MEET_END_OBJ },
-        { "LOAD_OBJ", Sequence::Code::LOAD_OBJ },
-        { "MOVE_ON_OBJ", Sequence::Code::MOVE_ON_OBJ },
-        { "NOP", Sequence::Code::NOP },
-        { "ADD", Sequence::Code::ADD },
-        { "MINUS", Sequence::Code::MINUS },
-        { "MUL", Sequence::Code::MUL },
-        { "DIV", Sequence::Code::DIV },
-        { "GT", Sequence::Code::GT },
-        { "GTE", Sequence::Code::GTE },
-        { "LT", Sequence::Code::LT },
-        { "LTE", Sequence::Code::LTE },
-        { "JMP", Sequence::Code::JMP },
-        { "JMP_IF_FALSE", Sequence::Code::JMP_IF_FALSE },
-        { "PUSH", Sequence::Code::PUSH },
-        { "POP", Sequence::Code::POP },
-        { "LOAD", Sequence::Code::LOAD },
-        { "STORE", Sequence::Code::STORE },
-    };
-
     std::list<Sequence::Instruction> instList;
     std::list<std::string> slist = StringSeperator::split(
         ch, " \n"

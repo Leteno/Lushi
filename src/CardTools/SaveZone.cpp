@@ -61,7 +61,7 @@ void SaveZone::save()
 
 void SaveZone::setName(std::string newName)
 {
-    std::cout << "setName: " << newName << std::endl;
+    Utils::setEntryContent(mNameText, newName);
 }
 
 void SaveZone::saveToFile(CardEffect cardEffect)
