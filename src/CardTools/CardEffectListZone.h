@@ -20,7 +20,8 @@ namespace CardTools {
 
             CardEffectsModel* getModel() { return &mModel; }
             void update();
-            void save(CardEffect);
+            void save();
+            CardEffect* addNewCard();
             void deleteItem(CardEffect*);
 
             void bind(CodeZone* code, StackZone* stack, SaveZone* save)

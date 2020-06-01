@@ -23,7 +23,7 @@ namespace CardTools {
             }
             void save();
 
-            void setName(std::string newName);
+            void setCard(CardEffect* newCard);
         private:
 
             GtkWidget* mWindow;
@@ -33,5 +33,7 @@ namespace CardTools {
             CodeZone* mCodeZone;
             TestZone* mTestZone;
             CardEffectListZone* mCardEffectListZone;
+
+            CardEffect* mCard;
     };
 }

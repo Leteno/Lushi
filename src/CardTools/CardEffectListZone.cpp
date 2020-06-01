@@ -16,6 +16,7 @@ static GtkWidget* sLastClickedView;
 static GdkColor sColorOnNormal;
 static GdkColor sColorOnSelected;
 static void onItemClicked(GtkWidget* view, CardEffectListAdapter* adapter);
+static void onNewButtonClicked(GtkWidget* view, CardEffectListZone* zone);
 static void onDeleteButtonClicked(GtkWidget* view, CardEffectListZone* zone);
 
 CardEffectListZone::CardEffectListZone(GtkWidget* window) :
@@ -27,6 +28,15 @@ CardEffectListZone::CardEffectListZone(GtkWidget* window) :
     mRoot = gtk_table_new(16, 16, TRUE);
     mListView = gtk_table_new(12, 12, TRUE);
     gtk_table_attach_defaults(GTK_TABLE(mRoot), mListView, 0, 15, 0, 15);
+
+    GtkWidget *newButton = gtk_button_new_with_label("New");
+    gtk_table_attach_defaults(GTK_TABLE(mRoot), newButton, 1, 6, 14, 15);
+    g_signal_connect(
+        newButton,
+        "clicked",
+        G_CALLBACK(onNewButtonClicked),
+        this
+    );
 
     GtkWidget *deleteButton = gtk_button_new_with_label("Delete");
     gtk_table_attach_defaults(GTK_TABLE(mRoot), deleteButton, 10, 15, 14, 15);
@@ -89,11 +99,15 @@ void CardEffectListZone::update()
     gtk_widget_show_all(mListView);
 }
 
-void CardEffectListZone::save(CardEffect cardEffect)
+CardEffect* CardEffectListZone::addNewCard()
 {
-    CardEffect* cardE = mModel.add(cardEffect);
+    CardEffect* cardE = mModel.addNew();
+    return cardE;
+}
+
+void CardEffectListZone::save()
+{
     mModel.saveToFile(Constant::path::cardEffectFile);
-    update();
 }
 
 void CardEffectListZone::deleteItem(CardEffect* cardEffect)
@@ -126,7 +140,7 @@ void CardEffectListZone::updateCurrentCard(CardEffect* card)
     }
     if (mSaveZone != nullptr)
     {
-        mSaveZone->setName(card->getName());
+        mSaveZone->setCard(card);
     }
 }
 
@@ -152,6 +166,13 @@ void onItemClicked(GtkWidget* view, CardEffectListAdapter* adapter)
     }
     sLastClickedView = view;
     sSelectedCardEffect = effect;
+}
+
+void onNewButtonClicked(GtkWidget* view, CardEffectListZone* zone)
+{
+    CardEffect* newCard = zone->addNewCard();
+    zone->updateCurrentCard(newCard);
+    zone->update();
 }
 
 void onDeleteButtonClicked(GtkWidget* view, CardEffectListZone* zone)

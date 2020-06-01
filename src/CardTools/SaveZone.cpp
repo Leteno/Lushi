@@ -16,7 +16,7 @@ using namespace card;
 static void onSaveButtonClicked(GtkWidget* view, SaveZone* saveZone);
 
 SaveZone::SaveZone(GtkWidget* window)
-    : mWindow(window)
+    : mWindow(window), mCard(nullptr)
 {
     mRoot = gtk_table_new(12, 12, TRUE);
 
@@ -40,28 +40,34 @@ GtkWidget* SaveZone::getRoot()
 
 void SaveZone::save()
 {
-    CardEffect cardEffect;
     auto name = Utils::getEntryContent(mNameText);
     if (strlen(name) == 0)
     {
         Utils::showMessageDialog(mWindow, "Name should not be empty");
         return;
     }
-    cardEffect.setName(name);
-    cardEffect.setOriginalCode(mCodeZone->getAllCode());
+    auto originalCode = mCodeZone->getAllCode();
     auto instructions = mTestZone->getInstructions();
     if (instructions.size() == 0)
     {
         Utils::showMessageDialog(mWindow, "Instruction is empty. Please run \"compile\" to generate it");
         return;
     }
-    cardEffect.setInstructionList(instructions);
-    mCardEffectListZone->save(cardEffect);
+    if (mCard == nullptr)
+    {
+        mCard = mCardEffectListZone->addNewCard();
+    }
+    mCard->setName(name);
+    mCard->setOriginalCode(originalCode);
+    mCard->setInstructionList(instructions);
+    mCardEffectListZone->save();
+    mCardEffectListZone->update();
 }
 
-void SaveZone::setName(std::string newName)
+void SaveZone::setCard(CardEffect* newCard)
 {
-    Utils::setEntryContent(mNameText, newName);
+    Utils::setEntryContent(mNameText, newCard->getName());
+    mCard = newCard;
 }
 
 static void onSaveButtonClicked(GtkWidget* view, SaveZone* saveZone)
