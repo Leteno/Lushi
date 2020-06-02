@@ -180,6 +180,10 @@ class CodeGenerator:
             self.emit("GET_HEALTH", codes)
         elif method == 'setHealth':
             self.emit("SET_HEALTH", codes)
+        elif method == 'getAttack':
+            self.emit("GET_ATTACK", codes)
+        elif method == 'setAttack':
+            self.emit("SET_ATTACK", codes)
         else:
             assert False, "Unsupported method %s in %s" % (method, obj)
 

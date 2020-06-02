@@ -67,6 +67,8 @@ def test():
     content = getTestContent()
     pResult = parser.parse(content)
     gResult = codeGen.gen(pResult)
+    if False:
+        print(json.dumps(gResult))
     compare(gResult, expectTestResult())
     print("pass!")
 
@@ -84,28 +86,31 @@ def printCodes(codes):
 
 def getTestContent():
     return """
-sum = 0;
+healthSum = 0;
 count = 0;
 foreach_obj obj {
-    sum = sum + obj.getHealth();
+    healthSum = healthSum + obj.getHealth();
     count = count + 1;
 }
 
-average = sum / count;
+healthAverage = healthSum / count;
 
 foreach_obj obj {
     k = obj.getHealth();
-    if (k < average) {
+    if (k < healthAverage) {
         obj.setHealth(k + 10);
     }
-    else if (k > average){
+    else if (k > healthAverage){
         obj.setHealth(k - 10);
+        newAttack = obj.getAttack();
+        newAttack = newAttack + 1;
+        obj.setAttack(newAttack);
     }
 }
 """
 
 def expectTestResult():
-    return ['PUSH 0', 'PUSH 0', 'PUSH 0', 'PUSH 0', 'PUSH 0', 'STORE 0', 'POP', 'PUSH 0', 'STORE 1', 'POP', 'RESET_OBJ', 'MEET_END_OBJ', 'JMP_IF_FALSE 2', 'JMP 14', 'LOAD_OBJ', 'LOAD 0', 'GET_HEALTH', 'ADD', 'STORE 0', 'POP', 'LOAD 1', 'PUSH 1', 'ADD', 'STORE 1', 'POP', 'MOVE_ON_OBJ', 'JMP -15', 'LOAD 0', 'LOAD 1', 'DIV', 'STORE 2', 'POP', 'RESET_OBJ', 'MEET_END_OBJ', 'JMP_IF_FALSE 2', 'JMP 23', 'LOAD_OBJ', 'GET_HEALTH', 'STORE 3', 'POP', 'LOAD 3', 'LOAD 2', 'LT', 'JMP_IF_FALSE 5', 'LOAD 3', 'PUSH 10', 'ADD', 'SET_HEALTH', 'LOAD 3', 'LOAD 2', 'GT', 'JMP_IF_FALSE 5', 'LOAD 3', 'PUSH 10', 'MINUS', 'SET_HEALTH', 'MOVE_ON_OBJ', 'JMP -24']
+    return ["PUSH 0", "PUSH 0", "PUSH 0", "PUSH 0", "PUSH 0", "PUSH 0", "STORE 0", "POP", "PUSH 0", "STORE 1", "POP", "RESET_OBJ", "MEET_END_OBJ", "JMP_IF_FALSE 2", "JMP 14", "LOAD_OBJ", "LOAD 0", "GET_HEALTH", "ADD", "STORE 0", "POP", "LOAD 1", "PUSH 1", "ADD", "STORE 1", "POP", "MOVE_ON_OBJ", "JMP -15", "LOAD 0", "LOAD 1", "DIV", "STORE 2", "POP", "RESET_OBJ", "MEET_END_OBJ", "JMP_IF_FALSE 2", "JMP 33", "LOAD_OBJ", "GET_HEALTH", "STORE 3", "POP", "LOAD 3", "LOAD 2", "LT", "JMP_IF_FALSE 5", "LOAD 3", "PUSH 10", "ADD", "SET_HEALTH", "LOAD 3", "LOAD 2", "GT", "JMP_IF_FALSE 15", "LOAD 3", "PUSH 10", "MINUS", "SET_HEALTH", "GET_ATTACK", "STORE 4", "POP", "LOAD 4", "PUSH 1", "ADD", "STORE 4", "POP", "LOAD 4", "SET_ATTACK", "MOVE_ON_OBJ", "JMP -34"]
 
 if __name__ == "__main__":
     main()
