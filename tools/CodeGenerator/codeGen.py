@@ -123,13 +123,17 @@ class CodeGenerator:
 
     def expr(self, obj):
         codes = []
-        fType, fValue = obj['first']['type'], obj['first']['value']
+        fType = obj['first']['type']
         if fType == 'number':
+            fValue = obj['first']['value']
             self.emit("PUSH %s" % fValue, codes)
         elif fType == 'variable':
+            fValue = obj['first']['value']
             assert fValue in self.variables, "Use variable before declare: %s" % fValue
             index = self.variables[fValue]
             self.emit("LOAD %s" % index, codes)
+        elif fType == 'access-obj-content':
+            codes += self.parseInternal(obj['first'])
         else:
             assert False, "Unknown expr: %s" % obj
 

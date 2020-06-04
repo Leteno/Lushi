@@ -158,7 +158,20 @@ class ASTParser:
                 }
             elif self.currentType() == 'dot':
                 self.index += 1
-                return self.accessObjContent(first)
+                objExpr = self.accessObjContent(first)
+                if self.currentType() == 'op':
+                    op = self.currentToken()
+                    self.index += 1
+                    second = self.expr()
+                    self._assert(second)
+                    return {
+                        'type': 'expr',
+                        'first': objExpr,
+                        'op': op,
+                        'second': second
+                    }
+                else:
+                    return objExpr
             else:
                 return {'type': 'expr', 'first': first}
 
