@@ -104,14 +104,13 @@ foreach_obj obj {
     }
     else if (k > healthAverage){
         obj.setHealth(k - 10);
-        newAttack = obj.getAttack() + 1;
-        obj.setAttack(newAttack);
+        obj.setAttack(obj.getAttack() + 1);
     }
 }
 """
 
 def expectTestResult():
-    return ["PUSH 0", "PUSH 0", "PUSH 0", "PUSH 0", "PUSH 0", "PUSH 0", "STORE 0", "POP", "PUSH 0", "STORE 1", "POP", "RESET_OBJ", "MEET_END_OBJ", "JMP_IF_FALSE 2", "JMP 14", "LOAD_OBJ", "LOAD 0", "GET_HEALTH", "ADD", "STORE 0", "POP", "LOAD 1", "PUSH 1", "ADD", "STORE 1", "POP", "MOVE_ON_OBJ", "JMP -15", "LOAD 0", "LOAD 1", "DIV", "STORE 2", "POP", "RESET_OBJ", "MEET_END_OBJ", "JMP_IF_FALSE 2", "JMP 37", "LOAD_OBJ", "GET_HEALTH", "STORE 3", "POP", "LOAD 3", "LOAD 2", "LT", "JMP_IF_FALSE 12", "LOAD 3", "PUSH 10", "ADD", "SET_HEALTH", "GET_ATTACK", "PUSH 1", "MINUS", "STORE 4", "POP", "LOAD 4", "SET_ATTACK", "LOAD 3", "LOAD 2", "GT", "JMP_IF_FALSE 12", "LOAD 3", "PUSH 10", "MINUS", "SET_HEALTH", "GET_ATTACK", "PUSH 1", "ADD", "STORE 4", "POP", "LOAD 4", "SET_ATTACK", "MOVE_ON_OBJ", "JMP -38"]
+    return ["PUSH 0", "PUSH 0", "PUSH 0", "PUSH 0", "PUSH 0", "PUSH 0", "STORE 0", "POP", "PUSH 0", "STORE 1", "POP", "RESET_OBJ", "MEET_END_OBJ", "JMP_IF_FALSE 2", "JMP 14", "LOAD_OBJ", "LOAD 0", "GET_HEALTH", "ADD", "STORE 0", "POP", "LOAD 1", "PUSH 1", "ADD", "STORE 1", "POP", "MOVE_ON_OBJ", "JMP -15", "LOAD 0", "LOAD 1", "DIV", "STORE 2", "POP", "RESET_OBJ", "MEET_END_OBJ", "JMP_IF_FALSE 2", "JMP 34", "LOAD_OBJ", "GET_HEALTH", "STORE 3", "POP", "LOAD 3", "LOAD 2", "LT", "JMP_IF_FALSE 12", "LOAD 3", "PUSH 10", "ADD", "SET_HEALTH", "GET_ATTACK", "PUSH 1", "MINUS", "STORE 4", "POP", "LOAD 4", "SET_ATTACK", "LOAD 3", "LOAD 2", "GT", "JMP_IF_FALSE 9", "LOAD 3", "PUSH 10", "MINUS", "SET_HEALTH", "GET_ATTACK", "PUSH 1", "ADD", "SET_ATTACK", "MOVE_ON_OBJ", "JMP -35"]
 
 if __name__ == "__main__":
     main()
