@@ -1,10 +1,15 @@
 #include <SFML/Graphics.hpp>
 
+#include "frame/Frame.h"
+#include "frame/SampleFrame.h"
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+
+    frame::SampleFrame f1(sf::Color::Red);
+    frame::SampleFrame f2(sf::Color::Blue);
+    frame::SampleFrame* curFrame = &f1;
 
     while(window.isOpen())
     {
@@ -17,7 +22,7 @@ int main()
             }
         }
         window.clear();
-        window.draw(shape);
+        window.draw(*curFrame->getDrawable(nullptr));
         window.display();
     }
     return 0;
