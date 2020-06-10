@@ -9,3 +9,5 @@ if [ -n "${SFML_PATH}" ]; then \
     echo ""; \
     exit 1; \
 fi
+
+echo Please make sure SFML_PATH is under LD_LIBRARY_PATH
