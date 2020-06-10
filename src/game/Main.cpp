@@ -17,6 +17,26 @@ void renderThread(sf::RenderWindow* window)
 
     while (window->isOpen())
     {
+        sf::Event event;
+        while (window->pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+            {
+                window->close();
+                return;
+            }
+            else if (event.type == sf::Event::KeyPressed)
+            {
+                if (event.key.code == sf::Keyboard::Escape)
+                {
+                    auto tmp = curFrame;
+                    curFrame = nextFrame;
+                    nextFrame = tmp;
+                }
+            }
+
+            curFrame->ReceiveEvent(frame::Event::from(event));
+        }
         window->clear();
         window->draw(*curFrame->getDrawable(&data));
         window->display();
@@ -31,7 +51,6 @@ int main()
     nextFrame = &f2;
 
     sf::RenderWindow window(sf::VideoMode(200, 200), "Game!");
-    window.setFramerateLimit(60);
     window.setActive(false);
 
     sf::Thread thread(&renderThread, &window);
@@ -39,28 +58,8 @@ int main()
 
     while(window.isOpen())
     {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-            {
-                window.close();
-                goto exit;
-            }
-            else if (event.type == sf::Event::KeyPressed)
-            {
-                if (event.key.code == sf::Keyboard::Escape)
-                {
-                    auto tmp = curFrame;
-                    curFrame = nextFrame;
-                    nextFrame = tmp;
-                }
-            }
-
-            curFrame->ReceiveEvent(frame::Event::from(event));
-        }
         curFrame->DoLogic(&state, &data);
     }
-    exit:
+
     return 0;
 }
