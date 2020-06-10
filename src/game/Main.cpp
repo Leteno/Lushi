@@ -37,6 +37,7 @@ void renderThread(sf::RenderWindow* window)
 
             curFrame->ReceiveEvent(frame::Event::from(event));
         }
+        curFrame->DoLogic(&state, &data);
         window->clear();
         window->draw(*curFrame->getDrawable(&data));
         window->display();
@@ -56,10 +57,7 @@ int main()
     sf::Thread thread(&renderThread, &window);
     thread.launch();
 
-    while(window.isOpen())
-    {
-        curFrame->DoLogic(&state, &data);
-    }
+    thread.wait();
 
     return 0;
 }
