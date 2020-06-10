@@ -6,13 +6,21 @@ namespace frame {
 class Event
 {
 public:
-    enum Type{
-        LEFT, RIGHT, BOTTOM, UP
+    enum Code {
+        LEFT, RIGHT, UP, DOWN,
+        NONE_CODE
     };
-    Event(Type type) : type(type) {}
+    enum Type {
+        PRESSED, RELEASED,
+        NONE_TYPE
+    };
+    Event(Code code, Type type)
+        : code(code), type(type) {}
 
     static Event from(sf::Event event);
 
     Type type;
+
+    Code code;
 };
 }

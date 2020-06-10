@@ -18,7 +18,8 @@ SampleFrame::~SampleFrame()
 
 void SampleFrame::ReceiveEvent(Event event)
 {
-    if (event.type == Event::LEFT)
+    if (event.type == Event::RELEASED &&
+        event.code == Event::LEFT)
     {
         mNextFrame = true;
     }
