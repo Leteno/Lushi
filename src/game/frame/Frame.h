@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "Event.h"
 #include "FrameState.h"
 #include "GlobalData.h"
 
@@ -11,7 +12,8 @@ class Frame
 public:
     Frame();
     ~Frame();
-    virtual void DoLogic(FrameState* state, GlobalData* data);
-    virtual sf::Drawable* getDrawable(GlobalData* data);
+    virtual void ReceiveEvent(Event event) = 0;
+    virtual void DoLogic(FrameState* state, GlobalData* data) = 0;
+    virtual sf::Drawable* getDrawable(GlobalData* data) = 0;
 };
 }

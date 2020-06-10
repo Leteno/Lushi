@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+#include "frame/Event.h"
 #include "frame/Frame.h"
 #include "frame/FrameState.h"
 #include "frame/GlobalData.h"
@@ -55,6 +56,8 @@ int main()
                     nextFrame = tmp;
                 }
             }
+
+            curFrame->ReceiveEvent(frame::Event::from(event));
         }
         curFrame->DoLogic(&state, &data);
     }

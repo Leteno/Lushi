@@ -16,6 +16,10 @@ SampleFrame::~SampleFrame()
     delete mDrawable;
 }
 
+void SampleFrame::ReceiveEvent(Event event)
+{
+}
+
 void SampleFrame::DoLogic(FrameState* state, GlobalData* data)
 {
 }
