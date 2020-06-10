@@ -11,7 +11,7 @@ class SampleFrame : Frame
 public:
     SampleFrame(sf::Color color);
     ~SampleFrame();
-    void ReceiveEvent(Event e) override;
+    bool ReceiveEvent(Event e) override;
     void DoLogic(FrameState* state, GlobalData* data) override;
     sf::Drawable* getDrawable(GlobalData* data) override;
 

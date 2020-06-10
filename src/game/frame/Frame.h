@@ -12,7 +12,7 @@ class Frame
 public:
     Frame();
     ~Frame();
-    virtual void ReceiveEvent(Event event) = 0;
+    virtual bool ReceiveEvent(Event event) = 0;
     virtual void DoLogic(FrameState* state, GlobalData* data) = 0;
     virtual sf::Drawable* getDrawable(GlobalData* data) = 0;
 };

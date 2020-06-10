@@ -16,13 +16,15 @@ SampleFrame::~SampleFrame()
     delete mDrawable;
 }
 
-void SampleFrame::ReceiveEvent(Event event)
+bool SampleFrame::ReceiveEvent(Event event)
 {
     if (event.type == Event::RELEASED &&
         event.code == Event::LEFT)
     {
         mNextFrame = true;
+        return true;
     }
+    return false;
 }
 
 void SampleFrame::DoLogic(FrameState* state, GlobalData* data)
