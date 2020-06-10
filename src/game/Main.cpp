@@ -11,12 +11,16 @@ frame::SampleFrame* curFrame;
 frame::SampleFrame* nextFrame;
 frame::FrameState state;
 frame::GlobalData data;
+
+void nextFrameLogic(frame::FrameState* state);
+
 void renderThread(sf::RenderWindow* window)
 {
     window->setActive(true);
 
     while (window->isOpen())
     {
+        nextFrameLogic(&state);
         sf::Event event;
         while (window->pollEvent(event))
         {
@@ -24,15 +28,6 @@ void renderThread(sf::RenderWindow* window)
             {
                 window->close();
                 return;
-            }
-            else if (event.type == sf::Event::KeyPressed)
-            {
-                if (event.key.code == sf::Keyboard::Escape)
-                {
-                    auto tmp = curFrame;
-                    curFrame = nextFrame;
-                    nextFrame = tmp;
-                }
             }
 
             curFrame->ReceiveEvent(frame::Event::from(event));
@@ -60,4 +55,17 @@ int main()
     thread.wait();
 
     return 0;
+}
+
+void nextFrameLogic(frame::FrameState* state)
+{
+    switch (state->state)
+    {
+    case frame::FrameState::NEXT:
+        state->state = frame::FrameState::NORMAL;
+        std::swap(curFrame, nextFrame);
+        break;
+    case frame::FrameState::NORMAL:
+        break;
+    }
 }

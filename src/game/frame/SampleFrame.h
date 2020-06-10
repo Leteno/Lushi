@@ -14,7 +14,9 @@ public:
     void ReceiveEvent(Event e) override;
     void DoLogic(FrameState* state, GlobalData* data) override;
     sf::Drawable* getDrawable(GlobalData* data) override;
+
 private:
-    sf::Drawable* mDrawable;
+    sf::Drawable*   mDrawable;
+    bool            mNextFrame;
 };
 }
