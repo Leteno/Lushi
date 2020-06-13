@@ -1,16 +1,26 @@
 #pragma once
 
+#include <map>
+#include <string>
+
+#include "../fsm/FSM.h"
+#include "Frame.h"
+
 namespace frame{
+class Frame;
+const static std::string sInit = "Init";
 class FrameState
 {
 public:
-    enum State {
-        NORMAL,
-        NEXT,
-    };
+    FrameState();
 
-    FrameState() : state(State::NORMAL) {}
+    bool accept(std::string instruction);
+    bool addPath(std::string from, std::string instruction, std::string to);
+    void mapFrame(std::string stateCode, Frame* frame);
+    Frame* getCurrentFrame();
 
-    State state;
+private:
+    std::map<std::string, Frame*> mFrameMap;
+    fsm::FSM<std::string, std::string> mFSM;
 };
 }

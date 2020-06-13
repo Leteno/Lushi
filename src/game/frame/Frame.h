@@ -7,6 +7,7 @@
 #include "GlobalData.h"
 
 namespace frame {
+class FrameState;
 class Frame
 {
 public:

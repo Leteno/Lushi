@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
@@ -7,12 +8,11 @@
 #include "frame/GlobalData.h"
 #include "frame/SampleFrame.h"
 
-frame::SampleFrame* curFrame;
-frame::SampleFrame* nextFrame;
 frame::FrameState state;
 frame::GlobalData data;
 
-void nextFrameLogic(frame::FrameState* state);
+void initFrameState(frame::FrameState* state);
+void cleanUp();
 
 void renderThread(sf::RenderWindow* window)
 {
@@ -20,8 +20,9 @@ void renderThread(sf::RenderWindow* window)
 
     while (window->isOpen())
     {
-        nextFrameLogic(&state);
         sf::Event event;
+        frame::Frame* curFrame = state.getCurrentFrame();
+        assert(curFrame);
         while (window->pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
@@ -41,10 +42,7 @@ void renderThread(sf::RenderWindow* window)
 
 int main()
 {
-    frame::SampleFrame f1(sf::Color::Red);
-    frame::SampleFrame f2(sf::Color::Blue);
-    curFrame = &f1;
-    nextFrame = &f2;
+    initFrameState(&state);
 
     sf::RenderWindow window(sf::VideoMode(200, 200), "Game!");
     window.setActive(false);
@@ -54,18 +52,24 @@ int main()
 
     thread.wait();
 
+    cleanUp();
+
     return 0;
 }
 
-void nextFrameLogic(frame::FrameState* state)
+void initFrameState(frame::FrameState* state)
 {
-    switch (state->state)
-    {
-    case frame::FrameState::NEXT:
-        state->state = frame::FrameState::NORMAL;
-        std::swap(curFrame, nextFrame);
-        break;
-    case frame::FrameState::NORMAL:
-        break;
-    }
+    frame::SampleFrame* f1 = new frame::SampleFrame(sf::Color::Blue);
+    frame::SampleFrame* f2 = new frame::SampleFrame(sf::Color::Red);
+    state->mapFrame(frame::sInit, f2);
+    state->mapFrame("F1", f1);
+    state->mapFrame("F2", f2);
+    state->addPath(frame::sInit, "next", "F1");
+    state->addPath("F1", "next", "F2");
+    state->addPath("F2", "next", "F1");
+}
+
+void cleanUp()
+{
+    // TODO free f1, f2
 }

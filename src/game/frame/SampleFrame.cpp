@@ -32,7 +32,7 @@ void SampleFrame::DoLogic(FrameState* state, GlobalData* data)
     if (mNextFrame)
     {
         mNextFrame = false;
-        state->state = FrameState::NEXT;
+        state->accept("next");
     }
 }
 

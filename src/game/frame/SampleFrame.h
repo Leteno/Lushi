@@ -6,7 +6,7 @@
 #include "Frame.h"
 
 namespace frame {
-class SampleFrame : Frame
+class SampleFrame : public Frame
 {
 public:
     SampleFrame(sf::Color color);
