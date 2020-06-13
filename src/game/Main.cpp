@@ -61,12 +61,13 @@ void initFrameState(frame::FrameState* state)
 {
     frame::SampleFrame* f1 = new frame::SampleFrame(sf::Color::Blue);
     frame::SampleFrame* f2 = new frame::SampleFrame(sf::Color::Red);
-    state->mapFrame(frame::sInit, f2);
+    state->mapFrame("Init", f2);
     state->mapFrame("F1", f1);
     state->mapFrame("F2", f2);
-    state->addPath(frame::sInit, "next", "F1");
+    state->addPath("Init", "next", "F1");
     state->addPath("F1", "next", "F2");
     state->addPath("F2", "next", "F1");
+    state->beginAt("Init");
 }
 
 void cleanUp()

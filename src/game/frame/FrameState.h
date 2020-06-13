@@ -16,6 +16,7 @@ public:
 
     bool accept(std::string instruction);
     bool addPath(std::string from, std::string instruction, std::string to);
+    void beginAt(std::string begin);
     void mapFrame(std::string stateCode, Frame* frame);
     Frame* getCurrentFrame();
 

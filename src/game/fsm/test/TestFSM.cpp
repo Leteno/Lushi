@@ -10,7 +10,7 @@ UT::Report fsm::test::testFSM()
 {
     UT::Report report;
 
-    fsm::FSM<std::string, std::string> machine("Animal");
+    fsm::FSM<std::string, std::string> machine;
     report.addTest(UT::Test::assertTrue(
         machine.addPath("Animal", "wing", "Bird")
     ));
@@ -27,6 +27,7 @@ UT::Report fsm::test::testFSM()
         machine.addPath("Walker", "bark", "Dog")
     ));
 
+    machine.beginAt("Animal");
     report.addTest(UT::Test::assertEquals(
         machine.getCurrentState(), "Animal"
     ));

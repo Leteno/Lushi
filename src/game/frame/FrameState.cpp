@@ -4,7 +4,7 @@
 using namespace frame;
 
 FrameState::FrameState()
-    : mFSM(fsm::FSM<std::string, std::string>("Init"))
+    : mFSM(fsm::FSM<std::string, std::string>())
 {}
 
 bool FrameState::accept(std::string instruction)
@@ -17,6 +17,11 @@ bool FrameState::addPath(std::string from,
                         std::string to)
 {
     return mFSM.addPath(from, inst, to);
+}
+
+void FrameState::beginAt(std::string begin)
+{
+    mFSM.beginAt(begin);
 }
 
 void FrameState::mapFrame(std::string stateCode, Frame* frame)

@@ -9,8 +9,7 @@ namespace fsm {
 template <typename State, typename Instruction>
 class FSM {
 public:
-    FSM(State begin) :
-        mCurrent(begin),
+    FSM() :
         mMap(std::map<State, RoadMap<State, Instruction>*>())
      {};
     ~FSM()
@@ -42,6 +41,11 @@ public:
             mCurrent = tmp;
         }
         return success;
+    }
+
+    void beginAt(State begin)
+    {
+        mCurrent = begin;
     }
 
 private:
