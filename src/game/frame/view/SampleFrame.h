@@ -2,8 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Event.h"
-#include "Frame.h"
+#include "../Event.h"
+#include "../Frame.h"
 
 namespace frame {
 class SampleFrame : public Frame

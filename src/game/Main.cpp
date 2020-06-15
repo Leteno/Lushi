@@ -6,7 +6,7 @@
 #include "frame/Frame.h"
 #include "frame/FrameState.h"
 #include "frame/GlobalData.h"
-#include "frame/SampleFrame.h"
+#include "frame/view/SampleFrame.h"
 
 frame::FrameState state;
 frame::GlobalData data;

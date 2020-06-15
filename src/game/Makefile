@@ -2,7 +2,7 @@
 include ../Makefile.common
 SFML_FLAGS=-L${SFML_PATH} -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
-FRAME_OBJS=frame/Event.o frame/Frame.o frame/FrameState.o frame/SampleFrame.o
+FRAME_OBJS=frame/Event.o frame/Frame.o frame/FrameState.o frame/view/SampleFrame.o
 
 FSM_OBJS=fsm/FSM.o fsm/RoadMap.o
 
