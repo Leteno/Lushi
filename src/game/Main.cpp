@@ -44,7 +44,7 @@ int main()
 {
     initFrameState(&state);
 
-    sf::RenderWindow window(sf::VideoMode(200, 200), "Game!");
+    sf::RenderWindow window(sf::VideoMode(550, 400), "Game!");
     window.setActive(false);
 
     sf::Thread thread(&renderThread, &window);
