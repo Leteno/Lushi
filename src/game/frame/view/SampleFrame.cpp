@@ -3,7 +3,7 @@
 
 #include "SampleFrame.h"
 
-using namespace frame;
+using namespace frame::view;
 
 SampleFrame::SampleFrame(sf::Color color)
 {

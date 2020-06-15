@@ -59,8 +59,8 @@ int main()
 
 void initFrameState(frame::FrameState* state)
 {
-    frame::SampleFrame* f1 = new frame::SampleFrame(sf::Color::Blue);
-    frame::SampleFrame* f2 = new frame::SampleFrame(sf::Color::Red);
+    frame::view::SampleFrame* f1 = new frame::view::SampleFrame(sf::Color::Blue);
+    frame::view::SampleFrame* f2 = new frame::view::SampleFrame(sf::Color::Red);
     state->mapFrame("Init", f2);
     state->mapFrame("F1", f1);
     state->mapFrame("F2", f2);

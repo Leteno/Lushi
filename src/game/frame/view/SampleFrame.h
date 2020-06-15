@@ -5,7 +5,7 @@
 #include "../Event.h"
 #include "../Frame.h"
 
-namespace frame {
+namespace frame::view {
 class SampleFrame : public Frame
 {
 public:
