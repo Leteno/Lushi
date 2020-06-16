@@ -13,7 +13,7 @@ public:
     ~SampleFrame();
     bool ReceiveEvent(Event e) override;
     void DoLogic(FrameState* state, GlobalData* data) override;
-    sf::Drawable* getDrawable(GlobalData* data) override;
+    void draw(sf::RenderTarget* target, GlobalData * data) override;
 
 private:
     sf::Drawable*   mDrawable;

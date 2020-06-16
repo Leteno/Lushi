@@ -34,8 +34,7 @@ void renderThread(sf::RenderWindow* window)
             curFrame->ReceiveEvent(frame::Event::from(event));
         }
         curFrame->DoLogic(&state, &data);
-        window->clear();
-        window->draw(*curFrame->getDrawable(&data));
+        curFrame->draw(window, &data);
         window->display();
     }
 }

@@ -36,7 +36,8 @@ void SampleFrame::DoLogic(FrameState* state, GlobalData* data)
     }
 }
 
-sf::Drawable* SampleFrame::getDrawable(GlobalData* data)
+void SampleFrame::draw(sf::RenderTarget* target, GlobalData * data)
 {
-    return mDrawable;
+    target->clear();
+    target->draw(*mDrawable);
 }
