@@ -78,6 +78,8 @@ def variable(name):
         return {'type': 'if', 'value': name}
     elif name == 'else':
         return {'type': 'else', 'value': name}
+    elif name == 'print':
+        return {'type': 'print', 'value': name}
     else:
         return {'type': 'variable', 'value': name}
 

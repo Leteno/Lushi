@@ -21,7 +21,8 @@ python3 buildInstructionCode.py < test
 <block> => <statement> | { <statements> }
 <if> => if (<comp-expr>) <block>
 <for-loop> => for (<assignment> ; <comp-expr>; <assignment>) <block>
-<statement> => <assignment>; | <if> | <for-loop> | <for-all-game-obj> | <access-obj-content>
+<print> => print (<expr>);
+<statement> => <assignment>; | <if> | <for-loop> | <for-all-game-obj> | <access-obj-content> | <print>
 <statements> => <statement> | <block> | <statement> <statements>
 
 game-object related
@@ -51,6 +52,8 @@ foreach_obj obj {
         obj.setHealth(k - 10);
     }
 }
+
+tprint(1+1);
 
 """)
     sys.exit(-1)
@@ -107,6 +110,8 @@ foreach_obj obj {
         obj.setAttack(obj.getAttack() + 1);
     }
 }
+
+print(1+1);
 """
 
 def expectTestResult():

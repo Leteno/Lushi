@@ -50,6 +50,8 @@ namespace Sequence
         // LOAD STORE
         LOAD = 400,
         STORE = 401,
+        // DEBUG
+        PRINT = 500,
     };
 
     struct Value

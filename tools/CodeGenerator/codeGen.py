@@ -31,6 +31,8 @@ class CodeGenerator:
             return self.forClause(obj)
         elif objType == 'for-all-game-obj':
             return self.forEachObjClause(obj)
+        elif objType == 'print':
+            return self.printClause(obj)
         elif objType == 'assignment':
             return self.assignment(obj)
         elif objType == 'expr':
@@ -104,6 +106,12 @@ class CodeGenerator:
         self.backPatchInternal(jumpBack, loopBegin, codes)
 
         self.backPatch(jumpEnd, codes)
+        return codes
+
+    def printClause(self, obj):
+        codes = []
+        codes += self.parseInternal(obj['variable'])
+        self.emit("PRINT", codes)
         return codes
 
     def assignment(self, obj):

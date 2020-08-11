@@ -1,11 +1,13 @@
 
 #include "assert.h"
+#include <iostream>
 
 #include "Machine.h"
 #include "Sequence.h"
 #include "State.h"
 
 using namespace machine;
+using namespace std;
 
 bool Machine::executeOneInstruction(State* state)
 {
@@ -43,6 +45,9 @@ bool Machine::executeOneInstruction(State* state)
             break;
         case Sequence::Code::STORE:
             store(state, instruction.value);
+            break;
+        case Sequence::Code::PRINT:
+            print(state);
             break;
 
         // object related
@@ -200,6 +205,15 @@ bool Machine::store(State* state, Sequence::Value value)
     { // index == state->m_LocalVariables.size()
         state->m_LocalVariables.push_back(storeVal);
     }
+    state->m_InstructionIt++;
+    return true;
+}
+
+bool Machine::print(State* state)
+{
+    assert(state->m_LocalVariables.size());
+    cout << "Print: " << state->m_LocalVariables.back();
+    state->m_LocalVariables.pop_back();
     state->m_InstructionIt++;
     return true;
 }

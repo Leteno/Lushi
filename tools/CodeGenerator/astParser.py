@@ -40,6 +40,9 @@ class ASTParser:
         elif currentType == 'foreach_obj':
             self.index += 1
             return self.forEachObjClause()
+        elif currentType == 'print':
+            self.index += 1
+            return self.printClause()
 
         # <assignment>;
         lastPosition = self.index
@@ -119,6 +122,20 @@ class ASTParser:
             'type': 'for-all-game-obj',
             'variable': variable,
             'block': block,
+        }
+
+    def printClause(self):
+        self._assert(self.currentValue() == '(')
+        self.index += 1
+        printVal = self.expr()
+        self._assert(self.currentValue() == ')')
+        self.index += 1
+        self._assert(self.currentValue() == ';')
+        self.index += 1
+
+        return {
+            'type': 'print',
+            'variable': printVal
         }
 
     def assignment(self):

@@ -21,6 +21,7 @@ private:
     bool pop(State* state);
     bool load(State* state, Sequence::Value value);
     bool store(State* state, Sequence::Value value);
+    bool print(State* state);
 
     // GameObject related
     bool meetEndObj(State* state);
