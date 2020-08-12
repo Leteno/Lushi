@@ -1,7 +1,23 @@
 #include <assert.h>
+#include <iostream>
 #include "UT.h"
 
+using namespace std;
 using namespace UT;
+
+class TestUT_T {
+public:
+    int a, b;
+
+    inline bool operator == (const TestUT_T& other) {
+        return a == other.a && b == other.b;
+    }
+
+    friend ostream& operator << (ostream& os, const TestUT_T& t){
+        os << t.a << "/" << t.b;
+        return os;
+    }
+};
 
 int main()
 {
@@ -64,9 +80,19 @@ int main()
     report.addTest(t);
     assert(t.isPass() == false);
 
+    TestUT_T one; one.a = 1; one.b = 2;
+    TestUT_T two; two.a = 1; two.b = 2;
+    TestUT_T three; three.a = 1; three.b = 3;
+    t = Test::assertEquals(one, two);
+    report.addTest(t);
+    assert(t.isPass() == true);
+    t = Test::assertEquals(one, three);
+    report.addTest(t);
+    assert(t.isPass() == false);
+
     Result r = report.getResult();
-    assert(r.getPassCount() == 7);
-    assert(r.getTotalCount() == 14);
+    assert(r.getPassCount() == 8);
+    assert(r.getTotalCount() == 16);
 
     Report another;
     another.mergeReport(report);

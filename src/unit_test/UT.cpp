@@ -1,5 +1,4 @@
 #include "UT.h"
-#include <execinfo.h>
 #include "string.h"
 #include <string>
 #include <sstream>
@@ -171,20 +170,4 @@ std::string Result::toString()
     return ss.str();
 }
 
-std::string getLastInvokePlace()
-{
-    int levelNumber = 3;
-    void* array[levelNumber];
-    size_t size;
-    char **strings;
-    size = backtrace (array, levelNumber);
-    strings = backtrace_symbols(array, size);
-
-    size_t prev_line = levelNumber - 1;
-    std::string out(strings[prev_line]);
-
-    free (strings);
-
-    return out;
-}
 } // End of namespace UT
