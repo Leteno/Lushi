@@ -1,9 +1,9 @@
 
 include ../Makefile.common
 
-BASE = Sequence.o Machine.o State.o
+BASE = Sequence.o Machine.o State.o Compiler.o
 
-TEST = TestSequence.o TestMachine.o TestMachine_OBJ.o
+TEST = TestSequence.o TestMachine.o TestMachine_OBJ.o TestCompiler.o
 
 EXTERNAL_OBJS = \
 	../persist/Parcellable.o ../persist/Parcel.o ../persist/RawData.o \
