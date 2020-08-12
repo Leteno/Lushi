@@ -2,11 +2,13 @@
 
 #include <list>
 #include <string>
+#include <iostream>
 
 #include "../persist/Parcel.h"
 #include "../persist/Parcellable.h"
 
 using namespace persist;
+using namespace std;
 
 namespace machine {
 
@@ -59,6 +61,27 @@ namespace Sequence
         } type;
         int intVal;
         std::string stringVal;
+
+        inline bool operator== (const Value& other)
+        {
+            return type == other.type &&
+                (type == STRING ? stringVal == other.stringVal :
+                    intVal == other.intVal);
+        }
+
+        friend ostream& operator<< (ostream& os, const Value& val)
+        {
+            os << "type: " << val.type << " ";
+            if (val.type == STRING)
+            {
+                os << "val: " << val.stringVal;
+            }
+            else
+            {
+                os << "val: " << val.intVal;
+            }
+            return os;
+        }
     };
 
     class Instruction : Parcellable
@@ -73,6 +96,17 @@ namespace Sequence
 
         Code code;
         Value value;
+
+        inline bool operator== (Instruction& other)
+        {
+            return other.code == code && other.value == value;
+        }
+
+        friend ostream& operator<< (ostream& os, const Instruction& me)
+        {
+            os << me.code << " " << me.value;
+            return os;
+        }
     };
 };
 
