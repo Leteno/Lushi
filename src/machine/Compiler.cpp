@@ -169,9 +169,9 @@ static std::list<Instruction> getInstruction(char* instructionString)
                     Sequence::Value::NONE,
                     -1
                 ));
-                std::cout << "record: " << code << " " << -1 << std::endl;
+                // std::cout << "record: " << code << " " << -1 << std::endl;
             }
-            std::cout << s << " isCode " << code << std::endl;
+            // std::cout << s << " isCode " << code << std::endl;
             code = f->second;
             gotCode = true;
         }
@@ -184,8 +184,8 @@ static std::list<Instruction> getInstruction(char* instructionString)
                 Sequence::Value::INT,
                 num
             ));
-            std::cout << s << " isNum " << num << std::endl;
-            std::cout << "record: " << code << " " << num << std::endl;
+            // std::cout << s << " isNum " << num << std::endl;
+            // std::cout << "record: " << code << " " << num << std::endl;
             gotCode = false;
         }
     }
