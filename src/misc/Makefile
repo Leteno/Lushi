@@ -3,8 +3,8 @@ include ../Makefile.common
 
 EXTERNAL_OBJS = ../unit_test/UT.o
 
-OBJS = StringSeperator.o
-TEST_OBJS = TestStringSeperator.o
+OBJS = StringSeperator.o Utils.o
+TEST_OBJS = TestStringSeperator.o TestUtils.o
 MAIN_OBJ = Main.o
 
 test: $(OBJS) $(TEST_OBJS) $(MAIN_OBJ) external
