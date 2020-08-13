@@ -20,9 +20,8 @@ UT::Report machine::testCompiler()
 UT::Report testCompile()
 {
     UT::Report report;
-    Compiler compiler;
     std::string testCode = "a = 1 + 2;";
-    auto insts = compiler.compile(testCode);
+    auto insts = Compiler::compile(testCode);
     std::list<Instruction> expect;
     expect.push_back(Instruction::buildInstruction(
         Code::PUSH, Value::Type::INT,
@@ -92,7 +91,7 @@ UT::Report testToString()
         -1
     ));
 
-    std::string got = Compiler().toString(insts);
+    std::string got = Compiler::toString(insts);
     std::string expect = "PUSH 0\nPUSH 1\nPUSH 2\nADD\nSTORE 0\nPOP\n";
     report.addTest(Test::assertEquals(got, expect));
     return report;

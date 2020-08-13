@@ -196,7 +196,7 @@ static std::list<Instruction> getInstruction(char* instructionString)
             Sequence::Value::NONE,
             -1
         ));
-        std::cout << "record: " << code << " " << -1 << std::endl;
+        //std::cout << "record: " << code << " " << -1 << std::endl;
     }
     return instList;
 }
