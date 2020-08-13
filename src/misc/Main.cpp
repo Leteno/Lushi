@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "../unit_test/UT.h"
+#include "TestMessageException.h"
 #include "TestStringSeperator.h"
 #include "TestUtils.h"
 
@@ -11,6 +12,7 @@ using namespace misc;
 int main()
 {
     Report report;
+    report.mergeReport(TestMessageException::testMessageException());
     report.mergeReport(testStringSeperator());
     report.mergeReport(TestUtils::testUtils());
     Result result = report.getResult();
