@@ -8,7 +8,7 @@ TEST = TestSequence.o TestMachine.o TestMachine_OBJ.o TestCompiler.o
 EXTERNAL_OBJS = \
 	../persist/Parcellable.o ../persist/Parcel.o ../persist/RawData.o \
 	../base/GameObject.o ../base/Effect.o ../base/EffectMachine.o \
-	../unit_test/UT.o ../misc/StringSeperator.o
+	../unit_test/UT.o ../misc/StringSeperator.o ../misc/Utils.o
 
 all:
 

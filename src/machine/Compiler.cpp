@@ -9,10 +9,12 @@
 using namespace std;
 
 #include "../misc/StringSeperator.h"
+#include "../misc/Utils.h"
 #include "Compiler.h"
 
 using namespace machine;
 using namespace machine::Sequence;
+using namespace misc;
 
 const static std::map<std::string, Sequence::Code> str2code = {
     { "SAY", Sequence::Code::SAY },
@@ -44,7 +46,6 @@ const static std::map<std::string, Sequence::Code> str2code = {
 static void compileInternal(const char* content, char* out);
 static void commandline(const char* command, const char* input, int* success, char* out, char* err);
 static std::list<Instruction> getInstruction(char* instructionString);
-static int str2int(const char* str);
 
 std::list<Sequence::Instruction> Compiler::compile(std::string& code)
 {
@@ -148,7 +149,7 @@ static std::list<Instruction> getInstruction(char* instructionString)
         else
         {
             // it should be number
-            int num = str2int(s.c_str());
+            int num = Utils::str2int(s.c_str());
             instList.push_back(Sequence::Instruction::buildInstruction(
                 code,
                 Sequence::Value::INT,
@@ -169,13 +170,4 @@ static std::list<Instruction> getInstruction(char* instructionString)
         std::cout << "record: " << code << " " << -1 << std::endl;
     }
     return instList;
-}
-
-static int str2int(const char* str)
-{
-    try {
-        return std::stoi(str);
-    } catch (std::exception& e) {
-        return -1;
-    }
 }
