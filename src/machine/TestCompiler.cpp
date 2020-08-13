@@ -20,7 +20,7 @@ UT::Report machine::testCompiler()
 UT::Report testCompile()
 {
     UT::Report report;
-    std::string testCode = "a = 1 + 2;";
+    std::string testCode = "a = 1 + 2;\nprint(a);";
     auto insts = Compiler::compile(testCode);
     std::list<Instruction> expect;
     expect.push_back(Instruction::buildInstruction(
@@ -45,6 +45,14 @@ UT::Report testCompile()
     ));
     expect.push_back(Instruction::buildInstruction(
         Code::POP, Value::Type::NONE,
+        -1
+    ));
+    expect.push_back(Instruction::buildInstruction(
+        Code::LOAD, Value::Type::INT,
+        0
+    ));
+    expect.push_back(Instruction::buildInstruction(
+        Code::PRINT, Value::Type::NONE,
         -1
     ));
     report.addTest(Test::assertEquals((int)expect.size(), insts.size()));
@@ -90,9 +98,17 @@ UT::Report testToString()
         Code::POP, Value::Type::NONE,
         -1
     ));
+    insts.push_back(Instruction::buildInstruction(
+        Code::LOAD, Value::Type::INT,
+        0
+    ));
+    insts.push_back(Instruction::buildInstruction(
+        Code::PRINT, Value::Type::NONE,
+        -1
+    ));
 
     std::string got = Compiler::toString(insts);
-    std::string expect = "PUSH 0\nPUSH 1\nPUSH 2\nADD\nSTORE 0\nPOP\n";
+    std::string expect = "PUSH 0\nPUSH 1\nPUSH 2\nADD\nSTORE 0\nPOP\nLOAD 0\nPRINT\n";
     report.addTest(Test::assertEquals(got, expect));
     return report;
 }

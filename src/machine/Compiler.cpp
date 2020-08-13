@@ -43,6 +43,7 @@ const static std::map<std::string, Sequence::Code> str2code = {
     { "POP", Sequence::Code::POP },
     { "LOAD", Sequence::Code::LOAD },
     { "STORE", Sequence::Code::STORE },
+    { "PRINT", Sequence::Code::PRINT },
 };
 
 static void compileInternal(const char* content, char* out);
