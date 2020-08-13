@@ -8,7 +8,7 @@ TEST = TestSequence.o TestMachine.o TestMachine_OBJ.o TestCompiler.o
 EXTERNAL_OBJS = \
 	../persist/Parcellable.o ../persist/Parcel.o ../persist/RawData.o \
 	../base/GameObject.o ../base/Effect.o ../base/EffectMachine.o \
-	../unit_test/UT.o
+	../unit_test/UT.o ../misc/StringSeperator.o
 
 all:
 
@@ -22,6 +22,7 @@ $(BASE) $(TEST): %.o : %.cpp %.h
 
 $(EXTERNAL_OBJS):
 	make -C ../base test
+	make -C ../misc test
 	make -C ../persist test
 	make -C ../unit_test test
 
