@@ -6,17 +6,21 @@
 #include <time.h>
 
 #include "../unit_test/UT.h"
+#include "Compiler.h"
 #include "Machine.h"
+#include "Sequence.h"
 #include "State.h"
 #include "TestMachine.h"
 
 using namespace machine;
+using namespace UT;
 
 UT::Report testMath();
 UT::Report testLogic();
 UT::Report testPushAndPop();
 UT::Report testJump();
 UT::Report testLoadAndStore();
+Report testRunner();
 
 UT::Report machine::testMachine()
 {
@@ -26,6 +30,7 @@ UT::Report machine::testMachine()
     report.mergeReport(testPushAndPop());
     report.mergeReport(testJump());
     report.mergeReport(testLoadAndStore());
+    report.mergeReport(testRunner());
     return report;
 }
 
@@ -474,6 +479,38 @@ UT::Report testStoreInternal(int a, int b)
     UT::Report report;
     report.addTest(UT::Test::assertEquals(a, result2));
     report.addTest(UT::Test::assertEquals(b, result1));
+    return report;
+}
+
+Report testRunner()
+{
+    Report report;
+
+    std::string code = "a=1+2;b=3+4;";
+    auto instructionList = Compiler::compile(code);
+    std::list<GameObject*> gameObjectList;
+    State state(instructionList, gameObjectList);
+    Machine machine;
+    while(machine.executeOneInstruction(&state));
+    assert(state.m_LocalVariables.size() > 1);
+    report.addTest(Test::assertEquals(
+        state.m_LocalVariables.size(),
+        2
+    ));
+    auto first = state.m_LocalVariables.begin();
+    if (state.m_LocalVariables.size() > 0) {
+        report.addTest(Test::assertEquals(
+            *first,
+            3
+        ));
+    }
+    if (state.m_LocalVariables.size() > 1) {
+        report.addTest(Test::assertEquals(
+            *(++first),
+            7
+        ));
+    }
+
     return report;
 }
 
