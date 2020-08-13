@@ -93,7 +93,7 @@ UT::Report testToString()
     ));
 
     std::string got = Compiler().toString(insts);
-    std::string expect = "PUSH 0\nPUSH 1\nPUSH 2\nADD\nSTORE 0\nPOP";
+    std::string expect = "PUSH 0\nPUSH 1\nPUSH 2\nADD\nSTORE 0\nPOP\n";
     report.addTest(Test::assertEquals(got, expect));
     return report;
 }

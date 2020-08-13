@@ -4,6 +4,7 @@
 #include <iostream>
 #include <list>
 #include <memory>
+#include <sstream>
 #include <stdlib.h>
 
 using namespace std;
@@ -57,7 +58,32 @@ std::list<Sequence::Instruction> Compiler::compile(std::string& code)
 
 std::string Compiler::toString(std::list<Sequence::Instruction>& instructions)
 {
-    return "";
+    std::stringstream ss;
+    auto it = instructions.begin();
+    auto i = str2code.begin();
+    for (; it != instructions.end(); ++it)
+    {
+        Sequence::Instruction inst = *it;
+        for (i = str2code.begin(); i != str2code.end(); ++i)
+        {
+            if (i->second == inst.code)
+            {
+                ss << i->first;
+                switch(inst.value.type) {
+                case Sequence::Value::Type::STRING:
+                    assert(false); // string is not support here
+                    break;
+                case Sequence::Value::Type::INT:
+                    ss << " " << inst.value.intVal;
+                    break;
+                case Sequence::Value::Type::NONE:
+                    break;
+                }
+                ss << "\n";
+            }
+        }
+    }
+    return ss.str();
 }
 
 static void compileInternal(const char* content, char* out)
