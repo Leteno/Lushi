@@ -1,9 +1,14 @@
 #include <memory>
 #include <stdlib.h>
+#include <string>
 #include <cstring>
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+
+#include "../machine/Compiler.h"
+
+using namespace machine;
 
 #include "CodeZone.h"
 #include "Utils.h"
@@ -74,28 +79,23 @@ void CodeZone::onCompile()
 
     g_assert(mWindow);
 
-    int success = 0;
-    char reason[100];
     char out[1024 * 4];
-    compile(content, &success, reason, out);
-    if (success)
-    {
-        mStackZone->update(out);
-    }
-    else
-    {
+    try {
+        std::string contentStr(content);
+        auto instructionList = Compiler::compile(contentStr);
+        mStackZone->updateInstruction(instructionList);
+    } catch (exception& e) {
         GtkWidget *dialog;
         dialog = gtk_message_dialog_new (
             GTK_WINDOW (mWindow),
             GTK_DIALOG_MODAL,
             GTK_MESSAGE_INFO,
             GTK_BUTTONS_OK_CANCEL,
-            reason
+            out
         );
         gtk_dialog_run(GTK_DIALOG(dialog));
         gtk_widget_destroy(dialog);
     }
-
     g_free(content);
 }
 
@@ -113,55 +113,4 @@ std::string CodeZone::getAllCode()
 void CodeZone::setCode(std::string newCode)
 {
     Utils::setTextViewContent(mTextView, newCode);
-}
-
-static void compile(const char* content, int *success, char* reason, char* out)
-{
-    commandline("python3 ../../tools/CodeGenerator/buildInstructionCode.py", content, success, out, reason);
-}
-
-static void commandline(const char* command, const char* input, int* success, char* out, char* err)
-{
-
-    // cat > /tmp/juzhen-CodeZone.tmp
-    char* tempFile = "/tmp/juzhen-CodeZone.tmp";
-    char catCommand[100];
-    strcpy(catCommand, "cat > ");
-    strcat(catCommand, tempFile);
-    FILE *fpCat = popen(catCommand, "w");
-    if (!fpCat)
-    {
-        *success = 0;
-        strcpy(err, "cannot store content to ");
-        strcat(err, tempFile);
-        return;
-    }
-    fputs(input, fpCat);
-    pclose(fpCat);
-
-    char realCommand[100];
-    strcpy(realCommand, "cat ");
-    strcat(realCommand, tempFile);
-    strcat(realCommand, " | ");
-    strcat(realCommand, command);
-    FILE *fp = popen(realCommand, "r");
-
-    if (!fp)
-    {
-        *success = 0;
-        strcpy(err, "cannot open: ");
-        strcat(err, command);
-        return;
-    }
-
-    char buff[1024];
-    while (memset(buff, 0, sizeof(buff)), fgets(buff, sizeof(buff) - 1, fp) != 0)
-    {
-        strcat(out, buff);
-    }
-    *success = 1;
-
-    // TODO the case when command return error
-
-    pclose(fp);
 }

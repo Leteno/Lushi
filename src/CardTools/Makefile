@@ -21,7 +21,7 @@ EXTERNAL_OBJS = \
 	$(patsubst %.cpp, %.o, $(shell ls ../machine/*.cpp | grep -v Test)) \
 	$(patsubst %.cpp, %.o, $(shell ls ../persist/*.cpp | grep -v Test)) \
 	$(patsubst %.cpp, %.o, $(shell ls ../card/*.cpp | grep -v Test)) \
-	../misc/StringSeperator.o
+	$(patsubst %.cpp, %.o, $(shell ls ../misc/*.cpp | grep -v "\(Test\|Main.cpp\)")) \
 
 CardTools: machine codeGen CardToolsGUI
 
