@@ -9,6 +9,7 @@
 
 using namespace std;
 
+#include "../misc/MessageException.h"
 #include "../misc/StringSeperator.h"
 #include "../misc/Utils.h"
 #include "Compiler.h"
@@ -93,8 +94,10 @@ static void compileInternal(const char* content, char* out)
     commandline("python3 ../../tools/CodeGenerator/buildInstructionCode.py", content, &success, out, reason);
     if (!success)
     {
-        cout << "compile fail: " << reason << endl;
-        assert(false);
+        stringstream ss;
+        ss << "compile fail: " << reason;
+        string str = ss.str();
+        throw MessageException(str);
     }
 }
 
