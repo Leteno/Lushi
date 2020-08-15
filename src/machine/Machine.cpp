@@ -79,6 +79,12 @@ bool Machine::executeOneInstruction(State* state)
     return true;
 }
 
+bool Machine::setStream(ostream* os)
+{
+    this->p_ostream = os;
+    return true;
+}
+
 bool Machine::mathCalculate(State* state, Sequence::Code code)
 {
     assert(state->m_LocalVariables.size() >= 2);
@@ -212,7 +218,9 @@ bool Machine::store(State* state, Sequence::Value value)
 bool Machine::print(State* state)
 {
     assert(state->m_LocalVariables.size());
-    cout << "Print: " << state->m_LocalVariables.back();
+    if (p_ostream != nullptr) {
+        *p_ostream << state->m_LocalVariables.back() << std::endl;
+    }
     state->m_LocalVariables.pop_back();
     state->m_InstructionIt++;
     return true;

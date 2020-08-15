@@ -1,6 +1,8 @@
 #pragma once
 
 #include "State.h"
+#include <iostream>
+#include <memory>
 
 namespace machine {
 
@@ -12,6 +14,7 @@ public:
         M_FALSE = 0,
     };
     bool executeOneInstruction(State* state);
+    bool setStream(ostream*);
 private:
     bool mathCalculate(State* state, Sequence::Code code);
     bool logicCalculate(State* state, Sequence::Code code);
@@ -32,6 +35,8 @@ private:
     bool setObjHealth(State* state, Sequence::Value value);
     bool getObjAttack(State* state);
     bool setObjAttack(State* state, Sequence::Value value);
+
+    ostream* p_ostream;
 };
 
 }

@@ -20,6 +20,7 @@ UT::Report testLogic();
 UT::Report testPushAndPop();
 UT::Report testJump();
 UT::Report testLoadAndStore();
+Report testOStream();
 Report testRunner();
 
 UT::Report machine::testMachine()
@@ -30,6 +31,7 @@ UT::Report machine::testMachine()
     report.mergeReport(testPushAndPop());
     report.mergeReport(testJump());
     report.mergeReport(testLoadAndStore());
+    report.mergeReport(testOStream());
     report.mergeReport(testRunner());
     return report;
 }
@@ -479,6 +481,27 @@ UT::Report testStoreInternal(int a, int b)
     UT::Report report;
     report.addTest(UT::Test::assertEquals(a, result2));
     report.addTest(UT::Test::assertEquals(b, result1));
+    return report;
+}
+
+Report testOStream()
+{
+    Report report;
+
+    std::string code = "print(1+3);";
+    auto instructionList = Compiler::compile(code);
+    std::list<GameObject*> gList;
+    State state(instructionList, gList);
+    Machine machine;
+    stringstream ss;
+    machine.setStream(&ss);
+    while(machine.executeOneInstruction(&state));
+
+    stringstream expectSS;
+    expectSS << "4" << std::endl;
+    report.addTest(Test::assertEquals(ss.str(), expectSS.str()));
+    report.addTest(Test::assertTrue(state.m_LocalVariables.size() == 0));
+
     return report;
 }
 
