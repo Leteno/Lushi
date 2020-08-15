@@ -22,6 +22,7 @@ UT::Report testJump();
 UT::Report testLoadAndStore();
 Report testOStream();
 Report testRunner();
+Report testAlu();
 
 UT::Report machine::testMachine()
 {
@@ -33,6 +34,7 @@ UT::Report machine::testMachine()
     report.mergeReport(testLoadAndStore());
     report.mergeReport(testOStream());
     report.mergeReport(testRunner());
+    report.mergeReport(testAlu());
     return report;
 }
 
@@ -533,6 +535,34 @@ Report testRunner()
             7
         ));
     }
+
+    return report;
+}
+
+Report testAlu() {
+    Report report;
+
+    std::string code(
+        "print(1 + 2 * 3);\n"
+        "print(2 * 2 + 3);\n"
+        "print(1 + 2 + 3);"
+    );
+
+    Machine machine;
+    stringstream actual;
+    machine.setStream(&actual);
+    auto ilist = Compiler::compile(code);
+    std::list<GameObject*> glist;
+    State state(ilist, glist);
+    while (machine.executeOneInstruction(&state));
+
+    stringstream expect;
+    expect << "7" << endl;
+    expect << "7" << endl;
+    expect << "6" << endl;
+    report.addTest(Test::assertEquals(
+        actual.str(), expect.str()
+    ));
 
     return report;
 }
