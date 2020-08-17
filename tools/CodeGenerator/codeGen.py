@@ -142,6 +142,8 @@ class CodeGenerator:
             self.emit("LOAD %s" % index, codes)
         elif fType == 'access-obj-content':
             codes += self.parseInternal(obj['first'])
+        elif fType == 'expr':
+            codes += self.expr(obj['first'])
         else:
             assert False, "Unknown expr: %s" % obj
 

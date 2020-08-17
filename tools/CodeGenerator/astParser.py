@@ -157,40 +157,69 @@ class ASTParser:
         return None
 
     def expr(self):
-        # TODO deal with priority of +-*/ ()
-        currentType = self.currentType()
-        if currentType in ['variable', 'number']:
+        return self.addOrMinusExpr()
+
+    def addOrMinusExpr(self):
+        first = self.mulOrDivExpr()
+        if self.currentValue() in ['-', '+']:
+            op = self.currentToken()
+            self.index += 1
+            second = self.addOrMinusExpr()
+            self._assert(second)
+            return {
+                'type': 'expr',
+                'first': first,
+                'op': op,
+                'second': second
+            }
+        return first
+
+    def mulOrDivExpr(self):
+        first = self.bracketExpr()
+        if self.currentValue() in ['*', '/']:
+            op = self.currentToken()
+            self.index += 1
+            second = self.mulOrDivExpr()
+            self._assert(second)
+            return {
+                'type': 'expr',
+                'first': first,
+                'op': op,
+                'second': second
+            }
+        return first
+
+    def bracketExpr(self):
+        if self.currentValue() == '(':
+            self.index += 1
+            val = self.addOrMinusExpr()
+            self._assert(self.currentValue() == ')')
+            self.index += 1
+            return val
+        return self.objectAccessOrLiteralExpr()
+
+    def objectAccessOrLiteralExpr(self):
+        if self.currentType() in ['variable', 'number']:
             first = self.currentToken()
             self.index += 1
-            if self.currentType() == 'op':
-                op = self.currentToken()
+            if self.currentType() == 'dot':
                 self.index += 1
-                second = self.expr()
-                self._assert(second)
-                return {
-                    'type': 'expr',
-                    'first': first,
-                    'op': op,
-                    'second': second,
+                self._assert(self.currentType() == 'variable')
+                methodName = self.currentToken()
+                self.index += 1
+                self._assert(self.currentValue() == '(')
+                self.index += 1
+                args = self.args()
+                self._assert(self.currentValue() == ')')
+                self.index += 1
+                first = {
+                    'type': 'access-obj-content',
+                    'obj': first,
+                    'method': methodName,
+                    'args': args,
                 }
-            elif self.currentType() == 'dot':
-                self.index += 1
-                objExpr = self.accessObjContent(first)
-                if self.currentType() == 'op':
-                    op = self.currentToken()
-                    self.index += 1
-                    second = self.expr()
-                    self._assert(second)
-                    return {
-                        'type': 'expr',
-                        'first': objExpr,
-                        'op': op,
-                        'second': second
-                    }
-                else:
-                    return objExpr
-            else:
-                return {'type': 'expr', 'first': first}
+            return {'type': 'expr', 'first': first}
+        # TODO error case report        
 
     def comp_expr(self):
         a = self.expr()

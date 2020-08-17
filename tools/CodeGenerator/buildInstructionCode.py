@@ -53,8 +53,6 @@ foreach_obj obj {
     }
 }
 
-tprint(1+1);
-
 """)
     sys.exit(-1)
 
@@ -111,11 +109,23 @@ foreach_obj obj {
     }
 }
 
-print(1+1);
+print(1+2*2);
+print(3*2 + 1);
+print(1+2+3+4);
 """
 
 def expectTestResult():
-    return ["PUSH 0", "PUSH 0", "PUSH 0", "PUSH 0", "PUSH 0", "PUSH 0", "STORE 0", "POP", "PUSH 0", "STORE 1", "POP", "RESET_OBJ", "MEET_END_OBJ", "JMP_IF_FALSE 2", "JMP 14", "LOAD_OBJ", "LOAD 0", "GET_HEALTH", "ADD", "STORE 0", "POP", "LOAD 1", "PUSH 1", "ADD", "STORE 1", "POP", "MOVE_ON_OBJ", "JMP -15", "LOAD 0", "LOAD 1", "DIV", "STORE 2", "POP", "RESET_OBJ", "MEET_END_OBJ", "JMP_IF_FALSE 2", "JMP 34", "LOAD_OBJ", "GET_HEALTH", "STORE 3", "POP", "LOAD 3", "LOAD 2", "LT", "JMP_IF_FALSE 12", "LOAD 3", "PUSH 10", "ADD", "SET_HEALTH", "GET_ATTACK", "PUSH 1", "MINUS", "STORE 4", "POP", "LOAD 4", "SET_ATTACK", "LOAD 3", "LOAD 2", "GT", "JMP_IF_FALSE 9", "LOAD 3", "PUSH 10", "MINUS", "SET_HEALTH", "GET_ATTACK", "PUSH 1", "ADD", "SET_ATTACK", "MOVE_ON_OBJ", "JMP -35"]
+    return [
+        "PUSH 0", "PUSH 0", "PUSH 0", "PUSH 0", "PUSH 0", "PUSH 0", "STORE 0", "POP", "PUSH 0", "STORE 1",
+        "POP", "RESET_OBJ", "MEET_END_OBJ", "JMP_IF_FALSE 2", "JMP 14", "LOAD_OBJ", "LOAD 0", "GET_HEALTH", "ADD", "STORE 0",
+        "POP", "LOAD 1", "PUSH 1", "ADD", "STORE 1", "POP", "MOVE_ON_OBJ", "JMP -15", "LOAD 0", "LOAD 1",
+        "DIV", "STORE 2", "POP", "RESET_OBJ", "MEET_END_OBJ", "JMP_IF_FALSE 2", "JMP 34", "LOAD_OBJ", "GET_HEALTH", "STORE 3",
+        "POP", "LOAD 3", "LOAD 2", "LT", "JMP_IF_FALSE 12", "LOAD 3", "PUSH 10", "ADD", "SET_HEALTH", "GET_ATTACK",
+        "PUSH 1", "MINUS", "STORE 4", "POP", "LOAD 4", "SET_ATTACK", "LOAD 3", "LOAD 2", "GT", "JMP_IF_FALSE 9",
+        "LOAD 3", "PUSH 10", "MINUS", "SET_HEALTH", "GET_ATTACK", "PUSH 1", "ADD", "SET_ATTACK", "MOVE_ON_OBJ", "JMP -35",
+        "PUSH 1", "PUSH 2", "PUSH 2", "MUL", "ADD", "PRINT", "PUSH 3", "PUSH 2", "MUL", "PUSH 1",
+        "ADD", "PRINT", "PUSH 1", "PUSH 2", "PUSH 3", "PUSH 4", "ADD", "ADD", "ADD", "PRINT"
+    ]
 
 if __name__ == "__main__":
     main()
